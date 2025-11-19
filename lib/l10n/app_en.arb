@@ -1,3 +1,4 @@
+
 {
   "@@locale": "en",
   "createAccount": "Create Account",
@@ -21,5 +22,12 @@
   "settingsTitle": "Settings Page",
   "bottomNavFeed": "Feed",
   "bottomNavProfile": "Profile",
-  "bottomNavSettings": "Settings"
+  "bottomNavSettings": "Settings",
+  "enterVerificationCode": "Enter Verification Code",
+  "verificationCodeSent": "A verification code has been sent to your email.",
+  "verificationCode": "Verification Code",
+  "pleaseEnterTheCode": "Please enter the 6-digit code.",
+  "verify": "Verify",
+  "resendCode": "Resend Code",
+  "invalidCode": "Invalid verification code."
 }

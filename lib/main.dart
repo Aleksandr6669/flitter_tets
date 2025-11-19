@@ -1,10 +1,12 @@
 
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/home_page.dart';
 import 'package:flag/flag.dart';
+import 'verification_page.dart';
 
 // A data class for languages, also used in settings_page.dart
 class Language {
@@ -120,7 +122,7 @@ class _AuthPageState extends State<AuthPage> {
   }
 }
 
-class GlassmorphicAuthForm extends StatelessWidget {
+class GlassmorphicAuthForm extends StatefulWidget {
   const GlassmorphicAuthForm({
     super.key,
     required this.formKey,
@@ -141,6 +143,44 @@ class GlassmorphicAuthForm extends StatelessWidget {
   final void Function(Locale locale) changeLanguage;
 
   @override
+  State<GlassmorphicAuthForm> createState() => _GlassmorphicAuthFormState();
+}
+
+class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
+
+  void _handleAuthAction() {
+    if (widget.formKey.currentState!.validate()) {
+      if (widget.isLogin) {
+        // For login, go directly to home page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(changeLanguage: widget.changeLanguage),
+          ),
+        );
+      } else {
+        // For sign up, generate a fake verification code and go to verification page
+        final random = Random();
+        final code = (100000 + random.nextInt(900000)).toString();
+
+        // ignore: avoid_print
+        print('Verification Code: $code'); // Keep this for debugging
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VerificationPage(
+              email: widget.emailController.text,
+              verificationCode: code,
+              changeLanguage: widget.changeLanguage,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context);
@@ -152,11 +192,11 @@ class GlassmorphicAuthForm extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: 400,
-        maxHeight: isLogin ? 650 : 720,
+        maxHeight: widget.isLogin ? 650 : 720,
       ),
       child: GlassmorphicContainer(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: isLogin
+        height: widget.isLogin
             ? MediaQuery.of(context).size.height * 0.75
             : MediaQuery.of(context).size.height * 0.85,
         borderRadius: 20,
@@ -182,13 +222,13 @@ class GlassmorphicAuthForm extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Form(
-            key: formKey,
+            key: widget.formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  isLogin ? l10n.login : l10n.createAccount,
+                  widget.isLogin ? l10n.login : l10n.createAccount,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 32,
@@ -198,7 +238,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  isLogin
+                  widget.isLogin
                       ? l10n.welcomeBack
                       : l10n.joinUsToStartYourJourney,
                   textAlign: TextAlign.center,
@@ -209,12 +249,12 @@ class GlassmorphicAuthForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 TextFormField(
-                  controller: emailController,
+                  controller: widget.emailController,
                   style: const TextStyle(color: Colors.white),
                   decoration:
                       _inputDecoration(l10n.email, Icons.email_outlined),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
+                    if (value == null || value.isEmpty || !value.contains('@')) {
                       return l10n.pleaseEnterYourEmail;
                     }
                     return null;
@@ -222,7 +262,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: passwordController,
+                  controller: widget.passwordController,
                   obscureText: true,
                   style: const TextStyle(color: Colors.white),
                   decoration:
@@ -234,10 +274,10 @@ class GlassmorphicAuthForm extends StatelessWidget {
                     return null;
                   },
                 ),
-                if (!isLogin) ...[
+                if (!widget.isLogin) ...[
                   const SizedBox(height: 20),
                   TextFormField(
-                    controller: confirmPasswordController,
+                    controller: widget.confirmPasswordController,
                     obscureText: true,
                     style: const TextStyle(color: Colors.white),
                     decoration: _inputDecoration(
@@ -246,7 +286,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
                       if (value == null || value.isEmpty) {
                         return l10n.pleaseConfirmYourPassword;
                       }
-                      if (value != passwordController.text) {
+                      if (value != widget.passwordController.text) {
                         return l10n.passwordsDoNotMatch;
                       }
                       return null;
@@ -272,16 +312,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
                     ],
                   ),
                   child: ElevatedButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(changeLanguage: changeLanguage),
-                          ),
-                        );
-                      }
-                    },
+                    onPressed: _handleAuthAction,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       backgroundColor: Colors.transparent,
@@ -291,7 +322,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      isLogin ? l10n.login : l10n.signUp,
+                      widget.isLogin ? l10n.login : l10n.signUp,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -307,15 +338,15 @@ class GlassmorphicAuthForm extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      isLogin
+                      widget.isLogin
                           ? l10n.dontHaveAnAccount
                           : l10n.alreadyHaveAnAccount,
                       style: const TextStyle(color: Colors.white70),
                     ),
                     GestureDetector(
-                      onTap: onToggleFormType,
+                      onTap: widget.onToggleFormType,
                       child: Text(
-                        isLogin ? ' ' + l10n.signUp : ' ' + l10n.login,
+                        widget.isLogin ? ' ' + l10n.signUp : ' ' + l10n.login,
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -357,7 +388,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
           isExpanded: true,
           onChanged: (Language? newLanguage) {
             if (newLanguage != null) {
-              changeLanguage(Locale(newLanguage.code));
+              widget.changeLanguage(Locale(newLanguage.code));
             }
           },
           dropdownColor: const Color.fromARGB(149, 26, 5, 43),

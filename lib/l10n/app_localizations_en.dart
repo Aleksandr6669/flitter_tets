@@ -73,4 +73,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bottomNavSettings => 'Settings';
+
+  @override
+  String get enterVerificationCode => 'Enter Verification Code';
+
+  @override
+  String get verificationCodeSent =>
+      'A verification code has been sent to your email.';
+
+  @override
+  String get verificationCode => 'Verification Code';
+
+  @override
+  String get pleaseEnterTheCode => 'Please enter the 6-digit code.';
+
+  @override
+  String get verify => 'Verify';
+
+  @override
+  String get resendCode => 'Resend Code';
+
+  @override
+  String get invalidCode => 'Invalid verification code.';
 }

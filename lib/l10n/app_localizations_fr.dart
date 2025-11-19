@@ -40,10 +40,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dontHaveAnAccount => 'Vous n\'avez pas de compte? ';
 
   @override
-  String get pleaseEnterYourEmail => 'Veuillez entrer votre email';
+  String get pleaseEnterYourEmail => 'Veuillez saisir votre email';
 
   @override
-  String get pleaseEnterYourPassword => 'Veuillez entrer votre mot de passe';
+  String get pleaseEnterYourPassword => 'Veuillez saisir votre mot de passe';
 
   @override
   String get pleaseConfirmYourPassword =>
@@ -68,11 +68,33 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsTitle => 'Page des paramètres';
 
   @override
-  String get bottomNavFeed => 'Fil d\'actualité';
+  String get bottomNavFeed => 'Fil';
 
   @override
   String get bottomNavProfile => 'Profil';
 
   @override
   String get bottomNavSettings => 'Paramètres';
+
+  @override
+  String get enterVerificationCode => 'Saisir le code de vérification';
+
+  @override
+  String get verificationCodeSent =>
+      'Un code de vérification a été envoyé à votre adresse e-mail.';
+
+  @override
+  String get verificationCode => 'Code de vérification';
+
+  @override
+  String get pleaseEnterTheCode => 'Veuillez saisir le code à 6 chiffres.';
+
+  @override
+  String get verify => 'Vérifier';
+
+  @override
+  String get resendCode => 'Renvoyer le code';
+
+  @override
+  String get invalidCode => 'Code de vérification invalide.';
 }

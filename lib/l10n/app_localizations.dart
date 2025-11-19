@@ -231,6 +231,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get bottomNavSettings;
+
+  /// No description provided for @enterVerificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Verification Code'**
+  String get enterVerificationCode;
+
+  /// No description provided for @verificationCodeSent.
+  ///
+  /// In en, this message translates to:
+  /// **'A verification code has been sent to your email.'**
+  String get verificationCodeSent;
+
+  /// No description provided for @verificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification Code'**
+  String get verificationCode;
+
+  /// No description provided for @pleaseEnterTheCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the 6-digit code.'**
+  String get pleaseEnterTheCode;
+
+  /// No description provided for @verify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get verify;
+
+  /// No description provided for @resendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend Code'**
+  String get resendCode;
+
+  /// No description provided for @invalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid verification code.'**
+  String get invalidCode;
 }
 
 class _AppLocalizationsDelegate

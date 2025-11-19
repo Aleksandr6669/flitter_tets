@@ -9,11 +9,11 @@ class AppLocalizationsUk extends AppLocalizations {
   AppLocalizationsUk([String locale = 'uk']) : super(locale);
 
   @override
-  String get createAccount => 'Створити аккаунт';
+  String get createAccount => 'Створити акаунт';
 
   @override
   String get joinUsToStartYourJourney =>
-      'Приєднуйтесь до нас, щоб почати свою подорож';
+      'Приєднуйтесь, щоб розпочати свою подорож';
 
   @override
   String get email => 'Електронна пошта';
@@ -22,13 +22,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get password => 'Пароль';
 
   @override
-  String get confirmPassword => 'Підтвердіть пароль';
+  String get confirmPassword => 'Підтвердьте пароль';
 
   @override
   String get signUp => 'Зареєструватися';
 
   @override
-  String get alreadyHaveAnAccount => 'Вже є аккаунт? ';
+  String get alreadyHaveAnAccount => 'Вже є акаунт? ';
 
   @override
   String get login => 'Увійти';
@@ -37,7 +37,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get welcomeBack => 'З поверненням!';
 
   @override
-  String get dontHaveAnAccount => 'Немає аккаунта? ';
+  String get dontHaveAnAccount => 'Немає акаунта? ';
 
   @override
   String get pleaseEnterYourEmail =>
@@ -47,7 +47,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get pleaseEnterYourPassword => 'Будь ласка, введіть свій пароль';
 
   @override
-  String get pleaseConfirmYourPassword => 'Будь ласка, підтвердіть свій пароль';
+  String get pleaseConfirmYourPassword => 'Будь ласка, підтвердьте свій пароль';
 
   @override
   String get passwordsDoNotMatch => 'Паролі не співпадають';
@@ -56,7 +56,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get language => 'Мова';
 
   @override
-  String get appTitle => 'Аврора Демо';
+  String get appTitle => 'Демо Аврора';
 
   @override
   String get feedTitle => 'Сторінка стрічки';
@@ -75,4 +75,26 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get bottomNavSettings => 'Налаштування';
+
+  @override
+  String get enterVerificationCode => 'Введіть код підтвердження';
+
+  @override
+  String get verificationCodeSent =>
+      'Код підтвердження надіслано на вашу електронну адресу.';
+
+  @override
+  String get verificationCode => 'Код підтвердження';
+
+  @override
+  String get pleaseEnterTheCode => 'Будь ласка, введіть 6-значний код.';
+
+  @override
+  String get verify => 'Перевірити';
+
+  @override
+  String get resendCode => 'Надіслати код повторно';
+
+  @override
+  String get invalidCode => 'Неправильний код підтвердження.';
 }
