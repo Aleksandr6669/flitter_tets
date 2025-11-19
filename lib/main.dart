@@ -150,7 +150,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: 400,
-        maxHeight: isLogin ? 650 : 720,
+        maxHeight: isLogin ? 750 : 820,
       ),
       child: GlassmorphicContainer(
         width: MediaQuery.of(context).size.width * 0.9,
@@ -358,7 +358,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
               changeLanguage(Locale(newLanguage.code));
             }
           },
-          dropdownColor: const Color.fromRGBO(111, 22, 184, 0.7),
+          dropdownColor: const Color.fromARGB(117, 28, 2, 48),
           icon: const Padding(
             padding: EdgeInsets.only(right: 20.0),
             child: Icon(Icons.arrow_drop_down, color: Colors.white),
