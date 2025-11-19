@@ -2,19 +2,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:flag/flag.dart';
 
 // A data class for languages
 class Language {
   final String name;
   final String code;
+  final String flagCode;
 
-  const Language({required this.name, required this.code});
+  const Language({required this.name, required this.code, required this.flagCode});
 }
 
 const List<Language> supportedLanguages = [
-  Language(name: 'English', code: 'en'),
-  Language(name: 'Français', code: 'fr'),
-  Language(name: 'Українська', code: 'uk'),
+  Language(name: 'English', code: 'en', flagCode: 'gb'),
+  Language(name: 'Français', code: 'fr', flagCode: 'fr'),
+  Language(name: 'Українська', code: 'uk', flagCode: 'ua'),
 ];
 
 class SettingsPage extends StatefulWidget {
@@ -88,7 +90,7 @@ class _SettingsPageState extends State<SettingsPage> {
           value: _selectedLanguage,
           isExpanded: true,
           onChanged: _onLanguageChange,
-          dropdownColor: const Color.fromARGB(117, 28, 2, 48),
+          dropdownColor: const Color.fromARGB(149, 26, 5, 43),
           icon: const Padding(
             padding: EdgeInsets.only(right: 20.0),
             child: Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -99,7 +101,13 @@ class _SettingsPageState extends State<SettingsPage> {
               value: language,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(language.name),
+                child: Row(
+                  children: [
+                    Flag.fromString(language.flagCode, height: 20, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
+                    const SizedBox(width: 10),
+                    Text(language.name),
+                  ],
+                ),
               ),
             );
           }).toList(),

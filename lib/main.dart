@@ -4,19 +4,21 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/home_page.dart';
+import 'package:flag/flag.dart';
 
 // A data class for languages, also used in settings_page.dart
 class Language {
   final String name;
   final String code;
+  final String flagCode;
 
-  const Language({required this.name, required this.code});
+  const Language({required this.name, required this.code, required this.flagCode});
 }
 
 const List<Language> supportedLanguages = [
-  Language(name: 'English', code: 'en'),
-  Language(name: 'Français', code: 'fr'),
-  Language(name: 'Українська', code: 'uk'),
+  Language(name: 'English', code: 'en', flagCode: 'gb'),
+  Language(name: 'Français', code: 'fr', flagCode: 'fr'),
+  Language(name: 'Українська', code: 'uk', flagCode: 'ua'),
 ];
 
 void main() {
@@ -150,7 +152,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: 400,
-        maxHeight: isLogin ? 750 : 820,
+        maxHeight: isLogin ? 650 : 720,
       ),
       child: GlassmorphicContainer(
         width: MediaQuery.of(context).size.width * 0.9,
@@ -158,7 +160,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
             ? MediaQuery.of(context).size.height * 0.75
             : MediaQuery.of(context).size.height * 0.85,
         borderRadius: 20,
-        blur: 10,
+        blur: 26,
         alignment: Alignment.center,
         border: 0,
         linearGradient: LinearGradient(
@@ -358,7 +360,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
               changeLanguage(Locale(newLanguage.code));
             }
           },
-          dropdownColor: const Color.fromARGB(117, 28, 2, 48),
+          dropdownColor: const Color.fromARGB(149, 26, 5, 43),
           icon: const Padding(
             padding: EdgeInsets.only(right: 20.0),
             child: Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -369,7 +371,13 @@ class GlassmorphicAuthForm extends StatelessWidget {
               value: language,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(language.name),
+                child: Row(
+                  children: [
+                    Flag.fromString(language.flagCode, height: 20, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
+                    const SizedBox(width: 10),
+                    Text(language.name),
+                  ],
+                ),
               ),
             );
           }).toList(),
