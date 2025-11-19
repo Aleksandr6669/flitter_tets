@@ -158,7 +158,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
             ? MediaQuery.of(context).size.height * 0.75
             : MediaQuery.of(context).size.height * 0.85,
         borderRadius: 20,
-        blur: 26,
+        blur: 7,
         alignment: Alignment.center,
         border: 0,
         linearGradient: LinearGradient(
