@@ -359,7 +359,10 @@ class GlassmorphicAuthForm extends StatelessWidget {
             }
           },
           dropdownColor: Colors.black.withOpacity(0.7),
-          icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
+          icon: const Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: Icon(Icons.arrow_drop_down, color: Colors.white),
+          ),
           style: const TextStyle(color: Colors.white, fontSize: 16),
           items: supportedLanguages.map<DropdownMenuItem<Language>>((Language language) {
             return DropdownMenuItem<Language>(
