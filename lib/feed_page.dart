@@ -1,13 +1,15 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class FeedPage extends StatelessWidget {
   const FeedPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Feed Page", style: TextStyle(color: Colors.white)),
+    final l10n = AppLocalizations.of(context)!;
+    return Center(
+      child: Text(l10n.feedTitle, style: const TextStyle(color: Colors.white)),
     );
   }
 }

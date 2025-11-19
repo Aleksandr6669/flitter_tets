@@ -1,38 +1,73 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-// Import for ImageFilter
 import 'package:flutter_application_1/home_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('en');
+
+  void _changeLanguage(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Beautiful Login',
+      title: 'Beautiful Auth',
       theme: ThemeData.dark(),
-      home: const LoginPage(),
+      locale: _locale,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('fr'),
+        Locale('uk'),
+      ],
+      home: AuthPage(changeLanguage: _changeLanguage),
     );
   }
 }
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class AuthPage extends StatefulWidget {
+  const AuthPage({super.key, required this.changeLanguage});
+  final void Function(Locale locale) changeLanguage;
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AuthPage> createState() => _AuthPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+
+  bool _isLogin = true;
+
+  void _toggleFormType() {
+    setState(() {
+      _isLogin = !_isLogin;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/background.jpg"), // Corrected image path
+                image: AssetImage("assets/background.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -51,12 +86,15 @@ class _LoginPageState extends State<LoginPage> {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
-                child: GlassmorphicLoginForm(
+                child: GlassmorphicAuthForm(
                   formKey: _formKey,
                   emailController: emailController,
                   passwordController: passwordController,
                   confirmPasswordController: confirmPasswordController,
-                )
+                  isLogin: _isLogin,
+                  onToggleFormType: _toggleFormType,
+                  changeLanguage: widget.changeLanguage,
+                ),
               ),
             ),
           ),
@@ -66,30 +104,39 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-class GlassmorphicLoginForm extends StatelessWidget {
-  const GlassmorphicLoginForm({
+class GlassmorphicAuthForm extends StatelessWidget {
+  const GlassmorphicAuthForm({
     super.key,
     required this.formKey,
     required this.emailController,
     required this.passwordController,
     required this.confirmPasswordController,
+    required this.isLogin,
+    required this.onToggleFormType,
+    required this.changeLanguage,
   });
 
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final TextEditingController confirmPasswordController;
+  final bool isLogin;
+  final VoidCallback onToggleFormType;
+  final void Function(Locale locale) changeLanguage;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ConstrainedBox(
       constraints: const BoxConstraints(
         maxWidth: 400,
-        maxHeight: 600,
+        maxHeight: 650,
       ),
       child: GlassmorphicContainer(
-        width: MediaQuery.of(context).size.width * 0.9, // Responsive width
-        height: MediaQuery.of(context).size.height * 0.8, // Responsive height
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: isLogin
+            ? MediaQuery.of(context).size.height * 0.7
+            : MediaQuery.of(context).size.height * 0.8,
         borderRadius: 20,
         blur: 26,
         alignment: Alignment.center,
@@ -118,20 +165,46 @@ class GlassmorphicLoginForm extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'Create Account',
+                Align(
+                  alignment: Alignment.topRight,
+                  child: PopupMenuButton<Locale>(
+                    icon: const Icon(Icons.language, color: Colors.white),
+                    color: Colors.black,
+                    onSelected: (Locale newLocale) {
+                      changeLanguage(newLocale);
+                    },
+                    itemBuilder: (BuildContext context) => <PopupMenuEntry<Locale>>[
+                      const PopupMenuItem<Locale>(
+                        value: Locale('en'),
+                        child: Text('EN', style: TextStyle(color: Colors.white)),
+                      ),
+                      const PopupMenuItem<Locale>(
+                        value: Locale('fr'),
+                        child: Text('FR', style: TextStyle(color: Colors.white)),
+                      ),
+                      const PopupMenuItem<Locale>(
+                        value: Locale('uk'),
+                        child: Text('UA', style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  isLogin ? l10n.login : l10n.createAccount,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  'Join us to start your journey',
+                Text(
+                  isLogin
+                      ? l10n.welcomeBack
+                      : l10n.joinUsToStartYourJourney,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.white70,
                   ),
@@ -140,10 +213,11 @@ class GlassmorphicLoginForm extends StatelessWidget {
                 TextFormField(
                   controller: emailController,
                   style: const TextStyle(color: Colors.white),
-                  decoration: _inputDecoration('Email', Icons.email_outlined),
+                  decoration:
+                      _inputDecoration(l10n.email, Icons.email_outlined),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
+                      return l10n.pleaseEnterYourEmail;
                     }
                     return null;
                   },
@@ -153,30 +227,34 @@ class GlassmorphicLoginForm extends StatelessWidget {
                   controller: passwordController,
                   obscureText: true,
                   style: const TextStyle(color: Colors.white),
-                  decoration: _inputDecoration('Password', Icons.lock_outline),
+                  decoration:
+                      _inputDecoration(l10n.password, Icons.lock_outline),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
+                      return l10n.pleaseEnterYourPassword;
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: confirmPasswordController,
-                  obscureText: true,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: _inputDecoration('Confirm Password', Icons.lock_reset),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
-                    }
-                    if (value != passwordController.text) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
-                ),
+                if (!isLogin) ...[
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: confirmPasswordController,
+                    obscureText: true,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: _inputDecoration(
+                        l10n.confirmPassword, Icons.lock_reset),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return l10n.pleaseConfirmYourPassword;
+                      }
+                      if (value != passwordController.text) {
+                        return l10n.passwordsDoNotMatch;
+                      }
+                      return null;
+                    },
+                  ),
+                ],
                 const SizedBox(height: 40),
                 Container(
                   decoration: BoxDecoration(
@@ -214,9 +292,9 @@ class GlassmorphicLoginForm extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
-                    child: const Text(
-                      'Sign Up',
-                      style: TextStyle(
+                    child: Text(
+                      isLogin ? l10n.login : l10n.signUp,
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -228,17 +306,17 @@ class GlassmorphicLoginForm extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Already have an account? ",
-                      style: TextStyle(color: Colors.white70),
+                    Text(
+                      isLogin
+                          ? l10n.dontHaveAnAccount
+                          : l10n.alreadyHaveAnAccount,
+                      style: const TextStyle(color: Colors.white70),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        // Navigate to login page
-                      },
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
+                      onTap: onToggleFormType,
+                      child: Text(
+                        isLogin ? l10n.signUp : l10n.login,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),

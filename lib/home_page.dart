@@ -4,6 +4,7 @@ import 'package:flutter_application_1/feed_page.dart';
 import 'package:flutter_application_1/profile_page.dart';
 import 'package:flutter_application_1/settings_page.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -87,6 +88,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Widget _buildGlassmorphicAppBar(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: GlassmorphicContainer(
@@ -110,10 +112,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           end: Alignment.bottomRight,
           colors: [Colors.white.withOpacity(0.3), Colors.white.withOpacity(0.1)],
         ),
-        child: const Center(
+        child: Center(
           child: Text(
-            'Aurora Demo',
-            style: TextStyle(
+            l10n.appTitle,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -125,6 +127,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Widget _buildGlassmorphicBottomNavBar(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: GlassmorphicContainer(
@@ -151,10 +154,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         child: BottomNavigationBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Feed'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: const Icon(Icons.home), label: l10n.bottomNavFeed),
+            BottomNavigationBarItem(icon: const Icon(Icons.person), label: l10n.bottomNavProfile),
+            BottomNavigationBarItem(icon: const Icon(Icons.settings), label: l10n.bottomNavSettings),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.white,
