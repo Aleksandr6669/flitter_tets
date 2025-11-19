@@ -5,6 +5,20 @@ import 'l10n/app_localizations.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/home_page.dart';
 
+// A data class for languages, also used in settings_page.dart
+class Language {
+  final String name;
+  final String code;
+
+  const Language({required this.name, required this.code});
+}
+
+const List<Language> supportedLanguages = [
+  Language(name: 'English', code: 'en'),
+  Language(name: 'Français', code: 'fr'),
+  Language(name: 'Українська', code: 'uk'),
+];
+
 void main() {
   runApp(const MyApp());
 }
@@ -127,16 +141,22 @@ class GlassmorphicAuthForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context);
+    final selectedLanguage = supportedLanguages.firstWhere(
+      (lang) => lang.code == locale.languageCode,
+      orElse: () => supportedLanguages.first,
+    );
+
     return ConstrainedBox(
-      constraints: const BoxConstraints(
+      constraints: BoxConstraints(
         maxWidth: 400,
-        maxHeight: 650,
+        maxHeight: isLogin ? 650 : 720,
       ),
       child: GlassmorphicContainer(
         width: MediaQuery.of(context).size.width * 0.9,
         height: isLogin
-            ? MediaQuery.of(context).size.height * 0.7
-            : MediaQuery.of(context).size.height * 0.8,
+            ? MediaQuery.of(context).size.height * 0.75
+            : MediaQuery.of(context).size.height * 0.85,
         borderRadius: 20,
         blur: 26,
         alignment: Alignment.center,
@@ -165,30 +185,6 @@ class GlassmorphicAuthForm extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: PopupMenuButton<Locale>(
-                    icon: const Icon(Icons.language, color: Colors.white),
-                    color: Colors.black,
-                    onSelected: (Locale newLocale) {
-                      changeLanguage(newLocale);
-                    },
-                    itemBuilder: (BuildContext context) => <PopupMenuEntry<Locale>>[
-                      const PopupMenuItem<Locale>(
-                        value: Locale('en'),
-                        child: Text('EN', style: TextStyle(color: Colors.white)),
-                      ),
-                      const PopupMenuItem<Locale>(
-                        value: Locale('fr'),
-                        child: Text('FR', style: TextStyle(color: Colors.white)),
-                      ),
-                      const PopupMenuItem<Locale>(
-                        value: Locale('uk'),
-                        child: Text('UA', style: TextStyle(color: Colors.white)),
-                      ),
-                    ],
-                  ),
-                ),
                 Text(
                   isLogin ? l10n.login : l10n.createAccount,
                   textAlign: TextAlign.center,
@@ -276,10 +272,10 @@ class GlassmorphicAuthForm extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const HomePage(),
+                            builder: (context) => HomePage(changeLanguage: changeLanguage),
                           ),
                         );
                       }
@@ -303,6 +299,8 @@ class GlassmorphicAuthForm extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
+                _buildLanguageDropdown(context, selectedLanguage),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -315,7 +313,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
                     GestureDetector(
                       onTap: onToggleFormType,
                       child: Text(
-                        isLogin ? l10n.signUp : l10n.login,
+                        isLogin ? ' ' + l10n.signUp : ' ' + l10n.login,
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -327,6 +325,51 @@ class GlassmorphicAuthForm extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLanguageDropdown(BuildContext context, Language selectedLanguage) {
+    return GlassmorphicContainer(
+      width: double.infinity,
+      height: 50,
+      borderRadius: 25,
+      blur: 10,
+      alignment: Alignment.center,
+      border: 1,
+      linearGradient: LinearGradient(
+        colors: [
+          Colors.white.withOpacity(0.1),
+          Colors.white.withOpacity(0.1),
+        ],
+      ),
+      borderGradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Colors.white.withOpacity(0.2), Colors.white.withOpacity(0.1)],
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<Language>(
+          value: selectedLanguage,
+          isExpanded: true,
+          onChanged: (Language? newLanguage) {
+            if (newLanguage != null) {
+              changeLanguage(Locale(newLanguage.code));
+            }
+          },
+          dropdownColor: Colors.black.withOpacity(0.7),
+          icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+          items: supportedLanguages.map<DropdownMenuItem<Language>>((Language language) {
+            return DropdownMenuItem<Language>(
+              value: language,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(language.name),
+              ),
+            );
+          }).toList(),
         ),
       ),
     );

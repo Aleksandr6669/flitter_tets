@@ -7,7 +7,8 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.changeLanguage});
+  final void Function(Locale locale) changeLanguage;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,12 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
   late final AnimationController _controller;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    FeedPage(),
-    ProfilePage(),
-    SettingsPage(),
-  ];
+  late final List<Widget> _widgetOptions;
 
   @override
   void initState() {
@@ -30,6 +26,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       vsync: this,
       duration: const Duration(seconds: 10),
     )..repeat();
+
+    _widgetOptions = <Widget>[
+      const FeedPage(),
+      const ProfilePage(),
+      SettingsPage(changeLanguage: widget.changeLanguage),
+    ];
   }
 
   @override
