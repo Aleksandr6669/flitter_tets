@@ -88,7 +88,7 @@ class _SettingsPageState extends State<SettingsPage> {
           value: _selectedLanguage,
           isExpanded: true,
           onChanged: _onLanguageChange,
-          dropdownColor: Colors.black.withOpacity(0.7),
+          dropdownColor: const Color.fromRGBO(111, 22, 184, 0.7),
           icon: const Padding(
             padding: EdgeInsets.only(right: 20.0),
             child: Icon(Icons.arrow_drop_down, color: Colors.white),

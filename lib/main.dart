@@ -158,7 +158,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
             ? MediaQuery.of(context).size.height * 0.75
             : MediaQuery.of(context).size.height * 0.85,
         borderRadius: 20,
-        blur: 7,
+        blur: 10,
         alignment: Alignment.center,
         border: 0,
         linearGradient: LinearGradient(
@@ -358,7 +358,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
               changeLanguage(Locale(newLanguage.code));
             }
           },
-          dropdownColor: Colors.black.withOpacity(0.7),
+          dropdownColor: const Color.fromRGBO(111, 22, 184, 0.7),
           icon: const Padding(
             padding: EdgeInsets.only(right: 20.0),
             child: Icon(Icons.arrow_drop_down, color: Colors.white),
