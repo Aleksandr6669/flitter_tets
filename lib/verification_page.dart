@@ -5,6 +5,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'home_page.dart';
 import 'package:pinput/pinput.dart'; // Import Pinput
+import 'styles.dart';
 
 class VerificationPage extends StatefulWidget {
   final String email;
@@ -124,16 +125,8 @@ class _VerificationPageState extends State<VerificationPage> {
                 blur: 26,
                 alignment: Alignment.center,
                 border: 0,
-                linearGradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.white.withOpacity(0.1), Colors.white.withOpacity(0.05)],
-                ),
-                borderGradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.white.withOpacity(0.5), Colors.white.withOpacity(0.5)],
-                ),
+                linearGradient: kGlassmorphicGradient,
+                borderGradient: kGlassmorphicBorderGradient,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Form(
@@ -142,9 +135,9 @@ class _VerificationPageState extends State<VerificationPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(l10n.enterVerificationCode, textAlign: TextAlign.center, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)),
+                        Text(l10n.enterVerificationCode, textAlign: TextAlign.center, style: kTitleTextStyle),
                         const SizedBox(height: 15),
-                        Text(l10n.verificationCodeSent, textAlign: TextAlign.center, style: const TextStyle(fontSize: 16, color: Colors.white70)),
+                        Text(l10n.verificationCodeSent, textAlign: TextAlign.center, style: kSubtitleTextStyle),
                         Text(widget.email, textAlign: TextAlign.center, style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
                         const SizedBox(height: 40),
                         Pinput(
@@ -179,14 +172,7 @@ class _VerificationPageState extends State<VerificationPage> {
                           ),
                         const SizedBox(height: 40),
                         Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFFDA4453), Color(0xFF89216B)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                          ),
+                          decoration: kButtonBoxDecoration,
                           child: ElevatedButton(
                             onPressed: _verifyCode,
                             style: ElevatedButton.styleFrom(
@@ -197,7 +183,7 @@ class _VerificationPageState extends State<VerificationPage> {
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
                             ),
-                            child: Text(l10n.verify, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                            child: Text(l10n.verify, style: kButtonTextStyle),
                           ),
                         ),
                         const SizedBox(height: 30),
@@ -205,7 +191,7 @@ class _VerificationPageState extends State<VerificationPage> {
                             ? const Center(child: CircularProgressIndicator(color: Colors.white))
                             : TextButton(
                                 onPressed: _resendCode,
-                                child: Text(l10n.resendCode, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                child: Text(l10n.resendCode, style: kTextLinkStyle),
                               ),
                       ],
                     ),

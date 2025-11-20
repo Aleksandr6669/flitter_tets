@@ -7,21 +7,9 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/home_page.dart';
 import 'package:flag/flag.dart';
 import 'verification_page.dart';
-
-// A data class for languages, also used in settings_page.dart
-class Language {
-  final String name;
-  final String code;
-  final String flagCode;
-
-  const Language({required this.name, required this.code, required this.flagCode});
-}
-
-const List<Language> supportedLanguages = [
-  Language(name: 'English', code: 'en', flagCode: 'gb'),
-  Language(name: 'Français', code: 'fr', flagCode: 'fr'),
-  Language(name: 'Українська', code: 'uk', flagCode: 'ua'),
-];
+import 'models/language.dart';
+import 'styles.dart';
+import 'language_selector.dart';
 
 void main() {
   runApp(const MyApp());
@@ -203,22 +191,8 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
         blur: 26,
         alignment: Alignment.center,
         border: 0,
-        linearGradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white.withOpacity(0.1),
-            Colors.white.withOpacity(0.05),
-          ],
-        ),
-        borderGradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white.withOpacity(0.5),
-            Colors.white.withOpacity(0.5),
-          ],
-        ),
+        linearGradient: kGlassmorphicGradient,
+        borderGradient: kGlassmorphicBorderGradient,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Form(
@@ -230,11 +204,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                 Text(
                   widget.isLogin ? l10n.login : l10n.createAccount,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  style: kTitleTextStyle,
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -242,17 +212,14 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                       ? l10n.welcomeBack
                       : l10n.joinUsToStartYourJourney,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white70,
-                  ),
+                  style: kSubtitleTextStyle,
                 ),
                 const SizedBox(height: 40),
                 TextFormField(
                   controller: widget.emailController,
                   style: const TextStyle(color: Colors.white),
                   decoration:
-                      _inputDecoration(l10n.email, Icons.email_outlined),
+                      kInputDecoration(l10n.email, Icons.email_outlined),
                   validator: (value) {
                     if (value == null || value.isEmpty || !value.contains('@')) {
                       return l10n.pleaseEnterYourEmail;
@@ -266,7 +233,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                   obscureText: true,
                   style: const TextStyle(color: Colors.white),
                   decoration:
-                      _inputDecoration(l10n.password, Icons.lock_outline),
+                      kInputDecoration(l10n.password, Icons.lock_outline),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return l10n.pleaseEnterYourPassword;
@@ -280,7 +247,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                     controller: widget.confirmPasswordController,
                     obscureText: true,
                     style: const TextStyle(color: Colors.white),
-                    decoration: _inputDecoration(
+                    decoration: kInputDecoration(
                         l10n.confirmPassword, Icons.lock_reset),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -295,22 +262,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                 ],
                 const SizedBox(height: 40),
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFDA4453), Color(0xFF89216B)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
+                  decoration: kButtonBoxDecoration,
                   child: ElevatedButton(
                     onPressed: _handleAuthAction,
                     style: ElevatedButton.styleFrom(
@@ -323,16 +275,19 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                     ),
                     child: Text(
                       widget.isLogin ? l10n.login : l10n.signUp,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                      style: kButtonTextStyle,
                     ),
                   ),
                 ),
                 const SizedBox(height: 30),
-                _buildLanguageDropdown(context, selectedLanguage),
+                LanguageSelector(
+                  selectedLanguage: selectedLanguage,
+                  onLanguageChange: (Language? newLanguage) {
+                    if (newLanguage != null) {
+                      widget.changeLanguage(Locale(newLanguage.code));
+                    }
+                  },
+                ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -347,10 +302,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                       onTap: widget.onToggleFormType,
                       child: Text(
                         widget.isLogin ? ' ' + l10n.signUp : ' ' + l10n.login,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: kTextLinkStyle,
                       ),
                     ),
                   ],
@@ -359,82 +311,6 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildLanguageDropdown(BuildContext context, Language selectedLanguage) {
-    return GlassmorphicContainer(
-      width: double.infinity,
-      height: 50,
-      borderRadius: 25,
-      blur: 10,
-      alignment: Alignment.center,
-      border: 1,
-      linearGradient: LinearGradient(
-        colors: [
-          Colors.white.withOpacity(0.1),
-          Colors.white.withOpacity(0.1),
-        ],
-      ),
-      borderGradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Colors.white.withOpacity(0.2), Colors.white.withOpacity(0.1)],
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<Language>(
-          value: selectedLanguage,
-          isExpanded: true,
-          onChanged: (Language? newLanguage) {
-            if (newLanguage != null) {
-              widget.changeLanguage(Locale(newLanguage.code));
-            }
-          },
-          dropdownColor: const Color.fromARGB(149, 26, 5, 43),
-          icon: const Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: Icon(Icons.arrow_drop_down, color: Colors.white),
-          ),
-          style: const TextStyle(color: Colors.white, fontSize: 16),
-          items: supportedLanguages.map<DropdownMenuItem<Language>>((Language language) {
-            return DropdownMenuItem<Language>(
-              value: language,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  children: [
-                    Flag.fromString(language.flagCode, height: 20, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
-                    const SizedBox(width: 10),
-                    Text(language.name),
-                  ],
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  InputDecoration _inputDecoration(String label, IconData icon) {
-    return InputDecoration(
-      hintText: label,
-      hintStyle: const TextStyle(color: Colors.white54),
-      prefixIcon: Icon(icon, color: Colors.white54),
-      filled: true,
-      fillColor: Colors.white.withOpacity(0.1),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15.0),
-        borderSide: BorderSide.none,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15.0),
-        borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15.0),
-        borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
       ),
     );
   }

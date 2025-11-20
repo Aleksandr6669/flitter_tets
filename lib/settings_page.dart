@@ -3,21 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flag/flag.dart';
-
-// A data class for languages
-class Language {
-  final String name;
-  final String code;
-  final String flagCode;
-
-  const Language({required this.name, required this.code, required this.flagCode});
-}
-
-const List<Language> supportedLanguages = [
-  Language(name: 'English', code: 'en', flagCode: 'gb'),
-  Language(name: 'Français', code: 'fr', flagCode: 'fr'),
-  Language(name: 'Українська', code: 'uk', flagCode: 'ua'),
-];
+import 'models/language.dart';
+import 'styles.dart';
+import 'language_selector.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.changeLanguage});
@@ -56,63 +44,15 @@ class _SettingsPageState extends State<SettingsPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(l10n.settingsTitle, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+        Text(l10n.settingsTitle, style: kSettingsTitleTextStyle),
         const SizedBox(height: 40),
-        Text(l10n.language, style: const TextStyle(color: Colors.white, fontSize: 18)),
+        Text(l10n.language, style: kSettingsLanguageTextStyle),
         const SizedBox(height: 20),
-        _buildGlassmorphicDropdown(context),
-      ],
-    );
-  }
-
-  Widget _buildGlassmorphicDropdown(BuildContext context) {
-    return GlassmorphicContainer(
-      width: 250,
-      height: 60,
-      borderRadius: 30,
-      blur: 10,
-      alignment: Alignment.center,
-      border: 1,
-      linearGradient: LinearGradient(
-        colors: [
-          Colors.deepPurple.withOpacity(0.4),
-          Colors.pink.withOpacity(0.3),
-        ],
-        stops: const [0.2, 0.8],
-      ),
-      borderGradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Colors.white.withOpacity(0.3), Colors.white.withOpacity(0.1)],
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<Language>(
-          value: _selectedLanguage,
-          isExpanded: true,
-          onChanged: _onLanguageChange,
-          dropdownColor: const Color.fromARGB(149, 26, 5, 43),
-          icon: const Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: Icon(Icons.arrow_drop_down, color: Colors.white),
-          ),
-          style: const TextStyle(color: Colors.white, fontSize: 16),
-          items: supportedLanguages.map<DropdownMenuItem<Language>>((Language language) {
-            return DropdownMenuItem<Language>(
-              value: language,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  children: [
-                    Flag.fromString(language.flagCode, height: 20, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
-                    const SizedBox(width: 10),
-                    Text(language.name),
-                  ],
-                ),
-              ),
-            );
-          }).toList(),
+        LanguageSelector(
+          selectedLanguage: _selectedLanguage!,
+          onLanguageChange: _onLanguageChange,
         ),
-      ),
+      ],
     );
   }
 }

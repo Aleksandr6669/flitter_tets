@@ -5,6 +5,7 @@ import 'package:flutter_application_1/profile_page.dart';
 import 'package:flutter_application_1/settings_page.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'styles.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.changeLanguage});
@@ -100,28 +101,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         blur: 7,
         alignment: Alignment.center,
         border: 1,
-        linearGradient: LinearGradient(
-          transform: GradientRotation(_controller.value * 6.28),
-          colors: [
-            Colors.deepPurple.withOpacity(0.3),
-            Colors.pink.withOpacity(0.2),
-            Colors.lightBlue.withOpacity(0.4),
-          ],
-          stops: const [0.2, 0.5, 0.8],
-        ),
-        borderGradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.white.withOpacity(0.3), Colors.white.withOpacity(0.1)],
-        ),
+        linearGradient: kAnimatedGradient(_controller.value),
+        borderGradient: kAppBarBorderGradient,
         child: Center(
           child: Text(
             l10n.appTitle,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+            style: kAppBarTitleTextStyle,
           ),
         ),
       ),
@@ -139,20 +124,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         blur: 7,
         alignment: Alignment.center,
         border: 1,
-        linearGradient: LinearGradient(
-          transform: GradientRotation(_controller.value * 6.28),
-          colors: [
-            Colors.deepPurple.withOpacity(0.3),
-            Colors.pink.withOpacity(0.2),
-            Colors.lightBlue.withOpacity(0.4),
-          ],
-          stops: const [0.2, 0.5, 0.8],
-        ),
-        borderGradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.white.withOpacity(0.3), Colors.white.withOpacity(0.1)],
-        ),
+        linearGradient: kAnimatedGradient(_controller.value),
+        borderGradient: kAppBarBorderGradient,
         child: BottomNavigationBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -162,8 +135,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             BottomNavigationBarItem(icon: const Icon(Icons.settings), label: l10n.bottomNavSettings),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white70,
+          selectedItemColor: kBottomNavSelectedItemColor,
+          unselectedItemColor: kBottomNavUnselectedItemColor,
           onTap: _onItemTapped,
         ),
       ),

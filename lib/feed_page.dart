@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'styles.dart';
 
 class FeedPage extends StatelessWidget {
   const FeedPage({super.key});
@@ -9,7 +10,7 @@ class FeedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Center(
-      child: Text(l10n.feedTitle, style: const TextStyle(color: Colors.white)),
+      child: Text(l10n.feedTitle, style: kPageTitleTextStyle),
     );
   }
 }
