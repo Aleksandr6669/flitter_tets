@@ -194,7 +194,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
         linearGradient: kGlassmorphicGradient,
         borderGradient: kGlassmorphicBorderGradient,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(25.0),
           child: Form(
             key: widget.formKey,
             child: Column(
