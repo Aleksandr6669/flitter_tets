@@ -1,8 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:glassmorphism/glassmorphism.dart';
-import 'package:flag/flag.dart';
 import 'models/language.dart';
 import 'styles.dart';
 import 'language_selector.dart';

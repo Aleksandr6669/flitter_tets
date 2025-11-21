@@ -97,9 +97,9 @@ class _AuthPageState extends State<AuthPage> {
                   emailController: emailController,
                   passwordController: passwordController,
                   confirmPasswordController: confirmPasswordController,
+                  changeLanguage: widget.changeLanguage,
                   isLogin: _isLogin,
                   onToggleFormType: _toggleFormType,
-                  changeLanguage: widget.changeLanguage,
                 ),
               ),
             ),
@@ -188,7 +188,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
             ? MediaQuery.of(context).size.height * 0.75
             : MediaQuery.of(context).size.height * 0.85,
         borderRadius: 20,
-        blur: 26,
+        blur: 10,
         alignment: Alignment.center,
         border: 0,
         linearGradient: kGlassmorphicGradient,
@@ -214,7 +214,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                   textAlign: TextAlign.center,
                   style: kSubtitleTextStyle,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
                 TextFormField(
                   controller: widget.emailController,
                   style: const TextStyle(color: Colors.white),
@@ -260,6 +260,15 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                     },
                   ),
                 ],
+                const SizedBox(height: 30),
+                LanguageSelector(
+                  selectedLanguage: selectedLanguage,
+                  onLanguageChange: (Language? newLanguage) {
+                    if (newLanguage != null) {
+                      widget.changeLanguage(Locale(newLanguage.code));
+                    }
+                  },
+                ),
                 const SizedBox(height: 40),
                 Container(
                   decoration: kButtonBoxDecoration,
@@ -279,15 +288,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
-                LanguageSelector(
-                  selectedLanguage: selectedLanguage,
-                  onLanguageChange: (Language? newLanguage) {
-                    if (newLanguage != null) {
-                      widget.changeLanguage(Locale(newLanguage.code));
-                    }
-                  },
-                ),
+                
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -301,7 +302,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                     GestureDetector(
                       onTap: widget.onToggleFormType,
                       child: Text(
-                        widget.isLogin ? ' ' + l10n.signUp : ' ' + l10n.login,
+                        widget.isLogin ? ' ${l10n.signUp}' : ' ${l10n.login}',
                         style: kTextLinkStyle,
                       ),
                     ),

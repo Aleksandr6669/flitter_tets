@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flag/flag.dart';
@@ -27,31 +26,33 @@ class LanguageSelector extends StatelessWidget {
       linearGradient: kGlassmorphicGradient,
       borderGradient: kGlassmorphicBorderGradient,
       child: DropdownButtonHideUnderline(
-        child: DropdownButton<Language>(
-          value: selectedLanguage,
-          isExpanded: true,
-          onChanged: onLanguageChange,
-          dropdownColor: kDropdownColor,
-          icon: const Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: Icon(Icons.arrow_drop_down, color: kDropdownIconColor),
-          ),
-          style: kDropdownTextStyle,
-          items: supportedLanguages.map<DropdownMenuItem<Language>>((Language language) {
-            return DropdownMenuItem<Language>(
-              value: language,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  children: [
-                    Flag.fromString(language.flagCode, height: 20, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
-                    const SizedBox(width: 10),
-                    Text(language.name),
-                  ],
+        child: ButtonTheme(
+          alignedDropdown: true,
+          child: DropdownButton<Language>(
+            value: selectedLanguage,
+            onChanged: onLanguageChange,
+            dropdownColor: kDropdownColor,
+            icon: const Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: Icon(Icons.arrow_drop_down, color: kDropdownIconColor),
+            ),
+            style: kDropdownTextStyle,
+            items: supportedLanguages.map<DropdownMenuItem<Language>>((Language language) {
+              return DropdownMenuItem<Language>(
+                value: language,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: [
+                      Flag.fromString(language.flagCode, height: 20, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
+                      const SizedBox(width: 10),
+                      Text(language.name),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            }).toList(),
+          ),
         ),
       ),
     );

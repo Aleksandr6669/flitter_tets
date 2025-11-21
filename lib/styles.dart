@@ -48,15 +48,15 @@ InputDecoration kInputDecoration(String label, IconData icon) {
     filled: true,
     fillColor: Colors.white.withOpacity(0.1),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(15.0),
+      borderRadius: BorderRadius.circular(30.0),
       borderSide: BorderSide.none,
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(15.0),
+      borderRadius: BorderRadius.circular(30.0),
       borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(15.0),
+      borderRadius: BorderRadius.circular(30.0),
       borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
     ),
   );
