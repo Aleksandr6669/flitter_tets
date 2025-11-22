@@ -6,13 +6,12 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/home_page.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter_application_1/auth_wrapper.dart';
+import 'package:flutter_application_1/firebase_options.dart';
 import 'verification_page.dart';
 import 'models/language.dart';
 import 'styles.dart';
 import 'language_selector.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +30,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale _locale = const Locale('ru');
+  late final AuthWrapper _authWrapper;
+
+  @override
+  void initState() {
+    super.initState();
+    _authWrapper = AuthWrapper(changeLanguage: _changeLanguage);
+  }
 
   void _changeLanguage(Locale locale) {
     setState(() {
@@ -56,32 +62,34 @@ class _MyAppState extends State<MyApp> {
         Locale('uk'),
         Locale('ru'),
       ],
-      home: AuthWrapper(changeLanguage: _changeLanguage),
+      home: _authWrapper,
     );
   }
 }
 
-class AuthPage extends StatefulWidget {
-  const AuthPage({super.key, required this.changeLanguage});
+class AuthPage extends StatelessWidget {
+  const AuthPage({
+    super.key,
+    required this.changeLanguage,
+    required this.formKey,
+    required this.emailController,
+    required this.passwordController,
+    required this.confirmPasswordController,
+    required this.isLogin,
+    required this.isLoading,
+    required this.onToggleFormType,
+    required this.handleAuthAction,
+  });
+
   final void Function(Locale locale) changeLanguage;
-
-  @override
-  State<AuthPage> createState() => _AuthPageState();
-}
-
-class _AuthPageState extends State<AuthPage> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-
-  bool _isLogin = true;
-
-  void _toggleFormType() {
-    setState(() {
-      _isLogin = !_isLogin;
-    });
-  }
+  final GlobalKey<FormState> formKey;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
+  final bool isLogin;
+  final bool isLoading;
+  final VoidCallback onToggleFormType;
+  final void Function(BuildContext) handleAuthAction;
 
   @override
   Widget build(BuildContext context) {
@@ -101,13 +109,15 @@ class _AuthPageState extends State<AuthPage> {
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: GlassmorphicAuthForm(
-                  formKey: _formKey,
+                  formKey: formKey,
                   emailController: emailController,
                   passwordController: passwordController,
                   confirmPasswordController: confirmPasswordController,
-                  changeLanguage: widget.changeLanguage,
-                  isLogin: _isLogin,
-                  onToggleFormType: _toggleFormType,
+                  changeLanguage: changeLanguage,
+                  isLogin: isLogin,
+                  isLoading: isLoading,
+                  onToggleFormType: onToggleFormType,
+                  handleAuthAction: handleAuthAction,
                 ),
               ),
             ),
@@ -118,7 +128,7 @@ class _AuthPageState extends State<AuthPage> {
   }
 }
 
-class GlassmorphicAuthForm extends StatefulWidget {
+class GlassmorphicAuthForm extends StatelessWidget {
   const GlassmorphicAuthForm({
     super.key,
     required this.formKey,
@@ -126,8 +136,10 @@ class GlassmorphicAuthForm extends StatefulWidget {
     required this.passwordController,
     required this.confirmPasswordController,
     required this.isLogin,
+    required this.isLoading,
     required this.onToggleFormType,
     required this.changeLanguage,
+    required this.handleAuthAction,
   });
 
   final GlobalKey<FormState> formKey;
@@ -135,58 +147,10 @@ class GlassmorphicAuthForm extends StatefulWidget {
   final TextEditingController passwordController;
   final TextEditingController confirmPasswordController;
   final bool isLogin;
+  final bool isLoading;
   final VoidCallback onToggleFormType;
   final void Function(Locale locale) changeLanguage;
-
-  @override
-  State<GlassmorphicAuthForm> createState() => _GlassmorphicAuthFormState();
-}
-
-class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
-  bool _isLoading = false;
-
-  void _handleAuthAction() async {
-    if (widget.formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      try {
-        if (widget.isLogin) {
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: widget.emailController.text,
-            password: widget.passwordController.text,
-          );
-        } else {
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: widget.emailController.text,
-            password: widget.passwordController.text,
-          );
-        }
-      } on FirebaseAuthException catch (e) {
-        if (mounted) {
-          String errorMessage;
-          if (e.code == 'user-not-found') {
-            errorMessage = AppLocalizations.of(context)!.userNotFoundPleaseRegister;
-          } else {
-            errorMessage = e.message ?? 'Authentication failed';
-          }
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(errorMessage),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      } finally {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
-      }
-    }
-  }
+  final void Function(BuildContext) handleAuthAction;
 
   @override
   Widget build(BuildContext context) {
@@ -200,11 +164,11 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: 400,
-        maxHeight: widget.isLogin ? 650 : 720,
+        maxHeight: isLogin ? 650 : 720,
       ),
       child: GlassmorphicContainer(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: widget.isLogin
+        height: isLogin
             ? MediaQuery.of(context).size.height * 0.7
             : MediaQuery.of(context).size.height * 0.8,
         borderRadius: 20,
@@ -216,19 +180,19 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
         child: Padding(
           padding: const EdgeInsets.all(25.0),
           child: Form(
-            key: widget.formKey,
+            key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  widget.isLogin ? l10n.login : l10n.createAccount,
+                  isLogin ? l10n.login : l10n.createAccount,
                   textAlign: TextAlign.center,
                   style: kTitleTextStyle,
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  widget.isLogin
+                  isLogin
                       ? l10n.welcomeBack
                       : l10n.joinUsToStartYourJourney,
                   textAlign: TextAlign.center,
@@ -236,7 +200,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
-                  controller: widget.emailController,
+                  controller: emailController,
                   style: const TextStyle(color: Colors.white),
                   decoration:
                       kInputDecoration(l10n.email, Icons.email_outlined),
@@ -251,7 +215,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: widget.passwordController,
+                  controller: passwordController,
                   obscureText: true,
                   style: const TextStyle(color: Colors.white),
                   decoration:
@@ -263,10 +227,10 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                     return null;
                   },
                 ),
-                if (!widget.isLogin) ...[
+                if (!isLogin) ...[
                   const SizedBox(height: 20),
                   TextFormField(
-                    controller: widget.confirmPasswordController,
+                    controller: confirmPasswordController,
                     obscureText: true,
                     style: const TextStyle(color: Colors.white),
                     decoration: kInputDecoration(
@@ -275,7 +239,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                       if (value == null || value.isEmpty) {
                         return l10n.pleaseConfirmYourPassword;
                       }
-                      if (value != widget.passwordController.text) {
+                      if (value != passwordController.text) {
                         return l10n.passwordsDoNotMatch;
                       }
                       return null;
@@ -287,7 +251,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                   selectedLanguage: selectedLanguage,
                   onLanguageChange: (Language? newLanguage) {
                     if (newLanguage != null) {
-                      widget.changeLanguage(Locale(newLanguage.code));
+                      changeLanguage(Locale(newLanguage.code));
                     }
                   },
                 ),
@@ -295,7 +259,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                 Container(
                   decoration: kButtonBoxDecoration,
                   child: ElevatedButton(
-                    onPressed: _isLoading ? null : _handleAuthAction,
+                    onPressed: isLoading ? null : () => handleAuthAction(context),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       backgroundColor: Colors.transparent,
@@ -304,10 +268,10 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
-                    child: _isLoading
+                    child: isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
                         : Text(
-                            widget.isLogin ? l10n.login : l10n.signUp,
+                            isLogin ? l10n.login : l10n.signUp,
                             style: kButtonTextStyle,
                           ),
                   ),
@@ -317,15 +281,15 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      widget.isLogin
+                      isLogin
                           ? l10n.dontHaveAnAccount
                           : l10n.alreadyHaveAnAccount,
                       style: const TextStyle(color: Colors.white70),
                     ),
                     GestureDetector(
-                      onTap: widget.onToggleFormType,
+                      onTap: onToggleFormType,
                       child: Text(
-                        widget.isLogin ? ' ${l10n.signUp}' : ' ${l10n.login}',
+                        isLogin ? ' ${l10n.signUp}' : ' ${l10n.login}',
                         style: kTextLinkStyle,
                       ),
                     ),
