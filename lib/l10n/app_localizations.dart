@@ -275,6 +275,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid verification code.'**
   String get invalidCode;
+
+  /// No description provided for @userNotFoundPleaseRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'No user found for that email. Please sign up.'**
+  String get userNotFoundPleaseRegister;
 }
 
 class _AppLocalizationsDelegate

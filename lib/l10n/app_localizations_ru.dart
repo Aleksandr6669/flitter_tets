@@ -97,4 +97,8 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get invalidCode => 'Неверный код подтверждения.';
+
+  @override
+  String get userNotFoundPleaseRegister =>
+      'Пользователь с таким адресом электронной почты не найден. Пожалуйста, зарегистрируйтесь.';
 }

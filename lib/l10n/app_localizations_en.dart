@@ -95,4 +95,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidCode => 'Invalid verification code.';
+
+  @override
+  String get userNotFoundPleaseRegister =>
+      'No user found for that email. Please sign up.';
 }

@@ -29,5 +29,7 @@
     "pleaseEnterTheCode": "Veuillez saisir le code à 6 chiffres.",
     "verify": "Vérifier",
     "resendCode": "Renvoyer le code",
-    "invalidCode": "Code de vérification invalide."
+    "invalidCode": "Code de vérification invalide.",
+    "userNotFoundPleaseRegister": "Aucun utilisateur trouvé pour cet e-mail. Veuillez vous inscrire."
+
 }

@@ -97,4 +97,8 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get invalidCode => 'Неправильний код підтвердження.';
+
+  @override
+  String get userNotFoundPleaseRegister =>
+      'No user found for that email. Please sign up.';
 }

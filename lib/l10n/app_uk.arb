@@ -29,5 +29,8 @@
     "pleaseEnterTheCode": "Будь ласка, введіть 6-значний код.",
     "verify": "Перевірити",
     "resendCode": "Надіслати код повторно",
-    "invalidCode": "Неправильний код підтвердження."
+    "invalidCode": "Неправильний код підтвердження.",
+    "signInWithGoogle": "Увійти за допомогою Google",
+    "signInWithApple": "Увійти за допомогою Apple",
+    "orContinueWith": "Або продовжити з"
 }

@@ -97,4 +97,8 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get invalidCode => 'Code de vérification invalide.';
+
+  @override
+  String get userNotFoundPleaseRegister =>
+      'Aucun utilisateur trouvé pour cet e-mail. Veuillez vous inscrire.';
 }

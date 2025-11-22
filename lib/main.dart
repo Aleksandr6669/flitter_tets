@@ -1,4 +1,3 @@
-
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,12 +5,20 @@ import 'l10n/app_localizations.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/home_page.dart';
 import 'package:flag/flag.dart';
+import 'package:flutter_application_1/auth_wrapper.dart';
 import 'verification_page.dart';
 import 'models/language.dart';
 import 'styles.dart';
 import 'language_selector.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -23,7 +30,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale = const Locale('en');
+  Locale _locale = const Locale('ru');
 
   void _changeLanguage(Locale locale) {
     setState(() {
@@ -47,8 +54,9 @@ class _MyAppState extends State<MyApp> {
         Locale('en'),
         Locale('fr'),
         Locale('uk'),
+        Locale('ru'),
       ],
-      home: AuthPage(changeLanguage: _changeLanguage),
+      home: AuthWrapper(changeLanguage: _changeLanguage),
     );
   }
 }
@@ -135,35 +143,47 @@ class GlassmorphicAuthForm extends StatefulWidget {
 }
 
 class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
+  bool _isLoading = false;
 
-  void _handleAuthAction() {
+  void _handleAuthAction() async {
     if (widget.formKey.currentState!.validate()) {
-      if (widget.isLogin) {
-        // For login, go directly to home page
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomePage(changeLanguage: widget.changeLanguage),
-          ),
-        );
-      } else {
-        // For sign up, generate a fake verification code and go to verification page
-        final random = Random();
-        final code = (100000 + random.nextInt(900000)).toString();
+      setState(() {
+        _isLoading = true;
+      });
 
-        // ignore: avoid_print
-        print('Verification Code: $code'); // Keep this for debugging
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VerificationPage(
-              email: widget.emailController.text,
-              verificationCode: code,
-              changeLanguage: widget.changeLanguage,
+      try {
+        if (widget.isLogin) {
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: widget.emailController.text,
+            password: widget.passwordController.text,
+          );
+        } else {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: widget.emailController.text,
+            password: widget.passwordController.text,
+          );
+        }
+      } on FirebaseAuthException catch (e) {
+        if (mounted) {
+          String errorMessage;
+          if (e.code == 'user-not-found') {
+            errorMessage = AppLocalizations.of(context)!.userNotFoundPleaseRegister;
+          } else {
+            errorMessage = e.message ?? 'Authentication failed';
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(errorMessage),
+              backgroundColor: Colors.red,
             ),
-          ),
-        );
+          );
+        }
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       }
     }
   }
@@ -185,8 +205,8 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
       child: GlassmorphicContainer(
         width: MediaQuery.of(context).size.width * 0.9,
         height: widget.isLogin
-            ? MediaQuery.of(context).size.height * 0.75
-            : MediaQuery.of(context).size.height * 0.85,
+            ? MediaQuery.of(context).size.height * 0.7
+            : MediaQuery.of(context).size.height * 0.8,
         borderRadius: 20,
         blur: 10,
         alignment: Alignment.center,
@@ -221,7 +241,9 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                   decoration:
                       kInputDecoration(l10n.email, Icons.email_outlined),
                   validator: (value) {
-                    if (value == null || value.isEmpty || !value.contains('@')) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        !value.contains('@')) {
                       return l10n.pleaseEnterYourEmail;
                     }
                     return null;
@@ -260,7 +282,7 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                     },
                   ),
                 ],
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 LanguageSelector(
                   selectedLanguage: selectedLanguage,
                   onLanguageChange: (Language? newLanguage) {
@@ -269,11 +291,11 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                     }
                   },
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 Container(
                   decoration: kButtonBoxDecoration,
                   child: ElevatedButton(
-                    onPressed: _handleAuthAction,
+                    onPressed: _isLoading ? null : _handleAuthAction,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       backgroundColor: Colors.transparent,
@@ -282,13 +304,14 @@ class _GlassmorphicAuthFormState extends State<GlassmorphicAuthForm> {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
-                    child: Text(
-                      widget.isLogin ? l10n.login : l10n.signUp,
-                      style: kButtonTextStyle,
-                    ),
+                    child: _isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                            widget.isLogin ? l10n.login : l10n.signUp,
+                            style: kButtonTextStyle,
+                          ),
                   ),
                 ),
-                
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

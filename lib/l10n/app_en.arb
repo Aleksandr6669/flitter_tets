@@ -29,5 +29,6 @@
   "pleaseEnterTheCode": "Please enter the 6-digit code.",
   "verify": "Verify",
   "resendCode": "Resend Code",
-  "invalidCode": "Invalid verification code."
+  "invalidCode": "Invalid verification code.",
+  "userNotFoundPleaseRegister": "No user found for that email. Please sign up."
 }
