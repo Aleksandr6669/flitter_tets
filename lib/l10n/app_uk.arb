@@ -32,5 +32,6 @@
     "invalidCode": "Неправильний код підтвердження.",
     "signInWithGoogle": "Увійти за допомогою Google",
     "signInWithApple": "Увійти за допомогою Apple",
-    "orContinueWith": "Або продовжити з"
+    "orContinueWith": "Або продовжити з",
+    "userNotFoundPleaseRegister": "Користувача не знайдено, будь ласка, зареєструйтесь."
 }

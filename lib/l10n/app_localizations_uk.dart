@@ -100,5 +100,5 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get userNotFoundPleaseRegister =>
-      'No user found for that email. Please sign up.';
+      'Користувача не знайдено, будь ласка, зареєструйтесь.';
 }
