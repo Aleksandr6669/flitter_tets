@@ -179,7 +179,7 @@ class AppLocalizationsUk extends AppLocalizations {
       'Введіть свою електронну адресу, і ми надішлемо вам посилання для відновлення доступу до вашого облікового запису.';
 
   @override
-  String get sendResetLink => 'Надіслати посилання для скидання';
+  String get sendResetLink => 'Надіслати посилання';
 
   @override
   String get backToLogin => 'Повернутися до входу';
