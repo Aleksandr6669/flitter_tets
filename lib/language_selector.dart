@@ -1,11 +1,12 @@
 
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flag/flag.dart';
 import 'models/language.dart';
 import 'styles.dart';
 
-class LanguageSelector extends StatelessWidget {
+class LanguageSelector extends StatefulWidget {
   final Language selectedLanguage;
   final void Function(Language?) onLanguageChange;
 
@@ -16,38 +17,171 @@ class LanguageSelector extends StatelessWidget {
   });
 
   @override
+  State<LanguageSelector> createState() => _LanguageSelectorState();
+}
+
+class _LanguageSelectorState extends State<LanguageSelector> with TickerProviderStateMixin {
+  final GlobalKey _key = GlobalKey();
+  OverlayEntry? _overlayEntry;
+  bool _isOpen = false;
+
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation = CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _closeDropdown(isDisposing: true);
+    super.dispose();
+  }
+
+  void _toggleDropdown() {
+    setState(() {
+      if (_isOpen) {
+        _closeDropdown();
+      } else {
+        _openDropdown();
+      }
+    });
+  }
+
+  void _openDropdown() {
+    final RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
+    final size = renderBox.size;
+    final offset = renderBox.localToGlobal(Offset.zero);
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => GestureDetector(
+        onTap: _toggleDropdown,
+        behavior: HitTestBehavior.translucent,
+        child: Stack(
+          children: [
+            Positioned(
+              left: offset.dx,
+              top: offset.dy + size.height,
+              width: size.width,
+              child: Material(
+                color: Colors.transparent,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: SizeTransition(
+                    sizeFactor: _animation,
+                    axisAlignment: -1.0,
+                    child: FadeTransition(
+                      opacity: _animation,
+                      child: GlassmorphicContainer(
+                        width: size.width,
+                        height: (supportedLanguages.length * 55.0),
+                        borderRadius: 20,
+                        blur: 10,
+                        alignment: Alignment.center,
+                        border: 0,
+                        linearGradient: kGlassmorphicGradient,
+                        borderGradient: kGlassmorphicBorderGradient,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          itemCount: supportedLanguages.length,
+                          separatorBuilder: (context, index) => Divider(
+                            color: Colors.white.withOpacity(0.2),
+                            height: 1,
+                            indent: 20,
+                            endIndent: 20,
+                          ),
+                          itemBuilder: (context, index) {
+                            final language = supportedLanguages[index];
+                            return GestureDetector(
+                              onTap: () {
+                                widget.onLanguageChange(language);
+                                _toggleDropdown();
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                height: 50,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Flag.fromString(language.flagCode, height: 24, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
+                                      const SizedBox(width: 16),
+                                      Text(language.name, style: kDropdownTextStyle),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+    _isOpen = true;
+    _animationController.forward();
+  }
+
+  void _closeDropdown({bool isDisposing = false}) {
+    if (_isOpen) {
+      _animationController.reverse().whenComplete(() {
+        if (mounted) {
+          _overlayEntry?.remove();
+          _overlayEntry = null;
+        }
+      });
+      _isOpen = false;
+      if (!isDisposing) {
+        setState(() {});
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GlassmorphicContainer(
-      width: double.infinity,
-      height: 50,
-      borderRadius: 25,
-      blur: 10,
-      alignment: Alignment.center,
-      border: 0,
-      linearGradient: kGlassmorphicGradient,
-      borderGradient: kGlassmorphicBorderGradient, 
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<Language>(
-          value: selectedLanguage,
-          onChanged: onLanguageChange,
-          dropdownColor: kDropdownColor,
-          borderRadius: BorderRadius.circular(25),
-          style: kDropdownTextStyle,
-          items: supportedLanguages.map<DropdownMenuItem<Language>>((Language language) {
-            return DropdownMenuItem<Language>(
-              alignment: Alignment.centerLeft,
-              value: language,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+    return GestureDetector(
+      key: _key,
+      onTap: _toggleDropdown,
+      child: GlassmorphicContainer(
+        width: double.infinity,
+        height: 50,
+        borderRadius: 25,
+        blur: 10,
+        alignment: Alignment.center,
+        border: 0,
+        linearGradient: kGlassmorphicGradient,
+        borderGradient: kGlassmorphicBorderGradient,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
                 children: [
-                  Flag.fromString(language.flagCode, height: 24, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
+                  Flag.fromString(widget.selectedLanguage.flagCode, height: 24, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
                   const SizedBox(width: 16),
-                  Text(language.name),
-                  const SizedBox(width: 16), // Добавил отступ здесь
+                  Text(widget.selectedLanguage.name, style: kDropdownTextStyle),
                 ],
               ),
-            );
-          }).toList(),
+              Icon(_isOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down, color: Colors.white54),
+            ],
+          ),
         ),
       ),
     );
