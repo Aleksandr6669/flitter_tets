@@ -134,6 +134,13 @@ final BoxDecoration kButtonBoxDecoration = BoxDecoration(
   ],
 );
 
+const BoxDecoration kBackgroundDecoration = BoxDecoration(
+  image: DecorationImage(
+    image: AssetImage("assets/background.jpg"),
+    fit: BoxFit.cover,
+  ),
+);
+
 // Colors
 const Color kBottomNavSelectedItemColor = Colors.white;
 const Color kBottomNavUnselectedItemColor = Colors.white70;
