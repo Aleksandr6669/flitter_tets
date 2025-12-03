@@ -13,7 +13,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get joinUsToStartYourJourney =>
-      'Приєднуйтесь, щоб розпочати свою подорож';
+      'Приєднуйтесь до нас, щоб почати свою подорож';
 
   @override
   String get email => 'Електронна пошта';
@@ -37,7 +37,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get welcomeBack => 'З поверненням!';
 
   @override
-  String get dontHaveAnAccount => 'Немає акаунта? ';
+  String get dontHaveAnAccount => 'Немає акаунту? ';
 
   @override
   String get pleaseEnterYourEmail =>
@@ -90,13 +90,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get pleaseEnterTheCode => 'Будь ласка, введіть 6-значний код.';
 
   @override
-  String get verify => 'Перевірити';
+  String get verify => 'Підтвердити';
 
   @override
-  String get resendCode => 'Надіслати код повторно';
+  String get resendCode => 'Надіслати код ще раз';
 
   @override
-  String get invalidCode => 'Невірний код підтвердження.';
+  String get invalidCode => 'Неправильний код підтвердження.';
 
   @override
   String get userNotFound =>
@@ -115,30 +115,72 @@ class AppLocalizationsUk extends AppLocalizations {
       'Помилка автентифікації. Будь ласка, спробуйте ще раз.';
 
   @override
+  String get authenticationSuccess => 'Автентифікація успішна!';
+
+  @override
   String get userDisabled =>
-      'Цього користувача було вимкнено. Будь ласка, зв\'яжіться зі службою підтримки.';
+      'Цього користувача було вимкнено. Будь ласка, зверніться до служби підтримки.';
 
   @override
-  String get invalidEmail => 'Невірна адреса електронної пошти.';
+  String get invalidEmail => 'Неправильна адреса електронної пошти.';
 
   @override
-  String get weakPassword => 'Пароль недостатньо надійний.';
+  String get weakPassword => 'Пароль занадто слабкий.';
 
   @override
   String get tooManyRequests =>
-      'Занадто багато запитів. Будь ласка, спробуйте пізніше.';
+      'Забагато запитів. Будь ласка, спробуйте ще раз пізніше.';
 
   @override
   String get verifyYourEmail => 'Підтвердьте свою електронну пошту';
 
   @override
   String verificationLinkSent(String email) {
-    return 'На адресу $email було надіслано посилання для підтвердження. Будь ласка, перевірте свою поштову скриньку та дотримуйтесь інструкцій, щоб завершити реєстрацію.';
+    return 'Посилання для підтвердження надіслано на адресу $email. Перевірте свою поштову скриньку та дотримуйтесь інструкцій, щоб завершити реєстрацію.';
   }
 
   @override
-  String get resendEmail => 'Надіслати лист повторно';
+  String get pressButtonToVerify =>
+      'Натисніть кнопку нижче, щоб завершити підтвердження електронної пошти.';
+
+  @override
+  String get resendEmail => 'Надіслати електронний лист повторно';
 
   @override
   String get cancel => 'Скасувати';
+
+  @override
+  String get forgotPassword => 'Забули пароль?';
+
+  @override
+  String get resetPassword => 'Скинути пароль';
+
+  @override
+  String get newPassword => 'Новий пароль';
+
+  @override
+  String get confirmNewPassword => 'Підтвердьте новий пароль';
+
+  @override
+  String get passwordResetSuccess =>
+      'Пароль успішно скинуто. Тепер ви можете увійти з новим паролем.';
+
+  @override
+  String get passwordResetFailed =>
+      'Не вдалося скинути пароль. Посилання може бути недійсним або застарілим.';
+
+  @override
+  String resetPasswordLinkSent(Object email) {
+    return 'Посилання для скидання пароля надіслано на адресу $email. Будь ласка, перевірте свою поштову скриньку.';
+  }
+
+  @override
+  String get resetPasswordInstructions =>
+      'Введіть свою електронну адресу, і ми надішлемо вам посилання для відновлення доступу до вашого облікового запису.';
+
+  @override
+  String get sendResetLink => 'Надіслати посилання для скидання';
+
+  @override
+  String get backToLogin => 'Повернутися до входу';
 }

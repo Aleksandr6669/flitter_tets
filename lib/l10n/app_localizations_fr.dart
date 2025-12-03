@@ -16,13 +16,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Rejoignez-nous pour commencer votre voyage';
 
   @override
-  String get email => 'Email';
+  String get email => 'E-mail';
 
   @override
   String get password => 'Mot de passe';
 
   @override
-  String get confirmPassword => 'Confirmer le mot de passe';
+  String get confirmPassword => 'Confirmez le mot de passe';
 
   @override
   String get signUp => 'S\'inscrire';
@@ -31,7 +31,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get alreadyHaveAnAccount => 'Vous avez déjà un compte ? ';
 
   @override
-  String get login => 'Se connecter';
+  String get login => 'Connexion';
 
   @override
   String get welcomeBack => 'Content de vous revoir !';
@@ -40,7 +40,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dontHaveAnAccount => 'Vous n\'avez pas de compte ? ';
 
   @override
-  String get pleaseEnterYourEmail => 'Veuillez entrer votre email';
+  String get pleaseEnterYourEmail => 'Veuillez entrer votre e-mail';
 
   @override
   String get pleaseEnterYourPassword => 'Veuillez entrer votre mot de passe';
@@ -81,7 +81,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get verificationCodeSent =>
-      'Un code de vérification a été envoyé à votre email.';
+      'Un code de vérification a été envoyé à votre adresse e-mail.';
 
   @override
   String get verificationCode => 'Code de vérification';
@@ -100,44 +100,86 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get userNotFound =>
-      'Utilisateur non trouvé pour cet email. Veuillez vous inscrire.';
+      'Utilisateur non trouvé pour cet e-mail. Veuillez vous inscrire.';
 
   @override
-  String get wrongPassword => 'Mauvais mot de passe. Veuillez réessayer.';
+  String get wrongPassword => 'Mot de passe incorrect. Veuillez réessayer.';
 
   @override
   String get emailAlreadyInUse =>
-      'Cet email est déjà utilisé. Veuillez vous connecter.';
+      'Cet e-mail est déjà utilisé. Veuillez vous connecter.';
 
   @override
   String get authenticationFailed =>
-      'Échec de l\'authentification. Veuillez réessayer.';
+      'L\'authentification a échoué. Veuillez réessayer.';
+
+  @override
+  String get authenticationSuccess => 'Authentification réussie !';
 
   @override
   String get userDisabled =>
       'Cet utilisateur a été désactivé. Veuillez contacter le support.';
 
   @override
-  String get invalidEmail => 'Adresse email invalide.';
+  String get invalidEmail => 'Adresse e-mail invalide.';
 
   @override
   String get weakPassword => 'Le mot de passe est trop faible.';
 
   @override
   String get tooManyRequests =>
-      'Trop de requêtes. Veuillez réessayer plus tard.';
+      'Trop de demandes. Veuillez réessayer plus tard.';
 
   @override
-  String get verifyYourEmail => 'Vérifiez votre email';
+  String get verifyYourEmail => 'Vérifiez votre e-mail';
 
   @override
   String verificationLinkSent(String email) {
-    return 'Un lien de vérification a été envoyé à $email. Veuillez vérifier votre boîte de réception et suivre les instructions pour terminer l\'inscription.';
+    return 'Un lien de vérification a été envoyé à $email. Veuillez vérifier votre boîte de réception et suivre les instructions pour finaliser l\'inscription.';
   }
 
   @override
-  String get resendEmail => 'Renvoyer l\'email';
+  String get pressButtonToVerify =>
+      'Appuyez sur le bouton ci-dessous pour terminer la vérification de votre e-mail.';
+
+  @override
+  String get resendEmail => 'Renvoyer l\'e-mail';
 
   @override
   String get cancel => 'Annuler';
+
+  @override
+  String get forgotPassword => 'Mot de passe oublié ?';
+
+  @override
+  String get resetPassword => 'Réinitialiser le mot de passe';
+
+  @override
+  String get newPassword => 'Nouveau mot de passe';
+
+  @override
+  String get confirmNewPassword => 'Confirmer le nouveau mot de passe';
+
+  @override
+  String get passwordResetSuccess =>
+      'Le mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.';
+
+  @override
+  String get passwordResetFailed =>
+      'La réinitialisation du mot de passe a échoué. Le lien peut être invalide ou avoir expiré.';
+
+  @override
+  String resetPasswordLinkSent(Object email) {
+    return 'Un lien de réinitialisation de mot de passe a été envoyé à $email. Veuillez vérifier votre boîte de réception.';
+  }
+
+  @override
+  String get resetPasswordInstructions =>
+      'Saisissez votre adresse électronique et nous vous enverrons un lien pour vous reconnecter à votre compte.';
+
+  @override
+  String get sendResetLink => 'Envoyer le lien de réinitialisation';
+
+  @override
+  String get backToLogin => 'Retour à la connexion';
 }

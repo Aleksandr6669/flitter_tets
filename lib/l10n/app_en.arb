@@ -34,6 +34,7 @@
     "wrongPassword": "Wrong password. Please try again.",
     "emailAlreadyInUse": "This email is already in use. Please login.",
     "authenticationFailed": "Authentication failed. Please try again.",
+    "authenticationSuccess": "Authentication successful!",
     "userDisabled": "This user has been disabled. Please contact support.",
     "invalidEmail": "Invalid email address.",
     "weakPassword": "The password is too weak.",
@@ -47,6 +48,17 @@
             }
         }
     },
+    "pressButtonToVerify": "Press the button below to complete your email verification.",
     "resendEmail": "Resend Email",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "passwordResetSuccess": "Password reset successfully. You can now login with your new password.",
+    "passwordResetFailed": "Password reset failed. The link may be invalid or expired.",
+    "resetPasswordLinkSent": "Password reset link sent to {email}. Please check your inbox.",
+    "resetPasswordInstructions": "Enter your email and we'll send you a link to get back into your account.",
+    "sendResetLink": "Send Reset Link",
+    "backToLogin": "Back to Login"
 }

@@ -300,6 +300,12 @@ abstract class AppLocalizations {
   /// **'Authentication failed. Please try again.'**
   String get authenticationFailed;
 
+  /// No description provided for @authenticationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication successful!'**
+  String get authenticationSuccess;
+
   /// No description provided for @userDisabled.
   ///
   /// In en, this message translates to:
@@ -336,6 +342,12 @@ abstract class AppLocalizations {
   /// **'A verification link has been sent to {email}. Please check your inbox and follow the instructions to complete the registration.'**
   String verificationLinkSent(String email);
 
+  /// No description provided for @pressButtonToVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'Press the button below to complete your email verification.'**
+  String get pressButtonToVerify;
+
   /// No description provided for @resendEmail.
   ///
   /// In en, this message translates to:
@@ -347,6 +359,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPassword;
+
+  /// No description provided for @resetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get resetPassword;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPassword;
+
+  /// No description provided for @confirmNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm New Password'**
+  String get confirmNewPassword;
+
+  /// No description provided for @passwordResetSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset successfully. You can now login with your new password.'**
+  String get passwordResetSuccess;
+
+  /// No description provided for @passwordResetFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset failed. The link may be invalid or expired.'**
+  String get passwordResetFailed;
+
+  /// No description provided for @resetPasswordLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset link sent to {email}. Please check your inbox.'**
+  String resetPasswordLinkSent(Object email);
+
+  /// No description provided for @resetPasswordInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email and we\'ll send you a link to get back into your account.'**
+  String get resetPasswordInstructions;
+
+  /// No description provided for @sendResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Reset Link'**
+  String get sendResetLink;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get backToLogin;
 }
 
 class _AppLocalizationsDelegate

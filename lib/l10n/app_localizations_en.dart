@@ -109,6 +109,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authenticationFailed => 'Authentication failed. Please try again.';
 
   @override
+  String get authenticationSuccess => 'Authentication successful!';
+
+  @override
   String get userDisabled =>
       'This user has been disabled. Please contact support.';
 
@@ -130,8 +133,47 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get pressButtonToVerify =>
+      'Press the button below to complete your email verification.';
+
+  @override
   String get resendEmail => 'Resend Email';
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get forgotPassword => 'Forgot Password?';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get confirmNewPassword => 'Confirm New Password';
+
+  @override
+  String get passwordResetSuccess =>
+      'Password reset successfully. You can now login with your new password.';
+
+  @override
+  String get passwordResetFailed =>
+      'Password reset failed. The link may be invalid or expired.';
+
+  @override
+  String resetPasswordLinkSent(Object email) {
+    return 'Password reset link sent to $email. Please check your inbox.';
+  }
+
+  @override
+  String get resetPasswordInstructions =>
+      'Enter your email and we\'ll send you a link to get back into your account.';
+
+  @override
+  String get sendResetLink => 'Send Reset Link';
+
+  @override
+  String get backToLogin => 'Back to Login';
 }
