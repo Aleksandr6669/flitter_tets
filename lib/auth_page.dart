@@ -70,15 +70,33 @@ class _AuthPageState extends State<AuthPage> {
         }
       } on FirebaseAuthException catch (e) {
         if (mounted) {
-          if (e.code == 'user-not-found') {
-            _showErrorSnackBar(context, l10n.userNotFoundPleaseRegister);
-            _toggleFormType();
-          } else if (e.code == 'email-already-in-use') {
-            _showErrorSnackBar(context, "Email already in use. Please log in.");
-            _toggleFormType();
-          } else {
-            _showErrorSnackBar(context, e.message ?? 'Authentication failed');
+          String errorMessage;
+          switch (e.code) {
+            case 'user-not-found':
+              errorMessage = l10n.userNotFound;
+              break;
+            case 'wrong-password':
+              errorMessage = l10n.wrongPassword;
+              break;
+            case 'email-already-in-use':
+              errorMessage = l10n.emailAlreadyInUse;
+              break;
+            case 'user-disabled':
+              errorMessage = l10n.userDisabled;
+              break;
+            case 'invalid-email':
+              errorMessage = l10n.invalidEmail;
+              break;
+            case 'weak-password':
+              errorMessage = l10n.weakPassword;
+              break;
+            case 'too-many-requests':
+              errorMessage = l10n.tooManyRequests;
+              break;
+            default:
+              errorMessage = l10n.authenticationFailed;
           }
+          _showErrorSnackBar(context, errorMessage);
         }
       } finally {
         if (mounted) {

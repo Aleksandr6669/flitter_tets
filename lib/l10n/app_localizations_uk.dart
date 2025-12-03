@@ -99,6 +99,32 @@ class AppLocalizationsUk extends AppLocalizations {
   String get invalidCode => 'Неправильний код підтвердження.';
 
   @override
-  String get userNotFoundPleaseRegister =>
-      'Користувача не знайдено, будь ласка, зареєструйтесь.';
+  String get userNotFound =>
+      'Користувача з такою електронною поштою не знайдено. Будь ласка, зареєструйтесь.';
+
+  @override
+  String get wrongPassword =>
+      'Неправильний пароль. Будь ласка, спробуйте ще раз.';
+
+  @override
+  String get emailAlreadyInUse =>
+      'Ця електронна адреса вже використовується. Будь ласка, увійдіть.';
+
+  @override
+  String get authenticationFailed =>
+      'Помилка автентифікації. Будь ласка, спробуйте ще раз.';
+
+  @override
+  String get userDisabled =>
+      'Цього користувача заблоковано. Будь ласка, зверніться до служби підтримки.';
+
+  @override
+  String get invalidEmail => 'Неправильний формат електронної пошти.';
+
+  @override
+  String get weakPassword => 'Пароль недостатньо надійний.';
+
+  @override
+  String get tooManyRequests =>
+      'Забагато запитів. Будь ласка, спробуйте пізніше.';
 }

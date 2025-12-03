@@ -30,5 +30,12 @@
   "verify": "Verify",
   "resendCode": "Resend Code",
   "invalidCode": "Invalid verification code.",
-  "userNotFoundPleaseRegister": "No user found for that email. Please sign up."
+  "userNotFound": "No user found for that email. Please sign up.",
+  "wrongPassword": "Wrong password provided. Please try again.",
+  "emailAlreadyInUse": "This email is already in use. Please log in.",
+  "authenticationFailed": "Authentication failed. Please try again.",
+  "userDisabled": "This user has been disabled. Please contact support.",
+  "invalidEmail": "The email address is not valid.",
+  "weakPassword": "The password is not strong enough.",
+  "tooManyRequests": "Too many requests. Please try again later."
 }

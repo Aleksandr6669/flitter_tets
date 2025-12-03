@@ -30,6 +30,12 @@
     "verify": "Vérifier",
     "resendCode": "Renvoyer le code",
     "invalidCode": "Code de vérification invalide.",
-    "userNotFoundPleaseRegister": "Aucun utilisateur trouvé pour cet e-mail. Veuillez vous inscrire."
-
+    "userNotFound": "Aucun utilisateur trouvé pour cet e-mail. Veuillez vous inscrire.",
+    "wrongPassword": "Mot de passe incorrect. Veuillez réessayer.",
+    "emailAlreadyInUse": "Cet e-mail est déjà utilisé. Veuillez vous connecter.",
+    "authenticationFailed": "L'authentification a échoué. Veuillez réessayer.",
+    "userDisabled": "Cet utilisateur a été désactivé. Veuillez contacter le support.",
+    "invalidEmail": "L'adresse e-mail n'est pas valide.",
+    "weakPassword": "Le mot de passe n'est pas assez fort.",
+    "tooManyRequests": "Trop de demandes. Veuillez réessayer plus tard."
 }

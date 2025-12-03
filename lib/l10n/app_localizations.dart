@@ -276,11 +276,53 @@ abstract class AppLocalizations {
   /// **'Invalid verification code.'**
   String get invalidCode;
 
-  /// No description provided for @userNotFoundPleaseRegister.
+  /// No description provided for @userNotFound.
   ///
   /// In en, this message translates to:
   /// **'No user found for that email. Please sign up.'**
-  String get userNotFoundPleaseRegister;
+  String get userNotFound;
+
+  /// No description provided for @wrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong password provided. Please try again.'**
+  String get wrongPassword;
+
+  /// No description provided for @emailAlreadyInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already in use. Please log in.'**
+  String get emailAlreadyInUse;
+
+  /// No description provided for @authenticationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication failed. Please try again.'**
+  String get authenticationFailed;
+
+  /// No description provided for @userDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'This user has been disabled. Please contact support.'**
+  String get userDisabled;
+
+  /// No description provided for @invalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'The email address is not valid.'**
+  String get invalidEmail;
+
+  /// No description provided for @weakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'The password is not strong enough.'**
+  String get weakPassword;
+
+  /// No description provided for @tooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many requests. Please try again later.'**
+  String get tooManyRequests;
 }
 
 class _AppLocalizationsDelegate

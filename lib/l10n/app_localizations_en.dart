@@ -97,6 +97,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidCode => 'Invalid verification code.';
 
   @override
-  String get userNotFoundPleaseRegister =>
-      'No user found for that email. Please sign up.';
+  String get userNotFound => 'No user found for that email. Please sign up.';
+
+  @override
+  String get wrongPassword => 'Wrong password provided. Please try again.';
+
+  @override
+  String get emailAlreadyInUse =>
+      'This email is already in use. Please log in.';
+
+  @override
+  String get authenticationFailed => 'Authentication failed. Please try again.';
+
+  @override
+  String get userDisabled =>
+      'This user has been disabled. Please contact support.';
+
+  @override
+  String get invalidEmail => 'The email address is not valid.';
+
+  @override
+  String get weakPassword => 'The password is not strong enough.';
+
+  @override
+  String get tooManyRequests => 'Too many requests. Please try again later.';
 }

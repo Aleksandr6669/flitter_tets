@@ -99,6 +99,31 @@ class AppLocalizationsFr extends AppLocalizations {
   String get invalidCode => 'Code de vérification invalide.';
 
   @override
-  String get userNotFoundPleaseRegister =>
+  String get userNotFound =>
       'Aucun utilisateur trouvé pour cet e-mail. Veuillez vous inscrire.';
+
+  @override
+  String get wrongPassword => 'Mot de passe incorrect. Veuillez réessayer.';
+
+  @override
+  String get emailAlreadyInUse =>
+      'Cet e-mail est déjà utilisé. Veuillez vous connecter.';
+
+  @override
+  String get authenticationFailed =>
+      'L\'authentification a échoué. Veuillez réessayer.';
+
+  @override
+  String get userDisabled =>
+      'Cet utilisateur a été désactivé. Veuillez contacter le support.';
+
+  @override
+  String get invalidEmail => 'L\'adresse e-mail n\'est pas valide.';
+
+  @override
+  String get weakPassword => 'Le mot de passe n\'est pas assez fort.';
+
+  @override
+  String get tooManyRequests =>
+      'Trop de demandes. Veuillez réessayer plus tard.';
 }
