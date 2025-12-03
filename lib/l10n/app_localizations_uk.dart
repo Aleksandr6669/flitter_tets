@@ -59,13 +59,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get appTitle => 'Демо Аврора';
 
   @override
-  String get feedTitle => 'Сторінка стрічки';
+  String get feedTitle => 'Стрічка';
 
   @override
-  String get profileTitle => 'Сторінка профілю';
+  String get profileTitle => 'Профіль';
 
   @override
-  String get settingsTitle => 'Сторінка налаштувань';
+  String get settingsTitle => 'Налаштування';
 
   @override
   String get bottomNavFeed => 'Стрічка';
@@ -81,7 +81,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get verificationCodeSent =>
-      'Код підтвердження надіслано на вашу електронну адресу.';
+      'Код підтвердження надіслано на вашу електронну пошту.';
 
   @override
   String get verificationCode => 'Код підтвердження';
@@ -96,7 +96,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get resendCode => 'Надіслати код повторно';
 
   @override
-  String get invalidCode => 'Неправильний код підтвердження.';
+  String get invalidCode => 'Невірний код підтвердження.';
 
   @override
   String get userNotFound =>
@@ -108,7 +108,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get emailAlreadyInUse =>
-      'Ця електронна адреса вже використовується. Будь ласка, увійдіть.';
+      'Ця електронна пошта вже використовується. Будь ласка, увійдіть.';
 
   @override
   String get authenticationFailed =>
@@ -116,28 +116,28 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get userDisabled =>
-      'Цього користувача заблоковано. Будь ласка, зверніться до служби підтримки.';
+      'Цього користувача було вимкнено. Будь ласка, зв\'яжіться зі службою підтримки.';
 
   @override
-  String get invalidEmail => 'Неправильний формат електронної пошти.';
+  String get invalidEmail => 'Невірна адреса електронної пошти.';
 
   @override
   String get weakPassword => 'Пароль недостатньо надійний.';
 
   @override
   String get tooManyRequests =>
-      'Забагато запитів. Будь ласка, спробуйте пізніше.';
+      'Занадто багато запитів. Будь ласка, спробуйте пізніше.';
 
   @override
-  String get verifyYourEmail => 'Verify Your Email';
+  String get verifyYourEmail => 'Підтвердьте свою електронну пошту';
 
   @override
   String get verificationLinkSent =>
-      'A verification link has been sent to your email. Please check your inbox and follow the instructions to complete the registration.';
+      'На вашу електронну пошту було надіслано посилання для підтвердження. Будь ласка, перевірте свою поштову скриньку та дотримуйтесь інструкцій, щоб завершити реєстрацію.';
 
   @override
-  String get resendEmail => 'Resend Email';
+  String get resendEmail => 'Надіслати лист повторно';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Скасувати';
 }

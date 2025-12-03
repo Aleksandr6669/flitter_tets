@@ -1,8 +1,1 @@
-{
-  "uk": [
-    "verifyYourEmail",
-    "verificationLinkSent",
-    "resendEmail",
-    "cancel"
-  ]
-}
+{}

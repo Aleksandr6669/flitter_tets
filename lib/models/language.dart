@@ -8,7 +8,7 @@ class Language {
 }
 
 const List<Language> supportedLanguages = [
-  Language(name: 'English', code: 'en', flagCode: 'gb'),
-  Language(name: 'Français', code: 'fr', flagCode: 'fr'),
-  Language(name: 'Українська', code: 'uk', flagCode: 'ua'),
+  Language(name: 'English', code: 'en', flagCode: 'GB'),
+  Language(name: 'Français', code: 'fr', flagCode: 'FR'),
+  Language(name: 'Українська', code: 'uk', flagCode: 'UA'),
 ];

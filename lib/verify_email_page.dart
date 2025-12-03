@@ -1,9 +1,11 @@
 
 import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/auth_page.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'l10n/app_localizations.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'styles.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -14,51 +16,60 @@ class VerifyEmailPage extends StatefulWidget {
 }
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
-  Timer? _timer;
-  bool _isEmailVerified = false;
+  bool isEmailVerified = false;
+  bool canResendEmail = false;
+  Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    _isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    if (!_isEmailVerified) {
-      _sendVerificationEmail();
-      _timer = Timer.periodic(
+
+    // Check if email is already verified
+    isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+
+    if (!isEmailVerified) {
+      sendVerificationEmail();
+
+      // Check verification status periodically
+      timer = Timer.periodic(
         const Duration(seconds: 3),
-        (_) => _checkEmailVerified(),
+        (_) => checkEmailVerified(),
       );
     }
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
+    timer?.cancel();
     super.dispose();
   }
 
-  Future<void> _checkEmailVerified() async {
+  Future<void> checkEmailVerified() async {
+    // Reload the user to get the latest status
     await FirebaseAuth.instance.currentUser!.reload();
     setState(() {
-      _isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     });
-    if (_isEmailVerified) {
-      _timer?.cancel();
+
+    if (isEmailVerified) {
+      timer?.cancel();
+      // The AuthWrapper will automatically navigate to HomePage
     }
   }
 
-  Future<void> _sendVerificationEmail() async {
+  Future<void> sendVerificationEmail() async {
+    final l10n = AppLocalizations.of(context)!;
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
+
+      setState(() => canResendEmail = false);
+      await Future.delayed(const Duration(seconds: 5));
+      setState(() => canResendEmail = true);
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.toString()),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.tooManyRequests)),
+      );
     }
   }
 
@@ -79,7 +90,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 constraints: const BoxConstraints(maxWidth: 400),
                 child: GlassmorphicContainer(
                   width: MediaQuery.of(context).size.width * 0.9,
-                  height: 400,
+                  height: 540, // Increased height for the icon
                   borderRadius: 20,
                   blur: 10,
                   alignment: Alignment.center,
@@ -92,12 +103,18 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        const Icon(
+                          Icons.mark_email_read_outlined,
+                          color: Colors.white,
+                          size: 80,
+                        ),
+                        const SizedBox(height: 20),
                         Text(
                           l10n.verifyYourEmail,
                           textAlign: TextAlign.center,
                           style: kTitleTextStyle,
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 15),
                         Text(
                           l10n.verificationLinkSent,
                           textAlign: TextAlign.center,
@@ -107,17 +124,20 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         Container(
                           decoration: kButtonBoxDecoration,
                           child: ElevatedButton(
-                            onPressed: _sendVerificationEmail,
+                            onPressed: canResendEmail ? sendVerificationEmail : null,
                             style: kElevatedButtonStyle,
                             child: Text(l10n.resendEmail, style: kButtonTextStyle),
                           ),
                         ),
                         const SizedBox(height: 20),
                         TextButton(
-                          onPressed: () => FirebaseAuth.instance.signOut(),
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                            // The AuthWrapper will handle navigation to AuthPage
+                          },
                           child: Text(
                             l10n.cancel,
-                            style: kTextLinkStyle.copyWith(color: Colors.white70),
+                            style: kTextLinkStyle.copyWith(color: Colors.white),
                           ),
                         ),
                       ],
