@@ -92,6 +92,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   Widget _buildGlassmorphicAppBar(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final pageTitles = [
+      l10n.bottomNavFeed,
+      l10n.bottomNavProfile,
+      l10n.bottomNavSettings,
+    ];
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: GlassmorphicContainer(
@@ -104,9 +110,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         linearGradient: kAnimatedGradient(_controller.value),
         borderGradient: kAppBarBorderGradient,
         child: Center(
-          child: Text(
-            l10n.appTitle,
-            style: kAppBarTitleTextStyle,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return FadeTransition(opacity: animation, child: child,);
+            },
+            child: Text(
+              pageTitles[_selectedIndex],
+              key: ValueKey<int>(_selectedIndex),
+              style: kAppBarTitleTextStyle,
+            ),
           ),
         ),
       ),
@@ -114,7 +127,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Widget _buildGlassmorphicBottomNavBar(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: GlassmorphicContainer(
@@ -129,10 +141,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         child: BottomNavigationBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: const Icon(Icons.home), label: l10n.bottomNavFeed),
-            BottomNavigationBarItem(icon: const Icon(Icons.person), label: l10n.bottomNavProfile),
-            BottomNavigationBarItem(icon: const Icon(Icons.settings), label: l10n.bottomNavSettings),
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          iconSize: 30,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+            BottomNavigationBarItem(icon: Icon(Icons.settings), label: ''),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: kBottomNavSelectedItemColor,
