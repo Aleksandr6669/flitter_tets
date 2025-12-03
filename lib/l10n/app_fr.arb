@@ -37,5 +37,9 @@
     "userDisabled": "Cet utilisateur a été désactivé. Veuillez contacter le support.",
     "invalidEmail": "L'adresse e-mail n'est pas valide.",
     "weakPassword": "Le mot de passe n'est pas assez fort.",
-    "tooManyRequests": "Trop de demandes. Veuillez réessayer plus tard."
+    "tooManyRequests": "Trop de demandes. Veuillez réessayer plus tard.",
+    "verifyYourEmail": "Vérifiez votre email",
+    "verificationLinkSent": "Un lien de vérification a été envoyé à votre adresse e-mail. Veuillez consulter votre boîte de réception et suivre les instructions pour finaliser l'inscription.",
+    "resendEmail": "Renvoyer l'email",
+    "cancel": "Annuler"
 }

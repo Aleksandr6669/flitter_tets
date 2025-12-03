@@ -63,10 +63,13 @@ class _AuthPageState extends State<AuthPage> {
             password: _passwordController.text,
           );
         } else {
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          // Create user
+          UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _emailController.text,
             password: _passwordController.text,
           );
+          // Send verification email
+          await userCredential.user?.sendEmailVerification();
         }
       } on FirebaseAuthException catch (e) {
         if (mounted) {

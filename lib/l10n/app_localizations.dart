@@ -323,6 +323,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Too many requests. Please try again later.'**
   String get tooManyRequests;
+
+  /// No description provided for @verifyYourEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Your Email'**
+  String get verifyYourEmail;
+
+  /// No description provided for @verificationLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'A verification link has been sent to your email. Please check your inbox and follow the instructions to complete the registration.'**
+  String get verificationLinkSent;
+
+  /// No description provided for @resendEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend Email'**
+  String get resendEmail;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate

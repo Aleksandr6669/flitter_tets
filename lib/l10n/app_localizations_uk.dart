@@ -127,4 +127,17 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get tooManyRequests =>
       'Забагато запитів. Будь ласка, спробуйте пізніше.';
+
+  @override
+  String get verifyYourEmail => 'Verify Your Email';
+
+  @override
+  String get verificationLinkSent =>
+      'A verification link has been sent to your email. Please check your inbox and follow the instructions to complete the registration.';
+
+  @override
+  String get resendEmail => 'Resend Email';
+
+  @override
+  String get cancel => 'Cancel';
 }

@@ -1,12 +1,8 @@
 {
-  "ru": [
-    "userNotFound",
-    "wrongPassword",
-    "emailAlreadyInUse",
-    "authenticationFailed",
-    "userDisabled",
-    "invalidEmail",
-    "weakPassword",
-    "tooManyRequests"
+  "uk": [
+    "verifyYourEmail",
+    "verificationLinkSent",
+    "resendEmail",
+    "cancel"
   ]
 }

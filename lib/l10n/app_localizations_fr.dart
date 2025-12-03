@@ -126,4 +126,17 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get tooManyRequests =>
       'Trop de demandes. Veuillez réessayer plus tard.';
+
+  @override
+  String get verifyYourEmail => 'Vérifiez votre email';
+
+  @override
+  String get verificationLinkSent =>
+      'Un lien de vérification a été envoyé à votre adresse e-mail. Veuillez consulter votre boîte de réception et suivre les instructions pour finaliser l\'inscription.';
+
+  @override
+  String get resendEmail => 'Renvoyer l\'email';
+
+  @override
+  String get cancel => 'Annuler';
 }

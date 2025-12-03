@@ -144,6 +144,16 @@ const BoxDecoration kBackgroundDecoration = BoxDecoration(
   ),
 );
 
+// Button Styles
+final ButtonStyle kElevatedButtonStyle = ElevatedButton.styleFrom(
+  padding: const EdgeInsets.symmetric(vertical: 18),
+  backgroundColor: Colors.transparent,
+  shadowColor: Colors.transparent,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15.0),
+  ),
+);
+
 // Colors
 const Color kBottomNavSelectedItemColor = Colors.white;
 const Color kBottomNavUnselectedItemColor = Colors.white70;

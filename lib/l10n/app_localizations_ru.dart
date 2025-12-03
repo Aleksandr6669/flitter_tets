@@ -99,28 +99,45 @@ class AppLocalizationsRu extends AppLocalizations {
   String get invalidCode => 'Неверный код подтверждения.';
 
   @override
-  String get userNotFound => 'No user found for that email. Please sign up.';
+  String get userNotFound =>
+      'Пользователь с таким адресом электронной почты не найден. Пожалуйста, зарегистрируйтесь.';
 
   @override
-  String get wrongPassword => 'Wrong password provided. Please try again.';
+  String get wrongPassword =>
+      'Неверный пароль. Пожалуйста, попробуйте еще раз.';
 
   @override
   String get emailAlreadyInUse =>
-      'This email is already in use. Please log in.';
+      'Этот адрес электронной почты уже используется. Пожалуйста, войдите в систему.';
 
   @override
-  String get authenticationFailed => 'Authentication failed. Please try again.';
+  String get authenticationFailed =>
+      'Ошибка аутентификации. Пожалуйста, попробуйте еще раз.';
 
   @override
   String get userDisabled =>
-      'This user has been disabled. Please contact support.';
+      'Этот пользователь был отключен. Пожалуйста, свяжитесь со службой поддержки.';
 
   @override
-  String get invalidEmail => 'The email address is not valid.';
+  String get invalidEmail => 'Неверный адрес электронной почты.';
 
   @override
-  String get weakPassword => 'The password is not strong enough.';
+  String get weakPassword => 'Пароль недостаточно надежен.';
 
   @override
-  String get tooManyRequests => 'Too many requests. Please try again later.';
+  String get tooManyRequests =>
+      'Слишком много запросов. Пожалуйста, повторите попытку позже.';
+
+  @override
+  String get verifyYourEmail => 'Подтвердите свою электронную почту';
+
+  @override
+  String get verificationLinkSent =>
+      'На вашу электронную почту была отправлена ссылка для подтверждения. Пожалуйста, проверьте свой почтовый ящик и следуйте инструкциям, чтобы завершить регистрацию.';
+
+  @override
+  String get resendEmail => 'Отправить письмо повторно';
+
+  @override
+  String get cancel => 'Отмена';
 }
