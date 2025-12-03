@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flag/flag.dart';
@@ -21,33 +22,29 @@ class LanguageSelector extends StatelessWidget {
       height: 50,
       borderRadius: 25,
       blur: 10,
-      alignment: Alignment.bottomCenter,
-      border: 1,
+      alignment: Alignment.center,
+      border: 0,
       linearGradient: kGlassmorphicGradient,
-      borderGradient: kGlassmorphicBorderGradient,
+      borderGradient: kGlassmorphicBorderGradient, 
       child: DropdownButtonHideUnderline(
         child: DropdownButton<Language>(
           value: selectedLanguage,
-          // isExpanded: true,
           onChanged: onLanguageChange,
           dropdownColor: kDropdownColor,
-          icon: const Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: Icon(Icons.arrow_drop_down, color: kDropdownIconColor),
-          ),
+          borderRadius: BorderRadius.circular(25),
           style: kDropdownTextStyle,
           items: supportedLanguages.map<DropdownMenuItem<Language>>((Language language) {
             return DropdownMenuItem<Language>(
+              alignment: Alignment.centerLeft,
               value: language,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                child: Row(
-                  children: [
-                    Flag.fromString(language.flagCode, height: 24, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
-                    const SizedBox(width: 16),
-                    Text(language.name),
-                  ],
-                ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flag.fromString(language.flagCode, height: 24, width: 24, fit: BoxFit.fill, borderRadius: 2.0),
+                  const SizedBox(width: 16),
+                  Text(language.name),
+                  const SizedBox(width: 16), // Добавил отступ здесь
+                ],
               ),
             );
           }).toList(),
