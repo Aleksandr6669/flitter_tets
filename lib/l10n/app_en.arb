@@ -1,4 +1,3 @@
-
 {
     "@@locale": "en",
     "createAccount": "Create Account",
@@ -30,18 +29,18 @@
     "verify": "Verify",
     "resendCode": "Resend Code",
     "invalidCode": "Invalid verification code.",
-    "userNotFound": "User not found for that email. Please sign up.",
-    "wrongPassword": "Wrong password. Please try again.",
-    "emailAlreadyInUse": "This email is already in use. Please login.",
+    "userNotFound": "No user found for that email. Please sign up.",
+    "wrongPassword": "Wrong password provided for that user. Please try again.",
+    "emailAlreadyInUse": "The account already exists for that email. Please login.",
     "authenticationFailed": "Authentication failed. Please try again.",
     "authenticationSuccess": "Authentication successful!",
     "userDisabled": "This user has been disabled. Please contact support.",
-    "invalidEmail": "Invalid email address.",
+    "invalidEmail": "The email address is not valid.",
     "weakPassword": "The password is too weak.",
     "tooManyRequests": "Too many requests. Please try again later.",
     "verifyYourEmail": "Verify Your Email",
     "verificationLinkSent": "A verification link has been sent to {email}. Please check your inbox and follow the instructions to complete the registration.",
-    "@verificationLinkSent": {
+     "@verificationLinkSent": {
         "placeholders": {
             "email": {
                 "type": "String"
@@ -55,10 +54,10 @@
     "resetPassword": "Reset Password",
     "newPassword": "New Password",
     "confirmNewPassword": "Confirm New Password",
-    "passwordResetSuccess": "Password reset successfully. You can now login with your new password.",
-    "passwordResetFailed": "Password reset failed. The link may be invalid or expired.",
-    "resetPasswordLinkSent": "Password reset link sent to {email}. Please check your inbox.",
-    "resetPasswordInstructions": "Enter your email and we'll send you a link to get back into your account.",
-    "sendResetLink": "Send Reset Link",
+    "passwordResetSuccess": "Your password has been reset successfully. You can now log in with your new password.",
+    "passwordResetFailed": "Failed to reset password. The link may be invalid or expired.",
+    "resetPasswordLinkSent": "A password reset link has been sent to {email}. Please check your inbox.",
+    "resetPasswordInstructions": "Enter your email address and we will send you a link to reset your password.",
+    "sendResetLink": "Send Link",
     "backToLogin": "Back to Login"
 }

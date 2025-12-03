@@ -179,7 +179,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Введите свой адрес электронной почты, и мы вышлем вам ссылку для восстановления доступа к вашей учетной записи.';
 
   @override
-  String get sendResetLink => 'Отправить ссылку для сброса';
+  String get sendResetLink => 'Отправить ссылку';
 
   @override
   String get backToLogin => 'Вернуться ко входу';

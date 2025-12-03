@@ -13,7 +13,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get joinUsToStartYourJourney =>
-      'Приєднуйтесь до нас, щоб почати свою подорож';
+      'Приєднуйтесь до нас, щоб розпочати свою подорож';
 
   @override
   String get email => 'Електронна пошта';
@@ -96,15 +96,14 @@ class AppLocalizationsUk extends AppLocalizations {
   String get resendCode => 'Надіслати код ще раз';
 
   @override
-  String get invalidCode => 'Неправильний код підтвердження.';
+  String get invalidCode => 'Невірний код підтвердження.';
 
   @override
   String get userNotFound =>
       'Користувача з такою електронною поштою не знайдено. Будь ласка, зареєструйтесь.';
 
   @override
-  String get wrongPassword =>
-      'Неправильний пароль. Будь ласка, спробуйте ще раз.';
+  String get wrongPassword => 'Невірний пароль. Будь ласка, спробуйте ще раз.';
 
   @override
   String get emailAlreadyInUse =>
@@ -115,14 +114,14 @@ class AppLocalizationsUk extends AppLocalizations {
       'Помилка автентифікації. Будь ласка, спробуйте ще раз.';
 
   @override
-  String get authenticationSuccess => 'Автентифікація успішна!';
+  String get authenticationSuccess => 'Автентифікація пройшла успішно!';
 
   @override
   String get userDisabled =>
-      'Цього користувача було вимкнено. Будь ласка, зверніться до служби підтримки.';
+      'Цього користувача було вимкнено. Будь ласка, зв\'яжіться зі службою підтримки.';
 
   @override
-  String get invalidEmail => 'Неправильна адреса електронної пошти.';
+  String get invalidEmail => 'Невірна адреса електронної пошти.';
 
   @override
   String get weakPassword => 'Пароль занадто слабкий.';

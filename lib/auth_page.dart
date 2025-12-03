@@ -242,7 +242,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
       orElse: () => supportedLanguages.first,
     );
 
-    final double loginHeight = 600;
+    final double loginHeight = 580;
     final double registrationHeight = 640;
     final double forgotPasswordHeight = 480;
 
@@ -256,7 +256,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
 
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       constraints: const BoxConstraints(
         maxWidth: 400,
@@ -318,7 +318,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
               const SizedBox(height: 20),
 
               AnimatedSize(
-                 duration: const Duration(milliseconds: 400),
+                 duration: const Duration(milliseconds: 300),
                  curve: Curves.easeInOut,
                 child: isActionLoginOrRegister ? Column(
                   children: [
@@ -414,7 +414,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
                   child: isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
                       : AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 100),
                           child: Text(
                             isForgotPassword ? l10n.sendResetLink : isLogin ? l10n.login : l10n.signUp,
                              key: ValueKey(isForgotPassword ? 'forgot_button' : (isLogin ? 'login_button' : 'signup_button')),

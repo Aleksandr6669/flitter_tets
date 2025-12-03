@@ -279,19 +279,19 @@ abstract class AppLocalizations {
   /// No description provided for @userNotFound.
   ///
   /// In en, this message translates to:
-  /// **'User not found for that email. Please sign up.'**
+  /// **'No user found for that email. Please sign up.'**
   String get userNotFound;
 
   /// No description provided for @wrongPassword.
   ///
   /// In en, this message translates to:
-  /// **'Wrong password. Please try again.'**
+  /// **'Wrong password provided for that user. Please try again.'**
   String get wrongPassword;
 
   /// No description provided for @emailAlreadyInUse.
   ///
   /// In en, this message translates to:
-  /// **'This email is already in use. Please login.'**
+  /// **'The account already exists for that email. Please login.'**
   String get emailAlreadyInUse;
 
   /// No description provided for @authenticationFailed.
@@ -315,7 +315,7 @@ abstract class AppLocalizations {
   /// No description provided for @invalidEmail.
   ///
   /// In en, this message translates to:
-  /// **'Invalid email address.'**
+  /// **'The email address is not valid.'**
   String get invalidEmail;
 
   /// No description provided for @weakPassword.
@@ -387,31 +387,31 @@ abstract class AppLocalizations {
   /// No description provided for @passwordResetSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Password reset successfully. You can now login with your new password.'**
+  /// **'Your password has been reset successfully. You can now log in with your new password.'**
   String get passwordResetSuccess;
 
   /// No description provided for @passwordResetFailed.
   ///
   /// In en, this message translates to:
-  /// **'Password reset failed. The link may be invalid or expired.'**
+  /// **'Failed to reset password. The link may be invalid or expired.'**
   String get passwordResetFailed;
 
   /// No description provided for @resetPasswordLinkSent.
   ///
   /// In en, this message translates to:
-  /// **'Password reset link sent to {email}. Please check your inbox.'**
+  /// **'A password reset link has been sent to {email}. Please check your inbox.'**
   String resetPasswordLinkSent(Object email);
 
   /// No description provided for @resetPasswordInstructions.
   ///
   /// In en, this message translates to:
-  /// **'Enter your email and we\'ll send you a link to get back into your account.'**
+  /// **'Enter your email address and we will send you a link to reset your password.'**
   String get resetPasswordInstructions;
 
   /// No description provided for @sendResetLink.
   ///
   /// In en, this message translates to:
-  /// **'Send Reset Link'**
+  /// **'Send Link'**
   String get sendResetLink;
 
   /// No description provided for @backToLogin.

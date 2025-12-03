@@ -97,13 +97,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidCode => 'Invalid verification code.';
 
   @override
-  String get userNotFound => 'User not found for that email. Please sign up.';
+  String get userNotFound => 'No user found for that email. Please sign up.';
 
   @override
-  String get wrongPassword => 'Wrong password. Please try again.';
+  String get wrongPassword =>
+      'Wrong password provided for that user. Please try again.';
 
   @override
-  String get emailAlreadyInUse => 'This email is already in use. Please login.';
+  String get emailAlreadyInUse =>
+      'The account already exists for that email. Please login.';
 
   @override
   String get authenticationFailed => 'Authentication failed. Please try again.';
@@ -116,7 +118,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'This user has been disabled. Please contact support.';
 
   @override
-  String get invalidEmail => 'Invalid email address.';
+  String get invalidEmail => 'The email address is not valid.';
 
   @override
   String get weakPassword => 'The password is too weak.';
@@ -156,23 +158,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordResetSuccess =>
-      'Password reset successfully. You can now login with your new password.';
+      'Your password has been reset successfully. You can now log in with your new password.';
 
   @override
   String get passwordResetFailed =>
-      'Password reset failed. The link may be invalid or expired.';
+      'Failed to reset password. The link may be invalid or expired.';
 
   @override
   String resetPasswordLinkSent(Object email) {
-    return 'Password reset link sent to $email. Please check your inbox.';
+    return 'A password reset link has been sent to $email. Please check your inbox.';
   }
 
   @override
   String get resetPasswordInstructions =>
-      'Enter your email and we\'ll send you a link to get back into your account.';
+      'Enter your email address and we will send you a link to reset your password.';
 
   @override
-  String get sendResetLink => 'Send Reset Link';
+  String get sendResetLink => 'Send Link';
 
   @override
   String get backToLogin => 'Back to Login';
