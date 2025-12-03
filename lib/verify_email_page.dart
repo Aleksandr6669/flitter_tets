@@ -1,11 +1,9 @@
 
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/auth_page.dart';
-import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'styles.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -19,18 +17,22 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   bool isEmailVerified = false;
   bool canResendEmail = false;
   Timer? timer;
+  String? userEmail;
 
   @override
   void initState() {
     super.initState();
-
-    // Check if email is already verified
+    // Get user email safely
+    userEmail = FirebaseAuth.instance.currentUser?.email;
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
 
     if (!isEmailVerified) {
-      sendVerificationEmail();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          sendVerificationEmail();
+        }
+      });
 
-      // Check verification status periodically
       timer = Timer.periodic(
         const Duration(seconds: 3),
         (_) => checkEmailVerified(),
@@ -45,37 +47,47 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   Future<void> checkEmailVerified() async {
-    // Reload the user to get the latest status
     await FirebaseAuth.instance.currentUser!.reload();
-    setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    });
+    if (mounted) {
+      setState(() {
+        isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      });
 
-    if (isEmailVerified) {
-      timer?.cancel();
-      // The AuthWrapper will automatically navigate to HomePage
+      if (isEmailVerified) {
+        timer?.cancel();
+      }
     }
   }
 
   Future<void> sendVerificationEmail() async {
+    if (!mounted) return;
     final l10n = AppLocalizations.of(context)!;
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
 
-      setState(() => canResendEmail = false);
+      if (mounted) {
+        setState(() => canResendEmail = false);
+      }
       await Future.delayed(const Duration(seconds: 5));
-      setState(() => canResendEmail = true);
+      if (mounted) {
+        setState(() => canResendEmail = true);
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.tooManyRequests)),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.tooManyRequests)),
+        );
+        setState(() => canResendEmail = true);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    // Fallback if email is not available
+    final email = userEmail ?? 'your email';
 
     return Scaffold(
       body: Stack(
@@ -90,7 +102,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 constraints: const BoxConstraints(maxWidth: 400),
                 child: GlassmorphicContainer(
                   width: MediaQuery.of(context).size.width * 0.9,
-                  height: 540, // Increased height for the icon
+                  height: 520, // Adjusted height for more text
                   borderRadius: 20,
                   blur: 10,
                   alignment: Alignment.center,
@@ -116,7 +128,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         ),
                         const SizedBox(height: 15),
                         Text(
-                          l10n.verificationLinkSent,
+                          l10n.verificationLinkSent(email),
                           textAlign: TextAlign.center,
                           style: kSubtitleTextStyle.copyWith(fontSize: 14),
                         ),
@@ -132,8 +144,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         const SizedBox(height: 20),
                         TextButton(
                           onPressed: () {
+                            timer?.cancel();
                             FirebaseAuth.instance.signOut();
-                            // The AuthWrapper will handle navigation to AuthPage
                           },
                           child: Text(
                             l10n.cancel,

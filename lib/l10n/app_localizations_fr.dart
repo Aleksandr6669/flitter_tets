@@ -22,28 +22,28 @@ class AppLocalizationsFr extends AppLocalizations {
   String get password => 'Mot de passe';
 
   @override
-  String get confirmPassword => 'Confirmez le mot de passe';
+  String get confirmPassword => 'Confirmer le mot de passe';
 
   @override
   String get signUp => 'S\'inscrire';
 
   @override
-  String get alreadyHaveAnAccount => 'Vous avez déjà un compte? ';
+  String get alreadyHaveAnAccount => 'Vous avez déjà un compte ? ';
 
   @override
-  String get login => 'Connexion';
+  String get login => 'Se connecter';
 
   @override
-  String get welcomeBack => 'Content de vous revoir!';
+  String get welcomeBack => 'Content de vous revoir !';
 
   @override
-  String get dontHaveAnAccount => 'Vous n\'avez pas de compte? ';
+  String get dontHaveAnAccount => 'Vous n\'avez pas de compte ? ';
 
   @override
-  String get pleaseEnterYourEmail => 'Veuillez saisir votre email';
+  String get pleaseEnterYourEmail => 'Veuillez entrer votre email';
 
   @override
-  String get pleaseEnterYourPassword => 'Veuillez saisir votre mot de passe';
+  String get pleaseEnterYourPassword => 'Veuillez entrer votre mot de passe';
 
   @override
   String get pleaseConfirmYourPassword =>
@@ -59,13 +59,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get appTitle => 'Démo Aurora';
 
   @override
-  String get feedTitle => 'Page de fil d\'actualité';
+  String get feedTitle => 'Fil';
 
   @override
-  String get profileTitle => 'Page de profil';
+  String get profileTitle => 'Profil';
 
   @override
-  String get settingsTitle => 'Page des paramètres';
+  String get settingsTitle => 'Paramètres';
 
   @override
   String get bottomNavFeed => 'Fil';
@@ -77,17 +77,17 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bottomNavSettings => 'Paramètres';
 
   @override
-  String get enterVerificationCode => 'Saisir le code de vérification';
+  String get enterVerificationCode => 'Entrez le code de vérification';
 
   @override
   String get verificationCodeSent =>
-      'Un code de vérification a été envoyé à votre adresse e-mail.';
+      'Un code de vérification a été envoyé à votre email.';
 
   @override
   String get verificationCode => 'Code de vérification';
 
   @override
-  String get pleaseEnterTheCode => 'Veuillez saisir le code à 6 chiffres.';
+  String get pleaseEnterTheCode => 'Veuillez entrer le code à 6 chiffres.';
 
   @override
   String get verify => 'Vérifier';
@@ -100,39 +100,40 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get userNotFound =>
-      'Aucun utilisateur trouvé pour cet e-mail. Veuillez vous inscrire.';
+      'Utilisateur non trouvé pour cet email. Veuillez vous inscrire.';
 
   @override
-  String get wrongPassword => 'Mot de passe incorrect. Veuillez réessayer.';
+  String get wrongPassword => 'Mauvais mot de passe. Veuillez réessayer.';
 
   @override
   String get emailAlreadyInUse =>
-      'Cet e-mail est déjà utilisé. Veuillez vous connecter.';
+      'Cet email est déjà utilisé. Veuillez vous connecter.';
 
   @override
   String get authenticationFailed =>
-      'L\'authentification a échoué. Veuillez réessayer.';
+      'Échec de l\'authentification. Veuillez réessayer.';
 
   @override
   String get userDisabled =>
       'Cet utilisateur a été désactivé. Veuillez contacter le support.';
 
   @override
-  String get invalidEmail => 'L\'adresse e-mail n\'est pas valide.';
+  String get invalidEmail => 'Adresse email invalide.';
 
   @override
-  String get weakPassword => 'Le mot de passe n\'est pas assez fort.';
+  String get weakPassword => 'Le mot de passe est trop faible.';
 
   @override
   String get tooManyRequests =>
-      'Trop de demandes. Veuillez réessayer plus tard.';
+      'Trop de requêtes. Veuillez réessayer plus tard.';
 
   @override
   String get verifyYourEmail => 'Vérifiez votre email';
 
   @override
-  String get verificationLinkSent =>
-      'Un lien de vérification a été envoyé à votre adresse e-mail. Veuillez consulter votre boîte de réception et suivre les instructions pour finaliser l\'inscription.';
+  String verificationLinkSent(String email) {
+    return 'Un lien de vérification a été envoyé à $email. Veuillez vérifier votre boîte de réception et suivre les instructions pour terminer l\'inscription.';
+  }
 
   @override
   String get resendEmail => 'Renvoyer l\'email';

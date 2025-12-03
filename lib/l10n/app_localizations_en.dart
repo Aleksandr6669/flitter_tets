@@ -57,13 +57,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Aurora Demo';
 
   @override
-  String get feedTitle => 'Feed Page';
+  String get feedTitle => 'Feed';
 
   @override
-  String get profileTitle => 'Profile Page';
+  String get profileTitle => 'Profile';
 
   @override
-  String get settingsTitle => 'Settings Page';
+  String get settingsTitle => 'Settings';
 
   @override
   String get bottomNavFeed => 'Feed';
@@ -97,14 +97,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidCode => 'Invalid verification code.';
 
   @override
-  String get userNotFound => 'No user found for that email. Please sign up.';
+  String get userNotFound => 'User not found for that email. Please sign up.';
 
   @override
-  String get wrongPassword => 'Wrong password provided. Please try again.';
+  String get wrongPassword => 'Wrong password. Please try again.';
 
   @override
-  String get emailAlreadyInUse =>
-      'This email is already in use. Please log in.';
+  String get emailAlreadyInUse => 'This email is already in use. Please login.';
 
   @override
   String get authenticationFailed => 'Authentication failed. Please try again.';
@@ -114,10 +113,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'This user has been disabled. Please contact support.';
 
   @override
-  String get invalidEmail => 'The email address is not valid.';
+  String get invalidEmail => 'Invalid email address.';
 
   @override
-  String get weakPassword => 'The password is not strong enough.';
+  String get weakPassword => 'The password is too weak.';
 
   @override
   String get tooManyRequests => 'Too many requests. Please try again later.';
@@ -126,8 +125,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get verifyYourEmail => 'Verify Your Email';
 
   @override
-  String get verificationLinkSent =>
-      'A verification link has been sent to your email. Please check your inbox and follow the instructions to complete the registration.';
+  String verificationLinkSent(String email) {
+    return 'A verification link has been sent to $email. Please check your inbox and follow the instructions to complete the registration.';
+  }
 
   @override
   String get resendEmail => 'Resend Email';

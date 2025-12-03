@@ -201,19 +201,19 @@ abstract class AppLocalizations {
   /// No description provided for @feedTitle.
   ///
   /// In en, this message translates to:
-  /// **'Feed Page'**
+  /// **'Feed'**
   String get feedTitle;
 
   /// No description provided for @profileTitle.
   ///
   /// In en, this message translates to:
-  /// **'Profile Page'**
+  /// **'Profile'**
   String get profileTitle;
 
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Settings Page'**
+  /// **'Settings'**
   String get settingsTitle;
 
   /// No description provided for @bottomNavFeed.
@@ -279,19 +279,19 @@ abstract class AppLocalizations {
   /// No description provided for @userNotFound.
   ///
   /// In en, this message translates to:
-  /// **'No user found for that email. Please sign up.'**
+  /// **'User not found for that email. Please sign up.'**
   String get userNotFound;
 
   /// No description provided for @wrongPassword.
   ///
   /// In en, this message translates to:
-  /// **'Wrong password provided. Please try again.'**
+  /// **'Wrong password. Please try again.'**
   String get wrongPassword;
 
   /// No description provided for @emailAlreadyInUse.
   ///
   /// In en, this message translates to:
-  /// **'This email is already in use. Please log in.'**
+  /// **'This email is already in use. Please login.'**
   String get emailAlreadyInUse;
 
   /// No description provided for @authenticationFailed.
@@ -309,13 +309,13 @@ abstract class AppLocalizations {
   /// No description provided for @invalidEmail.
   ///
   /// In en, this message translates to:
-  /// **'The email address is not valid.'**
+  /// **'Invalid email address.'**
   String get invalidEmail;
 
   /// No description provided for @weakPassword.
   ///
   /// In en, this message translates to:
-  /// **'The password is not strong enough.'**
+  /// **'The password is too weak.'**
   String get weakPassword;
 
   /// No description provided for @tooManyRequests.
@@ -333,8 +333,8 @@ abstract class AppLocalizations {
   /// No description provided for @verificationLinkSent.
   ///
   /// In en, this message translates to:
-  /// **'A verification link has been sent to your email. Please check your inbox and follow the instructions to complete the registration.'**
-  String get verificationLinkSent;
+  /// **'A verification link has been sent to {email}. Please check your inbox and follow the instructions to complete the registration.'**
+  String verificationLinkSent(String email);
 
   /// No description provided for @resendEmail.
   ///

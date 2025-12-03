@@ -132,8 +132,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get verifyYourEmail => 'Подтвердите свою электронную почту';
 
   @override
-  String get verificationLinkSent =>
-      'На вашу электронную почту была отправлена ссылка для подтверждения. Пожалуйста, проверьте свой почтовый ящик и следуйте инструкциям, чтобы завершить регистрацию.';
+  String verificationLinkSent(String email) {
+    return 'На вашу электронную почту была отправлена ссылка для подтверждения. Пожалуйста, проверьте свой почтовый ящик и следуйте инструкциям, чтобы завершить регистрацию.';
+  }
 
   @override
   String get resendEmail => 'Отправить письмо повторно';
