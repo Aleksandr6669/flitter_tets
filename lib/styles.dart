@@ -44,7 +44,10 @@ InputDecoration kInputDecoration(String label, IconData icon) {
   return InputDecoration(
     hintText: label,
     hintStyle: const TextStyle(color: Colors.white54),
-    prefixIcon: Icon(icon, color: Colors.white54),
+    prefixIcon: Padding(
+      padding: const EdgeInsets.only(left: 12.0), // Добавляем отступ слева
+      child: Icon(icon, color: Colors.white54),
+    ),
     filled: true,
     fillColor: Colors.white.withOpacity(0.1),
     border: OutlineInputBorder(
