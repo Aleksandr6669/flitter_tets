@@ -72,6 +72,8 @@ class _AuthPageState extends State<AuthPage> {
       });
 
       final l10n = AppLocalizations.of(context)!;
+      final locale = Localizations.localeOf(context);
+      await FirebaseAuth.instance.setLanguageCode(locale.languageCode);
 
       try {
         if (_isLogin) {
@@ -137,6 +139,10 @@ class _AuthPageState extends State<AuthPage> {
     setState(() {
       _isLoading = true;
     });
+
+    final locale = Localizations.localeOf(context);
+    await FirebaseAuth.instance.setLanguageCode(locale.languageCode);
+
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: _emailController.text);
       if(mounted) {
@@ -242,7 +248,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
       orElse: () => supportedLanguages.first,
     );
 
-    final double loginHeight = 580;
+    final double loginHeight = 600;
     final double registrationHeight = 640;
     final double forgotPasswordHeight = 480;
 
@@ -256,7 +262,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
 
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
       constraints: const BoxConstraints(
         maxWidth: 400,
@@ -318,7 +324,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
               const SizedBox(height: 20),
 
               AnimatedSize(
-                 duration: const Duration(milliseconds: 300),
+                 duration: const Duration(milliseconds: 400),
                  curve: Curves.easeInOut,
                 child: isActionLoginOrRegister ? Column(
                   children: [
@@ -404,7 +410,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    padding: const EdgeInsets.symmetric(vertical: 18), // Reverted padding
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
@@ -414,7 +420,7 @@ class GlassmorphicAuthForm extends StatelessWidget {
                   child: isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
                       : AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 100),
+                          duration: const Duration(milliseconds: 300),
                           child: Text(
                             isForgotPassword ? l10n.sendResetLink : isLogin ? l10n.login : l10n.signUp,
                              key: ValueKey(isForgotPassword ? 'forgot_button' : (isLogin ? 'login_button' : 'signup_button')),

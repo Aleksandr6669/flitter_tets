@@ -143,7 +143,7 @@ class AppLocalizationsUk extends AppLocalizations {
       'Натисніть кнопку нижче, щоб завершити підтвердження електронної пошти.';
 
   @override
-  String get resendEmail => 'Надіслати електронний лист повторно';
+  String get resendEmail => 'Надіслати посилання';
 
   @override
   String get cancel => 'Скасувати';
