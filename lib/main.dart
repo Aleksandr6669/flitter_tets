@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Beautiful Auth',
+      title: 'NextLevel',
       theme: ThemeData.dark(),
       locale: _locale,
       localizationsDelegates: [
