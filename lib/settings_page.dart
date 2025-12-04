@@ -234,7 +234,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
 
     return GlassmorphicContainer(
       width: double.infinity,
-      height: currentHeight,
+      height: _isEditing ? 340 : currentHeight,
       borderRadius: 20,
       blur: 10,
       border: 0,
@@ -434,9 +434,10 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   Widget _buildStoriesSwitch(AppLocalizations l10n) {
     return GlassmorphicContainer(
       width: double.infinity,
-      height: 50,
-      borderRadius: 25,
+      height: 60,
+      borderRadius: 35,
       blur: 10,
+      alignment: Alignment.center,
       border: 0,
       linearGradient: kGlassmorphicGradient,
       borderGradient: kGlassmorphicBorderGradient,

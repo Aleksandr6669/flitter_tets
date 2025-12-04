@@ -162,15 +162,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: SizedBox(
-        height: 50,
+        height: 80,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.center,
           children: [
             GlassmorphicContainer(
               width: double.infinity,
-              height: 50,
-              borderRadius: 25,
+              height: 70,
+              borderRadius: 35,
               blur: 7,
               alignment: Alignment.center,
               border: 1,
