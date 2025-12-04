@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/profile_service.dart';
 import 'package:flutter_application_1/widgets/profile_list_tile.dart';
+import 'package:glassmorphism/glassmorphism.dart';
+import 'styles.dart';
 
 class SettingsPage extends StatefulWidget {
   final void Function(Locale locale) changeLanguage;
@@ -12,10 +13,11 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderStateMixin {
   final _profileService = ProfileService();
   bool _isEditing = false;
   bool _isLoading = false;
+  late final AnimationController _controller;
 
   final _nameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -29,11 +31,16 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 10),
+    )..repeat();
     _loadProfileData();
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     _nameController.dispose();
     _lastNameController.dispose();
     _roleController.dispose();
@@ -116,156 +123,170 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _isEditing
-              ? _buildEditView(context)
-              : _buildViewMode(context),
-    );
+    return AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _isEditing
+                    ? _buildEditView(context)
+                    : _buildViewMode(context),
+          );
+        });
   }
 
   Widget _buildViewMode(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          backgroundColor: Colors.black,
-          expandedHeight: 250.0,
-          pinned: true,
-          flexibleSpace: FlexibleSpaceBar(
-            background: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: _avatarUrl.isNotEmpty
-                      ? NetworkImage(_avatarUrl)
-                      : null,
-                  child: _avatarUrl.isEmpty
-                      ? const Icon(Icons.person, size: 50)
-                      : null,
-                ),
-                const SizedBox(height: 16.0),
-                Text(
-                  '${_nameController.text} ${_lastNameController.text}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  _isEditing = true;
-                });
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        children: [
+          const SizedBox(height: 40),
+          _buildHeader(l10n),
+          const SizedBox(height: 20),
+          _buildSection([
+            ProfileListTile(
+              icon: Icons.camera_alt,
+              title: l10n.changePhotoButton,
+              onTap: () {
+                // TODO: Implement image picker
               },
-              child: Text(
-                l10n.editProfile,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
-              ),
             ),
-          ],
-        ),
-        SliverToBoxAdapter(
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                _buildSection([
-                  ProfileListTile(
-                    icon: Icons.camera_alt,
-                    title: l10n.changePhotoButton,
-                    onTap: () {
-                      // TODO: Implement image picker
-                    },
-                  ),
-                ]),
-                const SizedBox(height: 20),
-                _buildSection([
-                  ProfileListTile(
-                    icon: Icons.person,
-                    title: l10n.role,
-                    subtitle: _roleController.text,
-                  ),
-                  ProfileListTile(
-                    icon: Icons.work,
-                    title: l10n.position,
-                    subtitle: _positionController.text,
-                  ),
-                   ProfileListTile(
-                    icon: Icons.business,
-                    title: l10n.organization,
-                    subtitle: _organizationController.text,
-                  ),
-                ]),
-                 const SizedBox(height: 20),
-                _buildSection([
-                   ProfileListTile(
-                    icon: Icons.info_outline,
-                    title: l10n.aboutMe,
-                    subtitle: _aboutController.text,
-                  ),
-                ]),
-                const SizedBox(height: 20),
-                _buildSection([
-                  ProfileListTile(
-                    icon: Icons.language,
-                    title: l10n.language,
-                    subtitle: Localizations.localeOf(context).languageCode == 'ru' ? 'Русский' : 'English',
-                    onTap: () => _showLanguagePicker(context),
-                  )
-                ]),
-              ],
+          ]),
+          const SizedBox(height: 20),
+          _buildSection([
+            ProfileListTile(
+              icon: Icons.person,
+              title: l10n.role,
+              subtitle: _roleController.text,
+            ),
+            ProfileListTile(
+              icon: Icons.work,
+              title: l10n.position,
+              subtitle: _positionController.text,
+            ),
+            ProfileListTile(
+              icon: Icons.business,
+              title: l10n.organization,
+              subtitle: _organizationController.text,
+            ),
+          ]),
+          const SizedBox(height: 20),
+          _buildSection([
+            ProfileListTile(
+              icon: Icons.info_outline,
+              title: l10n.aboutMe,
+              subtitle: _aboutController.text,
+            ),
+          ]),
+          const SizedBox(height: 20),
+          _buildSection([
+            ProfileListTile(
+              icon: Icons.language,
+              title: l10n.language,
+              subtitle: Localizations.localeOf(context).languageCode == 'ru'
+                  ? 'Русский'
+                  : 'English',
+              onTap: () => _showLanguagePicker(context),
+            )
+          ]),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(AppLocalizations l10n) {
+    return GlassmorphicContainer(
+      width: double.infinity,
+      height: 200,
+      borderRadius: 20,
+      blur: 7,
+      border: 1,
+      linearGradient: kAnimatedGradient(_controller.value),
+      borderGradient: kAppBarBorderGradient,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 40,
+            backgroundImage: _avatarUrl.isNotEmpty ? NetworkImage(_avatarUrl) : null,
+            child: _avatarUrl.isEmpty ? const Icon(Icons.person, size: 40) : null,
+          ),
+          const SizedBox(height: 12.0),
+          Text(
+            '${_nameController.text} ${_lastNameController.text}',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 22.0,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        ),
-      ],
+          const SizedBox(height: 10),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                _isEditing = true;
+              });
+            },
+            child: Text(
+              l10n.editProfile,
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   void _showLanguagePicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.transparent,
       builder: (context) {
-        return Wrap(
-          children: <Widget>[
-            ListTile(
-              leading: const Text('🇬🇧', style: TextStyle(fontSize: 24)),
-              title: const Text('English', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                widget.changeLanguage(const Locale('en'));
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Text('🇷🇺', style: TextStyle(fontSize: 24)),
-              title: const Text('Русский', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                widget.changeLanguage(const Locale('ru'));
-                Navigator.pop(context);
-              },
-            ),
-          ],
+        return GlassmorphicContainer(
+          width: double.infinity,
+          height: 150,
+          borderRadius: 20,
+          blur: 7,
+          border: 1,
+          linearGradient: kAnimatedGradient(_controller.value),
+          borderGradient: kAppBarBorderGradient,
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                leading: const Text('🇬🇧', style: TextStyle(fontSize: 24)),
+                title:
+                    const Text('English', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  widget.changeLanguage(const Locale('en'));
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Text('🇷🇺', style: TextStyle(fontSize: 24)),
+                title: const Text('Русский',
+                    style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  widget.changeLanguage(const Locale('ru'));
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         );
       },
     );
   }
 
-
   Widget _buildEditView(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-       backgroundColor: Colors.black,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-         backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text(l10n.editProfile, style: const TextStyle(color: Colors.white)),
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.white),
@@ -286,33 +307,64 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            CircleAvatar(
-               radius: 50,
-               backgroundImage: _avatarUrl.isNotEmpty
-                   ? NetworkImage(_avatarUrl)
-                   : null,
-               child: _avatarUrl.isEmpty
-                   ? const Icon(Icons.person, size: 50)
-                   : null,
-             ),
-             TextButton(
-               onPressed: () {
-                 // TODO: Implement image picker
-               },
-               child: Text(l10n.changePhotoButton, style: const TextStyle(color: Colors.blue)),
-             ),
+            GlassmorphicContainer(
+                width: double.infinity,
+                height: 340,
+                borderRadius: 20,
+                blur: 7,
+                border: 1,
+                linearGradient: kAnimatedGradient(_controller.value),
+                borderGradient: kAppBarBorderGradient,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage:
+                            _avatarUrl.isNotEmpty ? NetworkImage(_avatarUrl) : null,
+                        child: _avatarUrl.isEmpty
+                            ? const Icon(Icons.person, size: 50)
+                            : null,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          // TODO: Implement image picker
+                        },
+                        child: Text(l10n.changePhotoButton,
+                            style: const TextStyle(color: Colors.blue)),
+                      ),
+                      const SizedBox(height: 20),
+                      _buildTextField(_nameController, l10n.firstName),
+                      const SizedBox(height: 10),
+                      _buildTextField(_lastNameController, l10n.lastName),
+                    ],
+                  ),
+                )),
             const SizedBox(height: 20),
-            _buildTextField(_nameController, l10n.firstName),
-            const SizedBox(height: 10),
-            _buildTextField(_lastNameController, l10n.lastName),
-            const SizedBox(height: 20),
-            _buildTextField(_roleController, l10n.role),
-             const SizedBox(height: 10),
-            _buildTextField(_positionController, l10n.position),
-             const SizedBox(height: 10),
-            _buildTextField(_organizationController, l10n.organization),
-             const SizedBox(height: 10),
-            _buildTextField(_aboutController, l10n.aboutMe, maxLines: 5),
+            GlassmorphicContainer(
+              width: double.infinity,
+              height: 400,
+              borderRadius: 20,
+              blur: 7,
+              border: 1,
+              linearGradient: kAnimatedGradient(_controller.value),
+              borderGradient: kAppBarBorderGradient,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    _buildTextField(_roleController, l10n.role),
+                    const SizedBox(height: 10),
+                    _buildTextField(_positionController, l10n.position),
+                    const SizedBox(height: 10),
+                    _buildTextField(_organizationController, l10n.organization),
+                    const SizedBox(height: 10),
+                    _buildTextField(_aboutController, l10n.aboutMe, maxLines: 5),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -320,18 +372,25 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildSection(List<Widget> children) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12.0),
+    return GlassmorphicContainer(
+      width: double.infinity,
+      height: children.length * 75.0,
+      borderRadius: 20,
+      blur: 7,
+      border: 1,
+      linearGradient: kAnimatedGradient(_controller.value),
+      borderGradient: kAppBarBorderGradient,
       child: Column(
         children: children
             .map((e) => Column(
                   children: [
-                    Container(color: Colors.grey[900], child: e),
+                    e,
                     if (children.last != e)
                       const Divider(
-                        color: Colors.grey,
-                        height: 0.5,
-                        indent: 50,
+                        color: Colors.white24,
+                        height: 1,
+                        indent: 16,
+                        endIndent: 16,
                       )
                   ],
                 ))
@@ -340,19 +399,20 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-   Widget _buildTextField(TextEditingController controller, String label, {int maxLines = 1}) {
+  Widget _buildTextField(TextEditingController controller, String label,
+      {int maxLines = 1}) {
     return TextField(
       controller: controller,
       maxLines: maxLines,
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: label,
-         labelStyle: const TextStyle(color: Colors.grey),
-        filled: true,
-        fillColor: Colors.grey[900],
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide.none,
+        labelStyle: const TextStyle(color: Colors.white70),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white24),
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
         ),
       ),
     );
