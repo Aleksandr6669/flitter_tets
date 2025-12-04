@@ -210,13 +210,9 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       height: 280,
       borderRadius: 20,
       blur: 7,
-      border: 1,
-      linearGradient: LinearGradient(
-        colors: [const Color.fromARGB(0, 214, 209, 209).withOpacity(0.25), const Color.fromARGB(0, 15, 14, 14).withOpacity(0.25)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      borderGradient: kAppBarBorderGradient,
+      border: 0,
+      linearGradient: kGlassmorphicGradient,
+      borderGradient: kGlassmorphicBorderGradient,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -255,12 +251,8 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       borderRadius: 20,
       blur: 10,
       border: 1,
-      linearGradient: LinearGradient(
-        colors: [Colors.black.withOpacity(0.25), Colors.black.withOpacity(0.25)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      borderGradient: kAppBarBorderGradient,
+      linearGradient: kGlassmorphicGradient,
+      borderGradient: kGlassmorphicBorderGradient,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: _isEditing
