@@ -33,7 +33,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Login';
 
   @override
-  String get welcomeBack => 'Welcome back!';
+  String get welcomeBack => 'Welcome Back!';
 
   @override
   String get dontHaveAnAccount => 'Don\'t have an account? ';
@@ -106,12 +106,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get userNotFound => 'No user found for that email. Please sign up.';
 
   @override
-  String get wrongPassword =>
-      'Wrong password provided for that user. Please try again.';
+  String get wrongPassword => 'Wrong password provided for that user.';
 
   @override
   String get emailAlreadyInUse =>
-      'The account already exists for that email. Please login.';
+      'The email address is already in use by another account.';
 
   @override
   String get authenticationFailed => 'Authentication failed. Please try again.';
@@ -124,7 +123,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'This user has been disabled. Please contact support.';
 
   @override
-  String get invalidEmail => 'The email address is not valid.';
+  String get invalidEmail => 'The email address is badly formatted.';
 
   @override
   String get weakPassword => 'The password is too weak.';
@@ -137,12 +136,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String verificationLinkSent(String email) {
-    return 'A verification link has been sent to $email. Please check your inbox and follow the instructions to complete the registration.';
+    return 'A verification link has been sent to $email. Please check your inbox and follow the instructions to complete your registration.';
   }
 
   @override
   String get pressButtonToVerify =>
-      'Press the button below to complete your email verification.';
+      'Press the button below to complete the email verification.';
 
   @override
   String get resendEmail => 'Resend Email';
@@ -171,7 +170,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Failed to reset password. The link may be invalid or expired.';
 
   @override
-  String resetPasswordLinkSent(Object email) {
+  String resetPasswordLinkSent(String email) {
     return 'A password reset link has been sent to $email. Please check your inbox.';
   }
 
@@ -180,7 +179,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enter your email address and we will send you a link to reset your password.';
 
   @override
-  String get sendResetLink => 'Send Link';
+  String get sendResetLink => 'Send Reset Link';
 
   @override
   String get backToLogin => 'Back to Login';
@@ -216,7 +215,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutMe => 'About Me';
 
   @override
-  String get skillsHint => 'Skills (comma separated)';
+  String get skillsHint => 'Skills (comma-separated)';
 
   @override
   String get saveChanges => 'Save Changes';

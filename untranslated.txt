@@ -3,11 +3,5 @@
     "phoneNumber",
     "gender",
     "showStories"
-  ],
-
-  "uk": [
-    "phoneNumber",
-    "gender",
-    "showStories"
   ]
 }

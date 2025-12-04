@@ -8,7 +8,7 @@
     "signUp": "Sign Up",
     "alreadyHaveAnAccount": "Already have an account? ",
     "login": "Login",
-    "welcomeBack": "Welcome back!",
+    "welcomeBack": "Welcome Back!",
     "dontHaveAnAccount": "Don't have an account? ",
     "pleaseEnterYourEmail": "Please enter your email",
     "pleaseEnterYourPassword": "Please enter your password",
@@ -32,24 +32,24 @@
     "resendCode": "Resend Code",
     "invalidCode": "Invalid verification code.",
     "userNotFound": "No user found for that email. Please sign up.",
-    "wrongPassword": "Wrong password provided for that user. Please try again.",
-    "emailAlreadyInUse": "The account already exists for that email. Please login.",
+    "wrongPassword": "Wrong password provided for that user.",
+    "emailAlreadyInUse": "The email address is already in use by another account.",
     "authenticationFailed": "Authentication failed. Please try again.",
     "authenticationSuccess": "Authentication successful!",
     "userDisabled": "This user has been disabled. Please contact support.",
-    "invalidEmail": "The email address is not valid.",
+    "invalidEmail": "The email address is badly formatted.",
     "weakPassword": "The password is too weak.",
     "tooManyRequests": "Too many requests. Please try again later.",
     "verifyYourEmail": "Verify Your Email",
-    "verificationLinkSent": "A verification link has been sent to {email}. Please check your inbox and follow the instructions to complete the registration.",
-     "@verificationLinkSent": {
+    "verificationLinkSent": "A verification link has been sent to {email}. Please check your inbox and follow the instructions to complete your registration.",
+    "@verificationLinkSent": {
         "placeholders": {
             "email": {
                 "type": "String"
             }
         }
     },
-    "pressButtonToVerify": "Press the button below to complete your email verification.",
+    "pressButtonToVerify": "Press the button below to complete the email verification.",
     "resendEmail": "Resend Email",
     "cancel": "Cancel",
     "forgotPassword": "Forgot Password?",
@@ -59,8 +59,15 @@
     "passwordResetSuccess": "Your password has been reset successfully. You can now log in with your new password.",
     "passwordResetFailed": "Failed to reset password. The link may be invalid or expired.",
     "resetPasswordLinkSent": "A password reset link has been sent to {email}. Please check your inbox.",
+    "@resetPasswordLinkSent": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
     "resetPasswordInstructions": "Enter your email address and we will send you a link to reset your password.",
-    "sendResetLink": "Send Link",
+    "sendResetLink": "Send Reset Link",
     "backToLogin": "Back to Login",
     "profileSaved": "Profile saved successfully",
     "editProfileButton": "Edit Profile",
@@ -72,7 +79,7 @@
     "dateOfBirth": "Date of Birth",
     "specialty": "Specialty",
     "aboutMe": "About Me",
-    "skillsHint": "Skills (comma separated)",
+    "skillsHint": "Skills (comma-separated)",
     "saveChanges": "Save Changes",
     "phoneNumber": "Phone Number",
     "gender": "Gender",

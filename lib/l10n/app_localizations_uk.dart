@@ -149,7 +149,7 @@ class AppLocalizationsUk extends AppLocalizations {
       'Натисніть кнопку нижче, щоб завершити підтвердження електронної пошти.';
 
   @override
-  String get resendEmail => 'Надіслати посилання';
+  String get resendEmail => 'Надіслати лист повторно';
 
   @override
   String get cancel => 'Скасувати';
@@ -168,20 +168,20 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get passwordResetSuccess =>
-      'Пароль успішно скинуто. Тепер ви можете увійти з новим паролем.';
+      'Ваш пароль було успішно скинуто. Тепер ви можете увійти з новим паролем.';
 
   @override
   String get passwordResetFailed =>
       'Не вдалося скинути пароль. Посилання може бути недійсним або застарілим.';
 
   @override
-  String resetPasswordLinkSent(Object email) {
+  String resetPasswordLinkSent(String email) {
     return 'Посилання для скидання пароля надіслано на адресу $email. Будь ласка, перевірте свою поштову скриньку.';
   }
 
   @override
   String get resetPasswordInstructions =>
-      'Введіть свою електронну адресу, і ми надішлемо вам посилання для відновлення доступу до вашого облікового запису.';
+      'Введіть свою адресу електронної пошти, і ми надішлемо вам посилання для скидання пароля.';
 
   @override
   String get sendResetLink => 'Надіслати посилання';
@@ -199,13 +199,13 @@ class AppLocalizationsUk extends AppLocalizations {
   String get firstName => 'Ім\'я';
 
   @override
-  String get pleaseEnterFirstName => 'Будь ласка, введіть ваше ім\'я';
+  String get pleaseEnterFirstName => 'Будь ласка, введіть своє ім\'я';
 
   @override
   String get lastName => 'Прізвище';
 
   @override
-  String get pleaseEnterLastName => 'Будь ласка, введіть ваше прізвище';
+  String get pleaseEnterLastName => 'Будь ласка, введіть своє прізвище';
 
   @override
   String get role => 'Роль';
@@ -226,10 +226,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get saveChanges => 'Зберегти зміни';
 
   @override
-  String get phoneNumber => 'Phone Number';
+  String get phoneNumber => 'Номер телефону';
 
   @override
-  String get gender => 'Gender';
+  String get gender => 'Стать';
 
   @override
   String get position => 'Посада';
@@ -244,5 +244,5 @@ class AppLocalizationsUk extends AppLocalizations {
   String get changePhotoButton => 'Змінити фотографію';
 
   @override
-  String get showStories => 'Show Stories';
+  String get showStories => 'Показувати історії';
 }

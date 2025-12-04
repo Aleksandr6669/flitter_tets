@@ -175,7 +175,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'La réinitialisation du mot de passe a échoué. Le lien peut être invalide ou avoir expiré.';
 
   @override
-  String resetPasswordLinkSent(Object email) {
+  String resetPasswordLinkSent(String email) {
     return 'Un lien de réinitialisation de mot de passe a été envoyé à $email. Veuillez vérifier votre boîte de réception.';
   }
 

@@ -1,3 +1,4 @@
+
 {
     "@@locale": "uk",
     "createAccount": "Створити акаунт",
@@ -50,32 +51,42 @@
         }
     },
     "pressButtonToVerify": "Натисніть кнопку нижче, щоб завершити підтвердження електронної пошти.",
-    "resendEmail": "Надіслати посилання",
+    "resendEmail": "Надіслати лист повторно",
     "cancel": "Скасувати",
     "forgotPassword": "Забули пароль?",
     "resetPassword": "Скинути пароль",
     "newPassword": "Новий пароль",
     "confirmNewPassword": "Підтвердьте новий пароль",
-    "passwordResetSuccess": "Пароль успішно скинуто. Тепер ви можете увійти з новим паролем.",
+    "passwordResetSuccess": "Ваш пароль було успішно скинуто. Тепер ви можете увійти з новим паролем.",
     "passwordResetFailed": "Не вдалося скинути пароль. Посилання може бути недійсним або застарілим.",
     "resetPasswordLinkSent": "Посилання для скидання пароля надіслано на адресу {email}. Будь ласка, перевірте свою поштову скриньку.",
-    "resetPasswordInstructions": "Введіть свою електронну адресу, і ми надішлемо вам посилання для відновлення доступу до вашого облікового запису.",
+    "@resetPasswordLinkSent": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+    "resetPasswordInstructions": "Введіть свою адресу електронної пошти, і ми надішлемо вам посилання для скидання пароля.",
     "sendResetLink": "Надіслати посилання",
     "backToLogin": "Повернутися до входу",
     "profileSaved": "Профіль успішно збережено",
     "editProfileButton": "Редагувати профіль",
     "firstName": "Ім'я",
-    "pleaseEnterFirstName": "Будь ласка, введіть ваше ім'я",
+    "pleaseEnterFirstName": "Будь ласка, введіть своє ім'я",
     "lastName": "Прізвище",
-    "pleaseEnterLastName": "Будь ласка, введіть ваше прізвище",
+    "pleaseEnterLastName": "Будь ласка, введіть своє прізвище",
     "role": "Роль",
     "dateOfBirth": "Дата народження",
     "specialty": "Спеціальність",
     "aboutMe": "Про мене",
     "skillsHint": "Навички (через кому)",
     "saveChanges": "Зберегти зміни",
+    "phoneNumber": "Номер телефону",
+    "gender": "Стать",
     "position": "Посада",
     "organization": "Організація",
     "editProfile": "Редагувати профіль",
-    "changePhotoButton": "Змінити фотографію"
+    "changePhotoButton": "Змінити фотографію",
+    "showStories": "Показувати історії"
 }

@@ -19,11 +19,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  int _selectedIndex = 0;
+  int _widgetIndex = 0; // Represents the index in _widgetOptions
   late final AnimationController _controller;
   late final AnimationController _navBarAnimationController;
   late final Animation<Offset> _navBarAnimation;
-  late List<Widget> _widgetOptions;
+  late final List<Widget> _widgetOptions;
   bool _isSettingsInEditMode = false;
   bool _showStories = true;
 
@@ -48,12 +48,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       curve: Curves.easeInOut,
     ));
 
-    _updateWidgetOptions();
-  }
-
-  void _updateWidgetOptions() {
+    // The list of widgets is now static and always includes all pages.
     _widgetOptions = <Widget>[
-      if (_showStories) const FeedPage(),
+      const FeedPage(),
       const CoursesPage(),
       const TestsPage(),
       const ProgressPage(),
@@ -77,17 +74,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
   }
 
+  // This method now only updates the boolean. The UI logic is handled in the build method.
   void _handleShowStoriesChange(bool show) {
     setState(() {
       _showStories = show;
-      // If the currently selected tab is the stories tab and it's being hidden,
-      // default to the first available tab.
-      if (!_showStories && _selectedIndex == 0) {
-        _selectedIndex = 0; 
-      }
-      _updateWidgetOptions();
     });
   }
+
+  AppLocalizations get l10n => AppLocalizations.of(context)!;
 
   @override
   void dispose() {
@@ -96,18 +90,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void _onItemTapped(int index) {
+  // The tapped index is from the visible navigation items.
+  // It needs to be mapped to the correct index in the static _widgetOptions list.
+  void _onItemTapped(int navBarIndex) {
     HapticFeedback.lightImpact();
     setState(() {
-      _selectedIndex = index;
+      if (_showStories) {
+        _widgetIndex = navBarIndex;
+      } else {
+        _widgetIndex = navBarIndex + 1;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // Rebuild the nav items on each build to ensure the correct list.
     final navItems = _getNavItems(context);
-    final currentSelection = _selectedIndex.clamp(0, navItems.length - 1);
+
+    // Calculate the nav bar index based on the master widget index.
+    int navBarIndex;
+    if (_showStories) {
+      navBarIndex = _widgetIndex;
+    } else {
+      // When stories are hidden, widget index 0 is not in the nav bar.
+      // Any widget index > 0 maps to a nav bar index of (widget_index - 1).
+      // This ensures the correct nav item is highlighted.
+      navBarIndex = _widgetIndex > 0 ? _widgetIndex - 1 : 0;
+    }
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -121,12 +130,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          _widgetOptions.elementAt(currentSelection),
+          // IndexedStack keeps all children in the tree, preserving their state.
+          IndexedStack(
+            index: _widgetIndex,
+            children: _widgetOptions,
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: SlideTransition(
               position: _navBarAnimation,
-              child: _buildLiquidBottomNavBar(context, navItems, currentSelection),
+              child: _buildLiquidBottomNavBar(context, navItems, navBarIndex),
             ),
           )
         ],
@@ -134,8 +147,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
+  // This method correctly builds the list of VISIBLE nav items.
   List<Map<String, dynamic>> _getNavItems(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return [
       if (_showStories) {'icon': Icons.home, 'label': l10n.bottomNavFeed},
       {'icon': Icons.school, 'label': l10n.bottomNavCourses},
@@ -145,19 +158,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ];
   }
 
-  Widget _buildLiquidBottomNavBar(BuildContext context, List<Map<String, dynamic>> navItems, int currentSelection) {
+  Widget _buildLiquidBottomNavBar(BuildContext context, List<Map<String, dynamic>> navItems, int navBarIndex) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: SizedBox(
-        height: 70,
+        height: 50,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.center,
           children: [
             GlassmorphicContainer(
               width: double.infinity,
-              height: 70,
-              borderRadius: 35,
+              height: 50,
+              borderRadius: 25,
               blur: 7,
               alignment: Alignment.center,
               border: 1,
@@ -168,7 +181,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: LiquidNavBar(
-                selectedIndex: currentSelection,
+                selectedIndex: navBarIndex,
                 onTap: _onItemTapped,
                 items: navItems,
                 selectedItemColor: kBottomNavSelectedItemColor,

@@ -153,7 +153,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomeBack.
   ///
   /// In en, this message translates to:
-  /// **'Welcome back!'**
+  /// **'Welcome Back!'**
   String get welcomeBack;
 
   /// No description provided for @dontHaveAnAccount.
@@ -297,13 +297,13 @@ abstract class AppLocalizations {
   /// No description provided for @wrongPassword.
   ///
   /// In en, this message translates to:
-  /// **'Wrong password provided for that user. Please try again.'**
+  /// **'Wrong password provided for that user.'**
   String get wrongPassword;
 
   /// No description provided for @emailAlreadyInUse.
   ///
   /// In en, this message translates to:
-  /// **'The account already exists for that email. Please login.'**
+  /// **'The email address is already in use by another account.'**
   String get emailAlreadyInUse;
 
   /// No description provided for @authenticationFailed.
@@ -327,7 +327,7 @@ abstract class AppLocalizations {
   /// No description provided for @invalidEmail.
   ///
   /// In en, this message translates to:
-  /// **'The email address is not valid.'**
+  /// **'The email address is badly formatted.'**
   String get invalidEmail;
 
   /// No description provided for @weakPassword.
@@ -351,13 +351,13 @@ abstract class AppLocalizations {
   /// No description provided for @verificationLinkSent.
   ///
   /// In en, this message translates to:
-  /// **'A verification link has been sent to {email}. Please check your inbox and follow the instructions to complete the registration.'**
+  /// **'A verification link has been sent to {email}. Please check your inbox and follow the instructions to complete your registration.'**
   String verificationLinkSent(String email);
 
   /// No description provided for @pressButtonToVerify.
   ///
   /// In en, this message translates to:
-  /// **'Press the button below to complete your email verification.'**
+  /// **'Press the button below to complete the email verification.'**
   String get pressButtonToVerify;
 
   /// No description provided for @resendEmail.
@@ -412,7 +412,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'A password reset link has been sent to {email}. Please check your inbox.'**
-  String resetPasswordLinkSent(Object email);
+  String resetPasswordLinkSent(String email);
 
   /// No description provided for @resetPasswordInstructions.
   ///
@@ -423,7 +423,7 @@ abstract class AppLocalizations {
   /// No description provided for @sendResetLink.
   ///
   /// In en, this message translates to:
-  /// **'Send Link'**
+  /// **'Send Reset Link'**
   String get sendResetLink;
 
   /// No description provided for @backToLogin.
@@ -495,7 +495,7 @@ abstract class AppLocalizations {
   /// No description provided for @skillsHint.
   ///
   /// In en, this message translates to:
-  /// **'Skills (comma separated)'**
+  /// **'Skills (comma-separated)'**
   String get skillsHint;
 
   /// No description provided for @saveChanges.

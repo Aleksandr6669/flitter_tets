@@ -176,7 +176,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось сбросить пароль. Ссылка может быть недействительной или устаревшей.';
 
   @override
-  String resetPasswordLinkSent(Object email) {
+  String resetPasswordLinkSent(String email) {
     return 'Ссылка для сброса пароля отправлена на адрес $email. Пожалуйста, проверьте свой почтовый ящик.';
   }
 
