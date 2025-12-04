@@ -10,8 +10,10 @@ import 'package:flutter_application_1/tests_page.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/liquid_nav_bar.dart';
-import 'package:flutter_application_1/profile_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'styles.dart';
+
+const String _showStoriesKey = 'show_stories';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.changeLanguage});
@@ -29,9 +31,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   bool _isSettingsInEditMode = false;
   bool _showStories = true;
-
-  final _profileService = ProfileService();
-  StreamSubscription? _profileSubscription;
 
   @override
   void initState() {
@@ -54,22 +53,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       curve: Curves.easeInOut,
     ));
 
-    _loadProfileSettings();
+    _loadShowStories();
   }
 
-  void _loadProfileSettings() {
-    _profileSubscription = _profileService.getUserProfile().listen((userProfile) {
-      if (mounted && userProfile.exists) {
-        final data = userProfile.data() as Map<String, dynamic>;
-        // Use a default value of true if the setting doesn't exist.
-        final showStories = data['showStories'] as bool? ?? true;
-        if (showStories != _showStories) {
-          setState(() {
-            _showStories = showStories;
-          });
-        }
-      }
-    });
+  Future<void> _loadShowStories() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (mounted) {
+      setState(() {
+        _showStories = prefs.getBool(_showStoriesKey) ?? true;
+      });
+    }
   }
 
   void _handleSettingsEditModeChange(bool isEditing) {
@@ -87,7 +80,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     setState(() {
       _showStories = show;
     });
-    _profileService.updateUserProfile({'showStories': show});
   }
 
   AppLocalizations get l10n => AppLocalizations.of(context)!;
@@ -96,7 +88,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void dispose() {
     _controller.dispose();
     _navBarAnimationController.dispose();
-    _profileSubscription?.cancel();
     super.dispose();
   }
 
@@ -123,7 +114,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       SettingsPage(
         changeLanguage: widget.changeLanguage,
         onEditModeChange: _handleSettingsEditModeChange,
-        initialShowStories: _showStories,
         onShowStoriesChanged: _handleShowStoriesChange,
       ),
     ];

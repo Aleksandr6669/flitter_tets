@@ -5,21 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/profile_service.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'styles.dart';
 import 'language_selector.dart';
 import 'models/language.dart';
 
+const String _showStoriesKey = 'show_stories';
+
 class SettingsPage extends StatefulWidget {
   final void Function(Locale locale) changeLanguage;
   final void Function(bool) onEditModeChange;
-  final bool initialShowStories;
   final void Function(bool) onShowStoriesChanged;
 
   const SettingsPage({
     super.key,
     required this.changeLanguage,
     required this.onEditModeChange,
-    required this.initialShowStories,
     required this.onShowStoriesChanged,
   });
 
@@ -30,7 +31,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMixin {
   final _profileService = ProfileService();
   bool _isEditing = false;
-  late bool _showStories;
+  bool _showStories = true;
 
   final _nameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -54,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    _showStories = widget.initialShowStories;
+    _loadShowStories();
     _bgAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 10),
@@ -64,6 +65,26 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
       duration: const Duration(milliseconds: 400),
     );
     _subscribeToProfileUpdates();
+  }
+
+  Future<void> _loadShowStories() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (mounted) {
+      setState(() {
+        _showStories = prefs.getBool(_showStoriesKey) ?? true;
+      });
+    }
+  }
+
+  Future<void> _setShowStories(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_showStoriesKey, value);
+    if (mounted) {
+      setState(() {
+        _showStories = value;
+      });
+    }
+    widget.onShowStoriesChanged(value);
   }
 
   @override
@@ -449,10 +470,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
             Text(l10n.showStories, style: const TextStyle(color: Colors.white, fontSize: 16)),
             Switch(
               value: _showStories,
-              onChanged: (value) {
-                setState(() => _showStories = value);
-                widget.onShowStoriesChanged(value);
-              },
+              onChanged: _setShowStories,
               activeThumbColor: Colors.blue,
               inactiveTrackColor: Colors.white30,
             ),
