@@ -126,96 +126,109 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return AnimatedBuilder(
-        animation: _controller,
-        builder: (context, child) {
-          return Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              title: Text(_isEditing ? l10n.editProfile : l10n.bottomNavSettings, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              leading: _isEditing ? IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () => _loadProfileData(cancelEditing: true),
-                ) : null,
-              automaticallyImplyLeading: !_isEditing,
-              actions: _isEditing
-                  ? [
-                      IconButton(
-                        icon: const Icon(Icons.check, color: Colors.white),
-                        onPressed: _updateProfile,
-                      ),
-                    ]
-                  : [
-                      IconButton(
-                        icon: const Icon(Icons.edit, color: Colors.white),
-                        onPressed: () {
-                          setState(() {
-                            _isEditing = true;
-                          });
-                        },
-                      ),
-                    ],
-            ),
-            body: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _buildBody(context, l10n),
-          );
-        });
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : _buildBody(context, l10n),
+      ),
+    );
   }
 
   Widget _buildBody(BuildContext context, AppLocalizations l10n) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        children: [
-          _buildProfileSection(l10n),
-          const SizedBox(height: 20),
-          _buildInfoSection(l10n),
-          const SizedBox(height: 30),
-          _buildLanguageSwitcher(l10n),
-          const SizedBox(height: 20),
-        ],
-      ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(4, 8, 16, 8),
+          child: Row(
+            children: [
+              if (_isEditing)
+                IconButton(
+                  icon: const Icon(Icons.close, color: Colors.white),
+                  onPressed: () => _loadProfileData(cancelEditing: true),
+                )
+              else
+                const BackButton(color: Colors.white),
+              const Spacer(),
+              if (_isEditing)
+                IconButton(
+                  icon: const Icon(Icons.check, color: Colors.white),
+                  onPressed: _updateProfile,
+                )
+              else
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.white),
+                  onPressed: () {
+                    setState(() {
+                      _isEditing = true;
+                    });
+                  },
+                ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              children: [
+                _buildProfileSection(l10n),
+                const SizedBox(height: 20),
+                _buildInfoSection(l10n),
+                const SizedBox(height: 30),
+                _buildLanguageSwitcher(l10n),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildProfileSection(AppLocalizations l10n) {
     return GlassmorphicContainer(
-        width: double.infinity,
-        height: 280,
-        borderRadius: 20,
-        blur: 7,
-        border: 1,
-        linearGradient: kAnimatedGradient(_controller.value),
-        borderGradient: kAppBarBorderGradient,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 40,
-                backgroundImage: _avatarUrl.isNotEmpty ? NetworkImage(_avatarUrl) : null,
-                child: _avatarUrl.isEmpty ? const Icon(Icons.person, size: 40) : null,
-              ),
-              const SizedBox(height: 20),
-              if (_isEditing)
-                ...[
-                  _buildTextField(_nameController, l10n.firstName),
-                  const SizedBox(height: 10),
-                  _buildTextField(_lastNameController, l10n.lastName),
-                  TextButton(
-                      onPressed: () { /* TODO: Implement image picker */ },
-                      child: Text(l10n.changePhotoButton, style: const TextStyle(color: Colors.blue)),
-                  ),
-                ]
-              else
-                _buildInfoDisplay('', '${_nameController.text} ${_lastNameController.text}', isFullName: true),
-            ],
-          ),
-        ));
+      width: double.infinity,
+      height: 280,
+      borderRadius: 20,
+      blur: 7,
+      border: 1,
+      linearGradient: LinearGradient(
+        colors: [Colors.black.withOpacity(0.25), Colors.black.withOpacity(0.25)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      borderGradient: kAppBarBorderGradient,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 40,
+              backgroundImage: _avatarUrl.isNotEmpty ? NetworkImage(_avatarUrl) : null,
+              child: _avatarUrl.isEmpty ? const Icon(Icons.person, size: 40) : null,
+            ),
+            const SizedBox(height: 20),
+            if (_isEditing)
+              ...[
+                _buildTextField(_nameController, l10n.firstName),
+                const SizedBox(height: 10),
+                _buildTextField(_lastNameController, l10n.lastName),
+                TextButton(
+                  onPressed: () { /* TODO: Implement image picker */ },
+                  child: Text(l10n.changePhotoButton, style: const TextStyle(color: Colors.blue)),
+                ),
+              ]
+            else
+               _buildInfoDisplay('', '${_nameController.text} ${_lastNameController.text}', isFullName: true),
+              
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildInfoSection(AppLocalizations l10n) {
@@ -225,7 +238,11 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       borderRadius: 20,
       blur: 7,
       border: 1,
-      linearGradient: kAnimatedGradient(_controller.value),
+      linearGradient: LinearGradient(
+        colors: [Colors.black.withOpacity(0.25), Colors.black.withOpacity(0.25)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
       borderGradient: kAppBarBorderGradient,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -255,27 +272,11 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
   }
 
   Widget _buildLanguageSwitcher(AppLocalizations l10n) {
-    final String currentLanguageName;
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'ru':
-        currentLanguageName = 'Русский';
-        break;
-      case 'uk':
-        currentLanguageName = 'Українська';
-        break;
-      default:
-        currentLanguageName = 'English';
-    }
-
-    return TextButton.icon(
-      onPressed: () => _showLanguagePicker(context),
-      icon: const Icon(Icons.language, color: Colors.white70),
-      label: Text(currentLanguageName, style: const TextStyle(color: Colors.white, fontSize: 16)),
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+    return Center(
+      child: IconButton(
+        onPressed: () => _showLanguagePicker(context),
+        icon: const Icon(Icons.language_outlined, color: Colors.white70, size: 30),
+        padding: const EdgeInsets.all(16),
       ),
     );
   }
@@ -291,7 +292,11 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
           borderRadius: 20,
           blur: 7,
           border: 1,
-          linearGradient: kAnimatedGradient(_controller.value),
+          linearGradient: LinearGradient(
+            colors: [Colors.black.withOpacity(0.25), Colors.black.withOpacity(0.25)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           borderGradient: kAppBarBorderGradient,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -348,27 +353,34 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildInfoDisplay(String title, String value, {bool isFullName = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (!isFullName)
+    Widget _buildInfoDisplay(String title, String value, {bool isFullName = false}) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: isFullName ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (!isFullName)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4.0),
+              child: Text(
+                title,
+                style: const TextStyle(color: Colors.white70, fontSize: 12),
+              ),
+            ),
           Text(
-            title,
-            style: const TextStyle(color: Colors.white70, fontSize: 12),
+            value.isEmpty ? '-' : value,
+            textAlign: isFullName ? TextAlign.center : TextAlign.start,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: isFullName ? 22 : 16,
+              fontWeight: isFullName ? FontWeight.bold : FontWeight.normal,
+            ),
           ),
-        Text(
-          value.isEmpty ? '-' : value, 
-          style: TextStyle(
-            color: Colors.white, 
-            fontSize: isFullName ? 22 : 16,
-            fontWeight: isFullName ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
-        if (!isFullName)
-          const Divider(color: Colors.white24, height: 16, thickness: 0.5),
-      ],
+          if (!isFullName)
+            const Divider(color: Colors.white24, height: 16, thickness: 0.5),
+        ],
+      ),
     );
   }
 }
