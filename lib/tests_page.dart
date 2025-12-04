@@ -6,11 +6,9 @@ class TestsPage extends StatelessWidget {
   const TestsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    Widget build(BuildContext context) {
+      return Center(
         child: Text('Tests Page', style: kPageTitleTextStyle),
-      ),
-    );
+      );
+    }
   }
-}
