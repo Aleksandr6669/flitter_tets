@@ -60,5 +60,17 @@
     "resetPasswordLinkSent": "Un lien de réinitialisation de mot de passe a été envoyé à {email}. Veuillez vérifier votre boîte de réception.",
     "resetPasswordInstructions": "Saisissez votre adresse électronique et nous vous enverrons un lien pour vous reconnecter à votre compte.",
     "sendResetLink": "Envoyer le lien de réinitialisation",
-    "backToLogin": "Retour à la connexion"
+    "backToLogin": "Retour à la connexion",
+    "profileSaved": "Profil enregistré avec succès",
+    "editProfileButton": "Modifier le profil",
+    "firstName": "Prénom",
+    "pleaseEnterFirstName": "Veuillez entrer votre prénom",
+    "lastName": "Nom de famille",
+    "pleaseEnterLastName": "Veuillez entrer votre nom de famille",
+    "role": "Rôle",
+    "dateOfBirth": "Date de naissance",
+    "specialty": "Spécialité",
+    "aboutMe": "À propos de moi",
+    "skillsHint": "Compétences (séparées par des virgules)",
+    "saveChanges": "Enregistrer les modifications"
 }

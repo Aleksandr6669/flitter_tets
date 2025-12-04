@@ -49,18 +49,18 @@ InputDecoration kInputDecoration(String label, IconData icon) {
       child: Icon(icon, color: Colors.white54),
     ),
     filled: true,
-    fillColor: Colors.white.withOpacity(0.1),
+    fillColor: Colors.white.withAlpha(25),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30.0),
       borderSide: BorderSide.none,
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30.0),
-      borderSide: BorderSide(color: Colors.white.withOpacity(0.1)),
+      borderSide: BorderSide(color: Colors.white.withAlpha(25)),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(30.0),
-      borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
+      borderSide: BorderSide(color: Colors.white.withAlpha(76)),
     ),
   );
 }
@@ -76,8 +76,8 @@ final LinearGradient kGlassmorphicGradient = LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
   colors: [
-    Colors.white.withOpacity(0.1),
-    Colors.white.withOpacity(0.05),
+    Colors.white.withAlpha(25),
+    Colors.white.withAlpha(12),
   ],
 );
 
@@ -85,8 +85,8 @@ final LinearGradient kGlassmorphicBorderGradient = LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
   colors: [
-    Colors.white.withOpacity(0.5),
-    Colors.white.withOpacity(0.5),
+    Colors.white.withAlpha(128),
+    Colors.white.withAlpha(128),
   ],
 );
 
@@ -94,9 +94,9 @@ LinearGradient kAnimatedGradient(double animationValue) {
     return LinearGradient(
         transform: GradientRotation(animationValue * 6.28),
         colors: [
-            Colors.deepPurple.withOpacity(0.3),
-            Colors.pink.withOpacity(0.2),
-            Colors.lightBlue.withOpacity(0.4),
+            Colors.deepPurple.withAlpha(76),
+            Colors.pink.withAlpha(51),
+            Colors.lightBlue.withAlpha(102),
         ],
         stops: const [0.2, 0.5, 0.8],
     );
@@ -105,13 +105,13 @@ LinearGradient kAnimatedGradient(double animationValue) {
 final LinearGradient kAppBarBorderGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Colors.white.withOpacity(0.3), Colors.white.withOpacity(0.1)],
+    colors: [Colors.white.withAlpha(76), Colors.white.withAlpha(25)],
 );
 
 final LinearGradient kDropdownGradient = LinearGradient(
     colors: [
-        Colors.deepPurple.withOpacity(0.4),
-        Colors.pink.withOpacity(0.3),
+        Colors.deepPurple.withAlpha(102),
+        Colors.pink.withAlpha(76),
     ],
     stops: const [0.2, 0.8],
 );
@@ -119,7 +119,7 @@ final LinearGradient kDropdownGradient = LinearGradient(
 final LinearGradient kDropdownBorderGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Colors.white.withOpacity(0.3), Colors.white.withOpacity(0.1)],
+    colors: [Colors.white.withAlpha(76), Colors.white.withAlpha(25)],
 );
 
 
@@ -129,7 +129,7 @@ final BoxDecoration kButtonBoxDecoration = BoxDecoration(
   gradient: kButtonGradient,
   boxShadow: [
     BoxShadow(
-      color: Colors.black.withOpacity(0.2),
+      color: Colors.black.withAlpha(51),
       spreadRadius: 2,
       blurRadius: 5,
       offset: const Offset(0, 3),

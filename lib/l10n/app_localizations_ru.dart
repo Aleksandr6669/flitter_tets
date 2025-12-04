@@ -183,4 +183,40 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get backToLogin => 'Вернуться ко входу';
+
+  @override
+  String get profileSaved => 'Профиль успешно сохранен';
+
+  @override
+  String get editProfileButton => 'Редактировать профиль';
+
+  @override
+  String get firstName => 'Имя';
+
+  @override
+  String get pleaseEnterFirstName => 'Пожалуйста, введите ваше имя';
+
+  @override
+  String get lastName => 'Фамилия';
+
+  @override
+  String get pleaseEnterLastName => 'Пожалуйста, введите вашу фамилию';
+
+  @override
+  String get role => 'Роль';
+
+  @override
+  String get dateOfBirth => 'Дата рождения';
+
+  @override
+  String get specialty => 'Специальность';
+
+  @override
+  String get aboutMe => 'Обо мне';
+
+  @override
+  String get skillsHint => 'Навыки (через запятую)';
+
+  @override
+  String get saveChanges => 'Сохранить изменения';
 }

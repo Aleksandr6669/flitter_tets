@@ -178,4 +178,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backToLogin => 'Back to Login';
+
+  @override
+  String get profileSaved => 'Profile saved successfully';
+
+  @override
+  String get editProfileButton => 'Edit Profile';
+
+  @override
+  String get firstName => 'First Name';
+
+  @override
+  String get pleaseEnterFirstName => 'Please enter your first name';
+
+  @override
+  String get lastName => 'Last Name';
+
+  @override
+  String get pleaseEnterLastName => 'Please enter your last name';
+
+  @override
+  String get role => 'Role';
+
+  @override
+  String get dateOfBirth => 'Date of Birth';
+
+  @override
+  String get specialty => 'Specialty';
+
+  @override
+  String get aboutMe => 'About Me';
+
+  @override
+  String get skillsHint => 'Skills (comma separated)';
+
+  @override
+  String get saveChanges => 'Save Changes';
 }

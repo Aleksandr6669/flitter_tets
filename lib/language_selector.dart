@@ -91,7 +91,7 @@ class _LanguageSelectorState extends State<LanguageSelector> with TickerProvider
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           itemCount: supportedLanguages.length,
                           separatorBuilder: (context, index) => Divider(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withAlpha(51),
                             height: 1,
                             indent: 20,
                             endIndent: 20,

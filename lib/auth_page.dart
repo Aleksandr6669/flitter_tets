@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -65,15 +66,11 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  void _handleAuthAction(BuildContext context) async {
+  void _handleAuthAction() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
-
-      final l10n = AppLocalizations.of(context)!;
-      final locale = Localizations.localeOf(context);
-      await FirebaseAuth.instance.setLanguageCode(locale.languageCode);
 
       try {
         if (_isLogin) {
@@ -87,39 +84,58 @@ class _AuthPageState extends State<AuthPage> {
             email: _emailController.text,
             password: _passwordController.text,
           );
+          // Create a user document in Firestore
+          await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+            'email': _emailController.text,
+            'createdAt': Timestamp.now(),
+            'nicName': '',
+            'name': '',
+            'surname': '',
+            'phoneNumber': '',
+            'gender': '',
+            'birthDate': '',
+            'role': '',
+            'position': '',
+            'about': '',
+            'organization': '',
+          });
           // Send verification email
           await userCredential.user?.sendEmailVerification();
         }
       } on FirebaseAuthException catch (e) {
-        if (mounted) {
-          String errorMessage;
-          switch (e.code) {
-            case 'user-not-found':
-              errorMessage = l10n.userNotFound;
-              break;
-            case 'wrong-password':
-              errorMessage = l10n.wrongPassword;
-              break;
-            case 'email-already-in-use':
-              errorMessage = l10n.emailAlreadyInUse;
-              break;
-            case 'user-disabled':
-              errorMessage = l10n.userDisabled;
-              break;
-            case 'invalid-email':
-              errorMessage = l10n.invalidEmail;
-              break;
-            case 'weak-password':
-              errorMessage = l10n.weakPassword;
-              break;
-            case 'too-many-requests':
-              errorMessage = l10n.tooManyRequests;
-              break;
-            default:
-              errorMessage = l10n.authenticationFailed;
-          }
-          _showErrorSnackBar(context, errorMessage);
+        if (!mounted) return;
+        // ignore: use_build_context_synchronously
+        final context = _formKey.currentContext!;
+        // ignore: use_build_context_synchronously
+        final l10n = AppLocalizations.of(context)!;
+        String errorMessage;
+        switch (e.code) {
+          case 'user-not-found':
+            errorMessage = l10n.userNotFound;
+            break;
+          case 'wrong-password':
+            errorMessage = l10n.wrongPassword;
+            break;
+          case 'email-already-in-use':
+            errorMessage = l10n.emailAlreadyInUse;
+            break;
+          case 'user-disabled':
+            errorMessage = l10n.userDisabled;
+            break;
+          case 'invalid-email':
+            errorMessage = l10n.invalidEmail;
+            break;
+          case 'weak-password':
+            errorMessage = l10n.weakPassword;
+            break;
+          case 'too-many-requests':
+            errorMessage = l10n.tooManyRequests;
+            break;
+          default:
+            errorMessage = l10n.authenticationFailed;
         }
+        // ignore: use_build_context_synchronously
+        _showErrorSnackBar(context, errorMessage);
       } finally {
         if (mounted) {
           setState(() {
@@ -130,9 +146,13 @@ class _AuthPageState extends State<AuthPage> {
     }
   }
 
-  void _handleForgotPasswordAction(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
+  void _handleForgotPasswordAction() async {
     if (_emailController.text.isEmpty) {
+       // ignore: use_build_context_synchronously
+       final context = _formKey.currentContext!;
+       // ignore: use_build_context_synchronously
+       final l10n = AppLocalizations.of(context)!;
+      // ignore: use_build_context_synchronously
       _showErrorSnackBar(context, l10n.pleaseEnterYourEmail);
       return;
     }
@@ -140,33 +160,38 @@ class _AuthPageState extends State<AuthPage> {
       _isLoading = true;
     });
 
-    final locale = Localizations.localeOf(context);
-    await FirebaseAuth.instance.setLanguageCode(locale.languageCode);
-
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: _emailController.text);
-      if(mounted) {
-        _showSuccessSnackBar(context, l10n.resetPasswordLinkSent( _emailController.text));
-        _toggleForgotPassword(); // Go back to login view on success
-      }
+      if(!mounted) return;
+      // ignore: use_build_context_synchronously
+      final context = _formKey.currentContext!;
+      // ignore: use_build_context_synchronously
+      final l10n = AppLocalizations.of(context)!;
+      // ignore: use_build_context_synchronously
+      _showSuccessSnackBar(context, l10n.resetPasswordLinkSent( _emailController.text));
+      _toggleForgotPassword(); // Go back to login view on success
     } on FirebaseAuthException catch (e) {
-      if(mounted) {
-         String errorMessage;
-          switch (e.code) {
-            case 'user-not-found':
-              errorMessage = l10n.userNotFound;
-              break;
-            case 'invalid-email':
-              errorMessage = l10n.invalidEmail;
-              break;
-             case 'too-many-requests':
-              errorMessage = l10n.tooManyRequests;
-              break;
-            default:
-              errorMessage = l10n.authenticationFailed;
-          }
-          _showErrorSnackBar(context, errorMessage);
-      }
+        if (!mounted) return;
+        // ignore: use_build_context_synchronously
+        final context = _formKey.currentContext!;
+        // ignore: use_build_context_synchronously
+        final l10n = AppLocalizations.of(context)!;
+       String errorMessage;
+        switch (e.code) {
+          case 'user-not-found':
+            errorMessage = l10n.userNotFound;
+            break;
+          case 'invalid-email':
+            errorMessage = l10n.invalidEmail;
+            break;
+           case 'too-many-requests':
+            errorMessage = l10n.tooManyRequests;
+            break;
+          default:
+            errorMessage = l10n.authenticationFailed;
+        }
+        // ignore: use_build_context_synchronously
+        _showErrorSnackBar(context, errorMessage);
     } finally {
       if(mounted) {
         setState(() {
@@ -236,8 +261,8 @@ class GlassmorphicAuthForm extends StatelessWidget {
   final VoidCallback onToggleFormType;
   final VoidCallback onToggleForgotPassword;
   final void Function(Locale locale) changeLanguage;
-  final void Function(BuildContext) handleAuthAction;
-  final void Function(BuildContext) handleForgotPasswordAction;
+  final VoidCallback handleAuthAction;
+  final VoidCallback handleForgotPasswordAction;
 
   @override
   Widget build(BuildContext context) {
@@ -404,9 +429,9 @@ class GlassmorphicAuthForm extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: isLoading ? null : () {
                     if (isForgotPassword) {
-                       handleForgotPasswordAction(context);
+                       handleForgotPasswordAction();
                     } else {
-                       handleAuthAction(context);
+                       handleAuthAction();
                     }
                   },
                   style: ElevatedButton.styleFrom(

@@ -6,10 +6,11 @@ import 'package:flutter_application_1/l10n/app_localizations.dart';
 class EmailVerificationLandingPage extends StatefulWidget {
   final String oobCode;
 
-  const EmailVerificationLandingPage({Key? key, required this.oobCode}) : super(key: key);
+  const EmailVerificationLandingPage({super.key, required this.oobCode});
 
   @override
-  _EmailVerificationLandingPageState createState() => _EmailVerificationLandingPageState();
+  State<EmailVerificationLandingPage> createState() =>
+      _EmailVerificationLandingPageState();
 }
 
 class _EmailVerificationLandingPageState extends State<EmailVerificationLandingPage> {
@@ -23,12 +24,13 @@ class _EmailVerificationLandingPageState extends State<EmailVerificationLandingP
 
     try {
       await FirebaseAuth.instance.applyActionCode(widget.oobCode);
+      if (!mounted) return;
       setState(() {
         _isSuccess = true;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.authenticationSuccess), // Assuming you have this string
+          content: Text(AppLocalizations.of(context)!.authenticationSuccess),
           backgroundColor: Colors.green,
         ),
       );
@@ -40,6 +42,7 @@ class _EmailVerificationLandingPageState extends State<EmailVerificationLandingP
       });
 
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.message ?? AppLocalizations.of(context)!.authenticationFailed),
@@ -111,4 +114,3 @@ class _EmailVerificationLandingPageState extends State<EmailVerificationLandingP
     );
   }
 }
-

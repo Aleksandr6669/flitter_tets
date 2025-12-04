@@ -98,9 +98,9 @@ class _VerificationPageState extends State<VerificationPage> {
       height: 60,
       textStyle: const TextStyle(fontSize: 22, color: Colors.white),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withAlpha(25),
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.white.withOpacity(0.2)),
+        border: Border.all(color: Colors.white.withAlpha(51)),
       ),
     );
 
@@ -146,7 +146,7 @@ class _VerificationPageState extends State<VerificationPage> {
                           defaultPinTheme: defaultPinTheme,
                           focusedPinTheme: defaultPinTheme.copyWith(
                             decoration: defaultPinTheme.decoration!.copyWith(
-                              border: Border.all(color: Colors.white.withOpacity(0.5)),
+                              border: Border.all(color: Colors.white.withAlpha(128)),
                             ),
                           ),
                           errorPinTheme: defaultPinTheme.copyWith(

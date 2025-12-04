@@ -59,5 +59,17 @@
     "resetPasswordLinkSent": "A password reset link has been sent to {email}. Please check your inbox.",
     "resetPasswordInstructions": "Enter your email address and we will send you a link to reset your password.",
     "sendResetLink": "Send Link",
-    "backToLogin": "Back to Login"
+    "backToLogin": "Back to Login",
+    "profileSaved": "Profile saved successfully",
+    "editProfileButton": "Edit Profile",
+    "firstName": "First Name",
+    "pleaseEnterFirstName": "Please enter your first name",
+    "lastName": "Last Name",
+    "pleaseEnterLastName": "Please enter your last name",
+    "role": "Role",
+    "dateOfBirth": "Date of Birth",
+    "specialty": "Specialty",
+    "aboutMe": "About Me",
+    "skillsHint": "Skills (comma separated)",
+    "saveChanges": "Save Changes"
 }

@@ -182,4 +182,40 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get backToLogin => 'Retour à la connexion';
+
+  @override
+  String get profileSaved => 'Profil enregistré avec succès';
+
+  @override
+  String get editProfileButton => 'Modifier le profil';
+
+  @override
+  String get firstName => 'Prénom';
+
+  @override
+  String get pleaseEnterFirstName => 'Veuillez entrer votre prénom';
+
+  @override
+  String get lastName => 'Nom de famille';
+
+  @override
+  String get pleaseEnterLastName => 'Veuillez entrer votre nom de famille';
+
+  @override
+  String get role => 'Rôle';
+
+  @override
+  String get dateOfBirth => 'Date de naissance';
+
+  @override
+  String get specialty => 'Spécialité';
+
+  @override
+  String get aboutMe => 'À propos de moi';
+
+  @override
+  String get skillsHint => 'Compétences (séparées par des virgules)';
+
+  @override
+  String get saveChanges => 'Enregistrer les modifications';
 }

@@ -419,6 +419,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to Login'**
   String get backToLogin;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile saved successfully'**
+  String get profileSaved;
+
+  /// No description provided for @editProfileButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfileButton;
+
+  /// No description provided for @firstName.
+  ///
+  /// In en, this message translates to:
+  /// **'First Name'**
+  String get firstName;
+
+  /// No description provided for @pleaseEnterFirstName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your first name'**
+  String get pleaseEnterFirstName;
+
+  /// No description provided for @lastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Name'**
+  String get lastName;
+
+  /// No description provided for @pleaseEnterLastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your last name'**
+  String get pleaseEnterLastName;
+
+  /// No description provided for @role.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get role;
+
+  /// No description provided for @dateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get dateOfBirth;
+
+  /// No description provided for @specialty.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialty'**
+  String get specialty;
+
+  /// No description provided for @aboutMe.
+  ///
+  /// In en, this message translates to:
+  /// **'About Me'**
+  String get aboutMe;
+
+  /// No description provided for @skillsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills (comma separated)'**
+  String get skillsHint;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
 }
 
 class _AppLocalizationsDelegate

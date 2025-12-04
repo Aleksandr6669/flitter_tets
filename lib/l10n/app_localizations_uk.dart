@@ -182,4 +182,40 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get backToLogin => 'Повернутися до входу';
+
+  @override
+  String get profileSaved => 'Профіль успішно збережено';
+
+  @override
+  String get editProfileButton => 'Редагувати профіль';
+
+  @override
+  String get firstName => 'Ім\'я';
+
+  @override
+  String get pleaseEnterFirstName => 'Будь ласка, введіть ваше ім\'я';
+
+  @override
+  String get lastName => 'Прізвище';
+
+  @override
+  String get pleaseEnterLastName => 'Будь ласка, введіть ваше прізвище';
+
+  @override
+  String get role => 'Роль';
+
+  @override
+  String get dateOfBirth => 'Дата народження';
+
+  @override
+  String get specialty => 'Спеціальність';
+
+  @override
+  String get aboutMe => 'Про мене';
+
+  @override
+  String get skillsHint => 'Навички (через кому)';
+
+  @override
+  String get saveChanges => 'Зберегти зміни';
 }
