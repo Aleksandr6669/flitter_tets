@@ -95,26 +95,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          SafeArea(
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: _widgetOptions.elementAt(_selectedIndex),
-                      ),
-                    ),
-                    SlideTransition(
-                      position: _navBarAnimation,
-                      child: _buildLiquidBottomNavBar(context),
-                    ),
-                  ],
-                );
-              },
+          _widgetOptions.elementAt(_selectedIndex),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SlideTransition(
+              position: _navBarAnimation,
+              child: _buildLiquidBottomNavBar(context),
             ),
-          ),
+          )
         ],
       ),
     );

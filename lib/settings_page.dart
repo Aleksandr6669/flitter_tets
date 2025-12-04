@@ -58,6 +58,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
   }
 
   void _subscribeToProfileUpdates() {
+    _profileSubscription?.cancel();
     _profileSubscription = _profileService.getUserProfile().listen((userProfile) {
       if (userProfile.exists) {
         final data = userProfile.data() as Map<String, dynamic>;
@@ -105,11 +106,6 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
         'avatarUrl': _avatarUrl,
       };
       await _profileService.updateUserProfile(dataToUpdate);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.profileSaved)),
-        );
-      }
       _setEditing(false);
     } catch (e) {
       if (mounted) {
@@ -126,6 +122,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
+        bottom: false,
         child: _buildBody(context, l10n),
       ),
     );
@@ -134,41 +131,16 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
   Widget _buildBody(BuildContext context, AppLocalizations l10n) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(4, 8, 16, 8),
-          child: Row(
-            children: [
-              if (_isEditing)
-                IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () => _setEditing(false),
-                )
-              else
-                const BackButton(color: Colors.white),
-              const Spacer(),
-              if (_isEditing)
-                IconButton(
-                  icon: const Icon(Icons.check, color: Colors.white),
-                  onPressed: _updateProfile,
-                )
-              else
-                IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.white),
-                  onPressed: () => _setEditing(true),
-                ),
-            ],
-          ),
-        ),
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
             child: Column(
               children: [
                 _buildProfileSection(l10n),
                 const SizedBox(height: 20),
                 _buildInfoSection(l10n),
                 const SizedBox(height: 30),
-                if (!_isEditing) ...[
+                if (!_isEditing)
                   LanguageSelector(
                     selectedLanguage: _selectedLanguage,
                     onLanguageChange: (language) {
@@ -179,9 +151,18 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
                         widget.changeLanguage(Locale(language.code));
                       }
                     },
+                  )
+                else
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                    ),
+                    onPressed: _updateProfile,
+                    child: Text(l10n.saveChanges, style: const TextStyle(color: Colors.white)),
                   ),
-                  const SizedBox(height: 20),
-                ]
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -211,19 +192,23 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
               child: _avatarUrl.isEmpty ? const Icon(Icons.person, size: 40) : null,
             ),
             const SizedBox(height: 20),
-            if (_isEditing)
-              ...[
-                _buildTextField(_nameController, l10n.firstName),
-                const SizedBox(height: 10),
-                _buildTextField(_lastNameController, l10n.lastName),
-                TextButton(
-                  onPressed: () { /* TODO: Implement image picker */ },
-                  child: Text(l10n.changePhotoButton, style: const TextStyle(color: Colors.blue)),
-                ),
-              ]
-            else
-               _buildInfoDisplay('', '${_nameController.text} ${_lastNameController.text}', isFullName: true),
-              
+            if (_isEditing) ...[
+              _buildTextField(_nameController, l10n.firstName),
+              const SizedBox(height: 10),
+              _buildTextField(_lastNameController, l10n.lastName),
+              TextButton(
+                onPressed: () { /* TODO: Implement image picker */ },
+                child: Text(l10n.changePhotoButton, style: const TextStyle(color: Colors.blue)),
+              ),
+            ] else ...[
+              _buildInfoDisplay('', '${_nameController.text} ${_lastNameController.text}', isFullName: true),
+              const SizedBox(height: 10),
+              TextButton.icon(
+                icon: const Icon(Icons.edit, size: 16, color: Colors.white70),
+                label: Text(l10n.editProfile, style: const TextStyle(color: Colors.white70)),
+                onPressed: () => _setEditing(true),
+              ),
+            ]
           ],
         ),
       ),
@@ -285,7 +270,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     );
   }
 
-    Widget _buildInfoDisplay(String title, String value, {bool isFullName = false}) {
+  Widget _buildInfoDisplay(String title, String value, {bool isFullName = false}) {
     return SizedBox(
       width: double.infinity,
       child: Column(
