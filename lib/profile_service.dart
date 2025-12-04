@@ -14,10 +14,10 @@ class ProfileService {
     }
   }
 
-  Future<DocumentSnapshot> getUserProfile() async {
+  Stream<DocumentSnapshot> getUserProfile() {
     final user = _auth.currentUser;
     if (user != null) {
-      return await _firestore.collection('users').doc(user.uid).get();
+      return _firestore.collection('users').doc(user.uid).snapshots();
     } else {
       throw Exception('No user logged in');
     }

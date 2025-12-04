@@ -1,3 +1,5 @@
+
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/profile_service.dart';
@@ -5,6 +7,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'styles.dart';
 import 'language_selector.dart';
 import 'models/language.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SettingsPage extends StatefulWidget {
   final void Function(Locale locale) changeLanguage;
@@ -18,8 +21,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderStateMixin {
   final _profileService = ProfileService();
   bool _isEditing = false;
-  bool _isLoading = false;
   late final AnimationController _controller;
+  StreamSubscription? _profileSubscription;
 
   final _nameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -38,12 +41,13 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       vsync: this,
       duration: const Duration(seconds: 10),
     )..repeat();
-    _loadProfileData();
+    _subscribeToProfileUpdates();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _profileSubscription?.cancel();
     _nameController.dispose();
     _lastNameController.dispose();
     _roleController.dispose();
@@ -53,53 +57,43 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     super.dispose();
   }
 
-  void _setEditing(bool isEditing) {
-    setState(() {
-      _isEditing = isEditing;
-    });
-    widget.onEditModeChange(isEditing);
-  }
-
-  Future<void> _loadProfileData({bool cancelEditing = false}) async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      final userProfile = await _profileService.getUserProfile();
+  void _subscribeToProfileUpdates() {
+    _profileSubscription = _profileService.getUserProfile().listen((userProfile) {
       if (userProfile.exists) {
         final data = userProfile.data() as Map<String, dynamic>;
-        _nameController.text = data['name'] ?? '';
-        _lastNameController.text = data['lastName'] ?? '';
-        _roleController.text = data['role'] ?? '';
-        _positionController.text = data['position'] ?? '';
-        _organizationController.text = data['organization'] ?? '';
-        _aboutController.text = data['about'] ?? '';
+        if (!_isEditing) {
+          _nameController.text = data['name'] ?? '';
+          _lastNameController.text = data['lastName'] ?? '';
+          _roleController.text = data['role'] ?? '';
+          _positionController.text = data['position'] ?? '';
+          _organizationController.text = data['organization'] ?? '';
+          _aboutController.text = data['about'] ?? '';
+        }
         _avatarUrl = data['avatarUrl'] ?? '';
+        if (mounted) {
+          setState(() {});
+        }
       }
-    } catch (e) {
+    }, onError: (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to load profile: $e')),
         );
       }
-    } finally {
-      if (mounted) {
-        setState(() {
-          if (cancelEditing) {
-            _setEditing(false);
-          }
-          _isLoading = false;
-        });
-      }
+    });
+  }
+
+  void _setEditing(bool isEditing) {
+    setState(() {
+      _isEditing = isEditing;
+    });
+    widget.onEditModeChange(isEditing);
+    if (!isEditing) {
+      _subscribeToProfileUpdates();
     }
   }
 
   Future<void> _updateProfile() async {
-    setState(() {
-      _isLoading = true;
-    });
-
     try {
       final dataToUpdate = {
         'name': _nameController.text,
@@ -123,12 +117,6 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
           SnackBar(content: Text('Failed to update profile: $e')),
         );
       }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
     }
   }
 
@@ -138,9 +126,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
-        child: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : _buildBody(context, l10n),
+        child: _buildBody(context, l10n),
       ),
     );
   }
@@ -155,7 +141,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
               if (_isEditing)
                 IconButton(
                   icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () => _loadProfileData(cancelEditing: true),
+                  onPressed: () => _setEditing(false),
                 )
               else
                 const BackButton(color: Colors.white),
@@ -209,7 +195,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       width: double.infinity,
       height: 280,
       borderRadius: 20,
-      blur: 7,
+      blur: 10,
       border: 0,
       linearGradient: kGlassmorphicGradient,
       borderGradient: kGlassmorphicBorderGradient,
