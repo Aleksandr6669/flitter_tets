@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class LiquidNavBar extends StatefulWidget {
@@ -151,27 +152,29 @@ class _LiquidPainter extends CustomPainter {
     final strokePaint = Paint()
       ..color = strokeColor.withOpacity(stretchEffect)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0;
+      ..strokeWidth = 2.5
+      ..maskFilter = const ui.MaskFilter.blur(ui.BlurStyle.normal, 5.0);
 
-    final sizeMultiplier = 1.0 + (0.2 * stretchEffect);
+    final sizeMultiplier = 1.0 + (0.3 * stretchEffect);
 
-    final pillHeight = (size.height * 0.8) * sizeMultiplier;
-    final pillBaseWidth = itemWidth * 0.9;
+    final baseHeight = size.height * 0.9;
+    final baseWidth = baseHeight * 1.1;
+
+    final pillHeight = baseHeight * sizeMultiplier;
+    final pillWidth = baseWidth * sizeMultiplier;
 
     final currentX = fromX + (toX - fromX) * progress;
-    final distance = (toX - fromX).abs();
-    final stretchedWidth = pillBaseWidth + distance * stretchEffect;
 
     final rect = Rect.fromCenter(
       center: Offset(currentX, y),
-      width: stretchedWidth * sizeMultiplier,
+      width: pillWidth,
       height: pillHeight,
     );
 
     final rrect = RRect.fromRectAndRadius(rect, Radius.circular(pillHeight / 2));
     
-    canvas.drawRRect(rrect, fillPaint);
     canvas.drawRRect(rrect, strokePaint);
+    canvas.drawRRect(rrect, fillPaint);
   }
 
   @override

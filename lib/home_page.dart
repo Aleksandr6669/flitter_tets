@@ -101,21 +101,31 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-      child: GlassmorphicContainer(
-        width: double.infinity,
-        height: 70,
-        borderRadius: 30,
-        blur: 7,
-        alignment: Alignment.center,
-        border: 1,
-        linearGradient: kAnimatedGradient(_controller.value),
-        borderGradient: kAppBarBorderGradient,
-        child: LiquidNavBar(
-          selectedIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: navItems,
-          selectedItemColor: kBottomNavSelectedItemColor,
-          unselectedItemColor: kBottomNavUnselectedItemColor,
+      child: SizedBox(
+        height: 80,
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center,
+          children: [
+            GlassmorphicContainer(
+              width: double.infinity,
+              height: 70,
+              borderRadius: 35,
+              blur: 7,
+              alignment: Alignment.center,
+              border: 1,
+              linearGradient: kAnimatedGradient(_controller.value),
+              borderGradient: kAppBarBorderGradient,
+              child: const SizedBox.shrink(),
+            ),
+            LiquidNavBar(
+              selectedIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              items: navItems,
+              selectedItemColor: kBottomNavSelectedItemColor,
+              unselectedItemColor: kBottomNavUnselectedItemColor,
+            ),
+          ],
         ),
       ),
     );
