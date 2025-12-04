@@ -100,9 +100,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     ];
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+      padding: const EdgeInsets.fromLTRB(30, 0, 30, 20),
       child: SizedBox(
-        height: 80,
+        height: 70,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.center,
@@ -118,12 +118,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               borderGradient: kAppBarBorderGradient,
               child: const SizedBox.shrink(),
             ),
-            LiquidNavBar(
-              selectedIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              items: navItems,
-              selectedItemColor: kBottomNavSelectedItemColor,
-              unselectedItemColor: kBottomNavUnselectedItemColor,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: LiquidNavBar(
+                selectedIndex: _selectedIndex,
+                onTap: _onItemTapped,
+                items: navItems,
+                selectedItemColor: kBottomNavSelectedItemColor,
+                unselectedItemColor: kBottomNavUnselectedItemColor,
+              ),
             ),
           ],
         ),

@@ -57,10 +57,6 @@ class _LiquidNavBarState extends State<LiquidNavBar> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final navBarWidth = screenWidth - 40;
-    final itemWidth = navBarWidth / widget.items.length;
-
     return SizedBox(
       height: 70,
       width: double.infinity,
@@ -73,7 +69,6 @@ class _LiquidNavBarState extends State<LiquidNavBar> with SingleTickerProviderSt
               fromIndex: _previousIndex,
               toIndex: widget.selectedIndex,
               itemCount: widget.items.length,
-              itemWidth: itemWidth,
               color: widget.selectedItemColor.withOpacity(0.3),
               strokeColor: widget.selectedItemColor,
             ),
@@ -123,7 +118,6 @@ class _LiquidPainter extends CustomPainter {
   final int fromIndex;
   final int toIndex;
   final int itemCount;
-  final double itemWidth;
   final Color color;
   final Color strokeColor;
 
@@ -132,13 +126,13 @@ class _LiquidPainter extends CustomPainter {
     required this.fromIndex,
     required this.toIndex,
     required this.itemCount,
-    required this.itemWidth,
     required this.color,
     required this.strokeColor,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
+    final itemWidth = size.width / itemCount;
     final fromX = itemWidth * (fromIndex + 0.5);
     final toX = itemWidth * (toIndex + 0.5);
     final y = size.height / 2;
@@ -158,7 +152,7 @@ class _LiquidPainter extends CustomPainter {
     final sizeMultiplier = 1.0 + (0.3 * stretchEffect);
 
     final baseHeight = size.height * 0.9;
-    final baseWidth = baseHeight * 1.1;
+    final baseWidth = baseHeight * 1.2;
 
     final pillHeight = baseHeight * sizeMultiplier;
     final pillWidth = baseWidth * sizeMultiplier;
@@ -183,7 +177,6 @@ class _LiquidPainter extends CustomPainter {
         fromIndex != oldDelegate.fromIndex ||
         toIndex != oldDelegate.toIndex ||
         itemCount != oldDelegate.itemCount ||
-        itemWidth != oldDelegate.itemWidth ||
         color != oldDelegate.color ||
         strokeColor != oldDelegate.strokeColor;
   }
