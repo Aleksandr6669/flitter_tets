@@ -12,7 +12,16 @@ import 'models/language.dart';
 class SettingsPage extends StatefulWidget {
   final void Function(Locale locale) changeLanguage;
   final void Function(bool) onEditModeChange;
-  const SettingsPage({super.key, required this.changeLanguage, required this.onEditModeChange});
+  final bool initialShowStories;
+  final void Function(bool) onShowStoriesChanged;
+
+  const SettingsPage({
+    super.key,
+    required this.changeLanguage,
+    required this.onEditModeChange,
+    required this.initialShowStories,
+    required this.onShowStoriesChanged,
+  });
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -21,6 +30,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMixin {
   final _profileService = ProfileService();
   bool _isEditing = false;
+  late bool _showStories;
 
   final _nameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -32,12 +42,10 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   String _avatarUrl = '';
   late Language _selectedLanguage;
 
-  // Animation and Scroll Controllers
   late final AnimationController _bgAnimationController;
   late final AnimationController _cardStateAnimationController;
   final _scrollController = ScrollController();
 
-  // State for the pull-down animation
   double _extraHeight = 0;
   bool _isExpanded = false;
   static const double _initialCardHeight = 280;
@@ -46,6 +54,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   @override
   void initState() {
     super.initState();
+    _showStories = widget.initialShowStories;
     _bgAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 10),
@@ -210,6 +219,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                 const SizedBox(height: 30),
                 _buildBottomSection(l10n),
                 const SizedBox(height: 20),
+                if (!_isEditing) _buildStoriesSwitch(l10n),
               ],
             ),
           ),
@@ -232,7 +242,6 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
       borderGradient: kGlassmorphicBorderGradient,
       child: Stack(
         children: [
-          // Background Image for expanded state
           if (_avatarUrl.isNotEmpty)
             Positioned.fill(
               child: Opacity(
@@ -244,14 +253,12 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
               ),
             ),
 
-          // AnimatedSwitcher for View/Edit content
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 350),
             transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
             child: _isEditing ? _buildProfileEditContent(l10n) : _buildProfileViewContent(l10n),
           ),
 
-          // Corner content for expanded state
           if (!_isEditing)
             Positioned(
               bottom: 16,
@@ -421,6 +428,36 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                 }
               },
             ),
+    );
+  }
+
+  Widget _buildStoriesSwitch(AppLocalizations l10n) {
+    return GlassmorphicContainer(
+      width: double.infinity,
+      height: 60,
+      borderRadius: 20,
+      blur: 10,
+      border: 0,
+      linearGradient: kGlassmorphicGradient,
+      borderGradient: kGlassmorphicBorderGradient,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(l10n.showStories, style: const TextStyle(color: Colors.white, fontSize: 16)),
+            Switch(
+              value: _showStories,
+              onChanged: (value) {
+                setState(() => _showStories = value);
+                widget.onShowStoriesChanged(value);
+              },
+              activeColor: Colors.blue,
+              inactiveTrackColor: Colors.white30,
+            ),
+          ],
+        ),
+      ),
     );
   }
 

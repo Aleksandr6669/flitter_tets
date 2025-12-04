@@ -539,6 +539,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change Photo'**
   String get changePhotoButton;
+
+  /// No description provided for @showStories.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Stories'**
+  String get showStories;
 }
 
 class _AppLocalizationsDelegate

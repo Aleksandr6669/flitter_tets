@@ -243,4 +243,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get changePhotoButton => 'Изменить фото';
+
+  @override
+  String get showStories => 'Показывать истории';
 }

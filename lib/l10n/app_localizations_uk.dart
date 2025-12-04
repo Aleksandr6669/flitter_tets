@@ -242,4 +242,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get changePhotoButton => 'Змінити фотографію';
+
+  @override
+  String get showStories => 'Show Stories';
 }

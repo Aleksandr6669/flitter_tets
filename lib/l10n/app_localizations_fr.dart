@@ -242,4 +242,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get changePhotoButton => 'Changer de photo';
+
+  @override
+  String get showStories => 'Show Stories';
 }

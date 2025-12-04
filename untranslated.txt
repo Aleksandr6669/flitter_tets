@@ -1,11 +1,13 @@
 {
   "fr": [
     "phoneNumber",
-    "gender"
+    "gender",
+    "showStories"
   ],
 
   "uk": [
     "phoneNumber",
-    "gender"
+    "gender",
+    "showStories"
   ]
 }

@@ -79,5 +79,6 @@
     "position": "Position",
     "organization": "Organization",
     "editProfile": "Edit Profile",
-    "changePhotoButton": "Change Photo"
+    "changePhotoButton": "Change Photo",
+    "showStories": "Show Stories"
 }

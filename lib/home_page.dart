@@ -23,19 +23,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late final AnimationController _controller;
   late final AnimationController _navBarAnimationController;
   late final Animation<Offset> _navBarAnimation;
-  late final List<Widget> _widgetOptions;
+  late List<Widget> _widgetOptions;
   bool _isSettingsInEditMode = false;
-
-  void _handleSettingsEditModeChange(bool isEditing) {
-    setState(() {
-      _isSettingsInEditMode = isEditing;
-      if (_isSettingsInEditMode) {
-        _navBarAnimationController.forward();
-      } else {
-        _navBarAnimationController.reverse();
-      }
-    });
-  }
+  bool _showStories = true;
 
   @override
   void initState() {
@@ -58,13 +48,45 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       curve: Curves.easeInOut,
     ));
 
+    _updateWidgetOptions();
+  }
+
+  void _updateWidgetOptions() {
     _widgetOptions = <Widget>[
-      const FeedPage(),
+      if (_showStories) const FeedPage(),
       const CoursesPage(),
       const TestsPage(),
       const ProgressPage(),
-      SettingsPage(changeLanguage: widget.changeLanguage, onEditModeChange: _handleSettingsEditModeChange),
+      SettingsPage(
+        changeLanguage: widget.changeLanguage,
+        onEditModeChange: _handleSettingsEditModeChange,
+        initialShowStories: _showStories,
+        onShowStoriesChanged: _handleShowStoriesChange,
+      ),
     ];
+  }
+
+  void _handleSettingsEditModeChange(bool isEditing) {
+    setState(() {
+      _isSettingsInEditMode = isEditing;
+      if (_isSettingsInEditMode) {
+        _navBarAnimationController.forward();
+      } else {
+        _navBarAnimationController.reverse();
+      }
+    });
+  }
+
+  void _handleShowStoriesChange(bool show) {
+    setState(() {
+      _showStories = show;
+      // If the currently selected tab is the stories tab and it's being hidden,
+      // default to the first available tab.
+      if (!_showStories && _selectedIndex == 0) {
+        _selectedIndex = 0; 
+      }
+      _updateWidgetOptions();
+    });
   }
 
   @override
@@ -83,6 +105,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // Rebuild the nav items on each build to ensure the correct list.
+    final navItems = _getNavItems(context);
+    final currentSelection = _selectedIndex.clamp(0, navItems.length - 1);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -95,12 +121,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          _widgetOptions.elementAt(_selectedIndex),
+          _widgetOptions.elementAt(currentSelection),
           Align(
             alignment: Alignment.bottomCenter,
             child: SlideTransition(
               position: _navBarAnimation,
-              child: _buildLiquidBottomNavBar(context),
+              child: _buildLiquidBottomNavBar(context, navItems, currentSelection),
             ),
           )
         ],
@@ -108,16 +134,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildLiquidBottomNavBar(BuildContext context) {
+  List<Map<String, dynamic>> _getNavItems(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final navItems = [
-      {'icon': Icons.home, 'label': l10n.bottomNavFeed},
+    return [
+      if (_showStories) {'icon': Icons.home, 'label': l10n.bottomNavFeed},
       {'icon': Icons.school, 'label': l10n.bottomNavCourses},
       {'icon': Icons.assignment, 'label': l10n.bottomNavTests},
       {'icon': Icons.show_chart, 'label': l10n.bottomNavProgress},
       {'icon': Icons.settings, 'label': l10n.bottomNavSettings},
     ];
+  }
 
+  Widget _buildLiquidBottomNavBar(BuildContext context, List<Map<String, dynamic>> navItems, int currentSelection) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: SizedBox(
@@ -140,7 +168,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: LiquidNavBar(
-                selectedIndex: _selectedIndex,
+                selectedIndex: currentSelection,
                 onTap: _onItemTapped,
                 items: navItems,
                 selectedItemColor: kBottomNavSelectedItemColor,

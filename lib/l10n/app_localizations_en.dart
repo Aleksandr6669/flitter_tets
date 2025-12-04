@@ -238,4 +238,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changePhotoButton => 'Change Photo';
+
+  @override
+  String get showStories => 'Show Stories';
 }

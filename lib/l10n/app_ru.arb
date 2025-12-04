@@ -79,5 +79,6 @@
     "position": "Должность",
     "organization": "Организация",
     "editProfile": "Редактировать профиль",
-    "changePhotoButton": "Изменить фото"
+    "changePhotoButton": "Изменить фото",
+    "showStories": "Показывать истории"
 }
