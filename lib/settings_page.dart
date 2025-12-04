@@ -3,10 +3,13 @@ import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/profile_service.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'styles.dart';
+import 'language_selector.dart';
+import 'models/language.dart';
 
 class SettingsPage extends StatefulWidget {
   final void Function(Locale locale) changeLanguage;
-  const SettingsPage({super.key, required this.changeLanguage});
+  final void Function(bool) onEditModeChange;
+  const SettingsPage({super.key, required this.changeLanguage, required this.onEditModeChange});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -26,6 +29,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
   final _aboutController = TextEditingController();
 
   String _avatarUrl = '';
+  Language _selectedLanguage = supportedLanguages.first;
 
   @override
   void initState() {
@@ -47,6 +51,13 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     _organizationController.dispose();
     _aboutController.dispose();
     super.dispose();
+  }
+
+  void _setEditing(bool isEditing) {
+    setState(() {
+      _isEditing = isEditing;
+    });
+    widget.onEditModeChange(isEditing);
   }
 
   Future<void> _loadProfileData({bool cancelEditing = false}) async {
@@ -76,7 +87,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       if (mounted) {
         setState(() {
           if (cancelEditing) {
-            _isEditing = false;
+            _setEditing(false);
           }
           _isLoading = false;
         });
@@ -105,9 +116,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
           SnackBar(content: Text(AppLocalizations.of(context)!.profileSaved)),
         );
       }
-      setState(() {
-        _isEditing = false;
-      });
+      _setEditing(false);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -159,11 +168,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
               else
                 IconButton(
                   icon: const Icon(Icons.edit, color: Colors.white),
-                  onPressed: () {
-                    setState(() {
-                      _isEditing = true;
-                    });
-                  },
+                  onPressed: () => _setEditing(true),
                 ),
             ],
           ),
@@ -177,8 +182,20 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
                 const SizedBox(height: 20),
                 _buildInfoSection(l10n),
                 const SizedBox(height: 30),
-                _buildLanguageSwitcher(l10n),
-                const SizedBox(height: 20),
+                if (!_isEditing) ...[
+                  LanguageSelector(
+                    selectedLanguage: _selectedLanguage,
+                    onLanguageChange: (language) {
+                      if (language != null) {
+                        setState(() {
+                          _selectedLanguage = language;
+                        });
+                        widget.changeLanguage(Locale(language.code));
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                ]
               ],
             ),
           ),
@@ -271,69 +288,6 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildLanguageSwitcher(AppLocalizations l10n) {
-    return Center(
-      child: IconButton(
-        onPressed: () => _showLanguagePicker(context),
-        icon: const Icon(Icons.language_outlined, color: Colors.white70, size: 30),
-        padding: const EdgeInsets.all(16),
-      ),
-    );
-  }
-
-  void _showLanguagePicker(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return GlassmorphicContainer(
-          width: double.infinity,
-          height: 220,
-          borderRadius: 20,
-          blur: 7,
-          border: 1,
-          linearGradient: LinearGradient(
-            colors: [Colors.black.withOpacity(0.25), Colors.black.withOpacity(0.25)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderGradient: kAppBarBorderGradient,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                  leading: const Text('🇬🇧', style: TextStyle(fontSize: 24)),
-                  title: const Text('English', style: TextStyle(color: Colors.white)),
-                  onTap: () {
-                    widget.changeLanguage(const Locale('en'));
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Text('🇷🇺', style: TextStyle(fontSize: 24)),
-                  title: const Text('Русский', style: TextStyle(color: Colors.white)),
-                  onTap: () {
-                    widget.changeLanguage(const Locale('ru'));
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Text('🇺🇦', style: TextStyle(fontSize: 24)),
-                  title: const Text('Українська', style: TextStyle(color: Colors.white)),
-                  onTap: () {
-                    widget.changeLanguage(const Locale('uk'));
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   Widget _buildTextField(TextEditingController controller, String label, {int maxLines = 1}) {
     return TextField(
       controller: controller,
@@ -354,7 +308,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
   }
 
     Widget _buildInfoDisplay(String title, String value, {bool isFullName = false}) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: isFullName ? CrossAxisAlignment.center : CrossAxisAlignment.start,

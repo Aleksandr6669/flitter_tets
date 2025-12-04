@@ -22,6 +22,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   int _selectedIndex = 0;
   late final AnimationController _controller;
   late final List<Widget> _widgetOptions;
+  bool _isSettingsInEditMode = false;
+
+  void _handleSettingsEditModeChange(bool isEditing) {
+    setState(() {
+      _isSettingsInEditMode = isEditing;
+    });
+  }
 
   @override
   void initState() {
@@ -36,7 +43,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       const CoursesPage(),
       const TestsPage(),
       const ProgressPage(),
-      SettingsPage(changeLanguage: widget.changeLanguage),
+      SettingsPage(changeLanguage: widget.changeLanguage, onEditModeChange: _handleSettingsEditModeChange),
     ];
   }
 
@@ -78,7 +85,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         child: _widgetOptions.elementAt(_selectedIndex),
                       ),
                     ),
-                    _buildLiquidBottomNavBar(context),
+                    if (!_isSettingsInEditMode) _buildLiquidBottomNavBar(context),
                   ],
                 );
               },
