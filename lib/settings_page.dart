@@ -32,7 +32,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
   final _aboutController = TextEditingController();
 
   String _avatarUrl = '';
-  Language _selectedLanguage = supportedLanguages.first;
+  late Language _selectedLanguage;
 
   @override
   void initState() {
@@ -42,6 +42,17 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       duration: const Duration(seconds: 10),
     )..repeat();
     _subscribeToProfileUpdates();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Set the selected language based on the current app locale.
+    final currentLocale = Localizations.localeOf(context);
+    _selectedLanguage = supportedLanguages.firstWhere(
+      (lang) => lang.code == currentLocale.languageCode,
+      orElse: () => supportedLanguages.first,
+    );
   }
 
   @override
