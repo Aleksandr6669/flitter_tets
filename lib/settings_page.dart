@@ -250,7 +250,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       height: _isEditing ? 350 : 300,
       borderRadius: 20,
       blur: 10,
-      border: 1,
+      border: 0,
       linearGradient: kGlassmorphicGradient,
       borderGradient: kGlassmorphicBorderGradient,
       child: Padding(
