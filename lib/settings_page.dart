@@ -212,7 +212,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       blur: 7,
       border: 1,
       linearGradient: LinearGradient(
-        colors: [Colors.black.withOpacity(0.25), Colors.black.withOpacity(0.25)],
+        colors: [const Color.fromARGB(0, 214, 209, 209).withOpacity(0.25), const Color.fromARGB(0, 15, 14, 14).withOpacity(0.25)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
@@ -253,7 +253,7 @@ class _SettingsPageState extends State<SettingsPage> with SingleTickerProviderSt
       width: double.infinity,
       height: _isEditing ? 350 : 300,
       borderRadius: 20,
-      blur: 7,
+      blur: 10,
       border: 1,
       linearGradient: LinearGradient(
         colors: [Colors.black.withOpacity(0.25), Colors.black.withOpacity(0.25)],

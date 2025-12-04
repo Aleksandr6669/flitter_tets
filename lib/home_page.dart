@@ -18,15 +18,22 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
   late final AnimationController _controller;
+  late final AnimationController _navBarAnimationController;
+  late final Animation<Offset> _navBarAnimation;
   late final List<Widget> _widgetOptions;
   bool _isSettingsInEditMode = false;
 
   void _handleSettingsEditModeChange(bool isEditing) {
     setState(() {
       _isSettingsInEditMode = isEditing;
+      if (_isSettingsInEditMode) {
+        _navBarAnimationController.forward();
+      } else {
+        _navBarAnimationController.reverse();
+      }
     });
   }
 
@@ -37,6 +44,19 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       vsync: this,
       duration: const Duration(seconds: 10),
     )..repeat();
+
+    _navBarAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+
+    _navBarAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0, 2),
+    ).animate(CurvedAnimation(
+      parent: _navBarAnimationController,
+      curve: Curves.easeInOut,
+    ));
 
     _widgetOptions = <Widget>[
       const FeedPage(),
@@ -50,6 +70,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void dispose() {
     _controller.dispose();
+    _navBarAnimationController.dispose();
     super.dispose();
   }
 
@@ -85,7 +106,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         child: _widgetOptions.elementAt(_selectedIndex),
                       ),
                     ),
-                    if (!_isSettingsInEditMode) _buildLiquidBottomNavBar(context),
+                    SlideTransition(
+                      position: _navBarAnimation,
+                      child: _buildLiquidBottomNavBar(context),
+                    ),
                   ],
                 );
               },
