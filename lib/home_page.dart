@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/courses_page.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_application_1/tests_page.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/liquid_nav_bar.dart';
+import 'package:flutter_application_1/profile_service.dart';
 import 'styles.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,13 +22,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  int _widgetIndex = 0; // Represents the index in _widgetOptions
+  int _widgetIndex = 0;
   late final AnimationController _controller;
   late final AnimationController _navBarAnimationController;
   late final Animation<Offset> _navBarAnimation;
-  late final List<Widget> _widgetOptions;
+
   bool _isSettingsInEditMode = false;
   bool _showStories = true;
+
+  final _profileService = ProfileService();
+  StreamSubscription? _profileSubscription;
 
   @override
   void initState() {
@@ -48,19 +54,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       curve: Curves.easeInOut,
     ));
 
-    // The list of widgets is now static and always includes all pages.
-    _widgetOptions = <Widget>[
-      const FeedPage(),
-      const CoursesPage(),
-      const TestsPage(),
-      const ProgressPage(),
-      SettingsPage(
-        changeLanguage: widget.changeLanguage,
-        onEditModeChange: _handleSettingsEditModeChange,
-        initialShowStories: _showStories,
-        onShowStoriesChanged: _handleShowStoriesChange,
-      ),
-    ];
+    _loadProfileSettings();
+  }
+
+  void _loadProfileSettings() {
+    _profileSubscription = _profileService.getUserProfile().listen((userProfile) {
+      if (mounted && userProfile.exists) {
+        final data = userProfile.data() as Map<String, dynamic>;
+        // Use a default value of true if the setting doesn't exist.
+        final showStories = data['showStories'] as bool? ?? true;
+        if (showStories != _showStories) {
+          setState(() {
+            _showStories = showStories;
+          });
+        }
+      }
+    });
   }
 
   void _handleSettingsEditModeChange(bool isEditing) {
@@ -74,11 +83,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
   }
 
-  // This method now only updates the boolean. The UI logic is handled in the build method.
   void _handleShowStoriesChange(bool show) {
     setState(() {
       _showStories = show;
     });
+    _profileService.updateUserProfile({'showStories': show});
   }
 
   AppLocalizations get l10n => AppLocalizations.of(context)!;
@@ -87,11 +96,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void dispose() {
     _controller.dispose();
     _navBarAnimationController.dispose();
+    _profileSubscription?.cancel();
     super.dispose();
   }
 
-  // The tapped index is from the visible navigation items.
-  // It needs to be mapped to the correct index in the static _widgetOptions list.
   void _onItemTapped(int navBarIndex) {
     HapticFeedback.lightImpact();
     setState(() {
@@ -107,14 +115,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final navItems = _getNavItems(context);
 
-    // Calculate the nav bar index based on the master widget index.
+    final List<Widget> widgetOptions = <Widget>[
+      const FeedPage(),
+      const CoursesPage(),
+      const TestsPage(),
+      const ProgressPage(),
+      SettingsPage(
+        changeLanguage: widget.changeLanguage,
+        onEditModeChange: _handleSettingsEditModeChange,
+        initialShowStories: _showStories,
+        onShowStoriesChanged: _handleShowStoriesChange,
+      ),
+    ];
+
     int navBarIndex;
     if (_showStories) {
       navBarIndex = _widgetIndex;
     } else {
-      // When stories are hidden, widget index 0 is not in the nav bar.
-      // Any widget index > 0 maps to a nav bar index of (widget_index - 1).
-      // This ensures the correct nav item is highlighted.
       navBarIndex = _widgetIndex > 0 ? _widgetIndex - 1 : 0;
     }
 
@@ -130,10 +147,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          // IndexedStack keeps all children in the tree, preserving their state.
           IndexedStack(
             index: _widgetIndex,
-            children: _widgetOptions,
+            children: widgetOptions,
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -147,7 +163,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  // This method correctly builds the list of VISIBLE nav items.
   List<Map<String, dynamic>> _getNavItems(BuildContext context) {
     return [
       if (_showStories) {'icon': Icons.home, 'label': l10n.bottomNavFeed},
@@ -158,19 +173,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ];
   }
 
-  Widget _buildLiquidBottomNavBar(BuildContext context, List<Map<String, dynamic>> navItems, int navBarIndex) {
+  Widget _buildLiquidBottomNavBar(
+      BuildContext context, List<Map<String, dynamic>> navItems, int navBarIndex) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: SizedBox(
-        height: 80,
+        height: 50,
         child: Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.center,
           children: [
             GlassmorphicContainer(
               width: double.infinity,
-              height: 70,
-              borderRadius: 35,
+              height: 50,
+              borderRadius: 25,
               blur: 7,
               alignment: Alignment.center,
               border: 1,

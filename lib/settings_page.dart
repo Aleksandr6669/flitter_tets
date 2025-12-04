@@ -453,7 +453,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                 setState(() => _showStories = value);
                 widget.onShowStoriesChanged(value);
               },
-              activeColor: Colors.blue,
+              activeThumbColor: Colors.blue,
               inactiveTrackColor: Colors.white30,
             ),
           ],
