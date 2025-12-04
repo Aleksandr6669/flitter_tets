@@ -7,6 +7,8 @@ class UserProfile {
   final String specialty;
   final List<String> skills;
   final String aboutMe;
+  final String position;
+  final String organization;
 
   UserProfile({
     required this.avatarUrl,
@@ -17,6 +19,8 @@ class UserProfile {
     required this.specialty,
     required this.skills,
     required this.aboutMe,
+    required this.position,
+    required this.organization,
   });
 
   factory UserProfile.fromMap(Map<String, dynamic> data) {
@@ -29,6 +33,8 @@ class UserProfile {
       specialty: data['specialty'] ?? '',
       skills: List<String>.from(data['skills'] ?? []),
       aboutMe: data['aboutMe'] ?? '',
+      position: data['position'] ?? '',
+      organization: data['organization'] ?? '',
     );
   }
 
@@ -42,6 +48,8 @@ class UserProfile {
       'specialty': specialty,
       'skills': skills,
       'aboutMe': aboutMe,
+      'position': position,
+      'organization': organization,
     };
   }
 }

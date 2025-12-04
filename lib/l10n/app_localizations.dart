@@ -222,17 +222,29 @@ abstract class AppLocalizations {
   /// **'Feed'**
   String get bottomNavFeed;
 
-  /// No description provided for @bottomNavProfile.
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get bottomNavProfile;
-
   /// No description provided for @bottomNavSettings.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get bottomNavSettings;
+
+  /// No description provided for @bottomNavCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Courses'**
+  String get bottomNavCourses;
+
+  /// No description provided for @bottomNavTests.
+  ///
+  /// In en, this message translates to:
+  /// **'Tests'**
+  String get bottomNavTests;
+
+  /// No description provided for @bottomNavProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get bottomNavProgress;
 
   /// No description provided for @enterVerificationCode.
   ///
@@ -491,6 +503,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save Changes'**
   String get saveChanges;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// No description provided for @position.
+  ///
+  /// In en, this message translates to:
+  /// **'Position'**
+  String get position;
+
+  /// No description provided for @organization.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization'**
+  String get organization;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @changePhotoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Photo'**
+  String get changePhotoButton;
 }
 
 class _AppLocalizationsDelegate

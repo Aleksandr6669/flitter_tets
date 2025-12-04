@@ -71,10 +71,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bottomNavFeed => 'Fil';
 
   @override
-  String get bottomNavProfile => 'Profil';
+  String get bottomNavSettings => 'Paramètres';
 
   @override
-  String get bottomNavSettings => 'Paramètres';
+  String get bottomNavCourses => 'Cours';
+
+  @override
+  String get bottomNavTests => 'Tests';
+
+  @override
+  String get bottomNavProgress => 'Progrès';
 
   @override
   String get enterVerificationCode => 'Entrez le code de vérification';
@@ -218,4 +224,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get saveChanges => 'Enregistrer les modifications';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get position => 'Position';
+
+  @override
+  String get organization => 'Organisation';
+
+  @override
+  String get editProfile => 'Modifier le profil';
+
+  @override
+  String get changePhotoButton => 'Changer de photo';
 }

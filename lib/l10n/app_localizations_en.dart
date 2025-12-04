@@ -69,10 +69,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bottomNavFeed => 'Feed';
 
   @override
-  String get bottomNavProfile => 'Profile';
+  String get bottomNavSettings => 'Settings';
 
   @override
-  String get bottomNavSettings => 'Settings';
+  String get bottomNavCourses => 'Courses';
+
+  @override
+  String get bottomNavTests => 'Tests';
+
+  @override
+  String get bottomNavProgress => 'Progress';
 
   @override
   String get enterVerificationCode => 'Enter Verification Code';
@@ -214,4 +220,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveChanges => 'Save Changes';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get position => 'Position';
+
+  @override
+  String get organization => 'Organization';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get changePhotoButton => 'Change Photo';
 }

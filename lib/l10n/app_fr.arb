@@ -1,4 +1,3 @@
-
 {
     "@@locale": "fr",
     "createAccount": "Créer un compte",
@@ -21,8 +20,10 @@
     "profileTitle": "Profil",
     "settingsTitle": "Paramètres",
     "bottomNavFeed": "Fil",
-    "bottomNavProfile": "Profil",
     "bottomNavSettings": "Paramètres",
+    "bottomNavCourses": "Cours",
+    "bottomNavTests": "Tests",
+    "bottomNavProgress": "Progrès",
     "enterVerificationCode": "Entrez le code de vérification",
     "verificationCodeSent": "Un code de vérification a été envoyé à votre adresse e-mail.",
     "verificationCode": "Code de vérification",
@@ -72,5 +73,9 @@
     "specialty": "Spécialité",
     "aboutMe": "À propos de moi",
     "skillsHint": "Compétences (séparées par des virgules)",
-    "saveChanges": "Enregistrer les modifications"
+    "saveChanges": "Enregistrer les modifications",
+    "position": "Position",
+    "organization": "Organisation",
+    "editProfile": "Modifier le profil",
+    "changePhotoButton": "Changer de photo"
 }

@@ -20,8 +20,10 @@
     "profileTitle": "Профиль",
     "settingsTitle": "Настройки",
     "bottomNavFeed": "Лента",
-    "bottomNavProfile": "Профиль",
     "bottomNavSettings": "Настройки",
+    "bottomNavCourses": "Курсы",
+    "bottomNavTests": "Тесты",
+    "bottomNavProgress": "Прогресс",
     "enterVerificationCode": "Введите код подтверждения",
     "verificationCodeSent": "Код подтверждения отправлен на вашу электронную почту.",
     "verificationCode": "Код подтверждения",
@@ -71,5 +73,11 @@
     "specialty": "Специальность",
     "aboutMe": "Обо мне",
     "skillsHint": "Навыки (через запятую)",
-    "saveChanges": "Сохранить изменения"
+    "saveChanges": "Сохранить изменения",
+    "phoneNumber": "Номер телефона",
+    "gender": "Пол",
+    "position": "Должность",
+    "organization": "Организация",
+    "editProfile": "Редактировать профиль",
+    "changePhotoButton": "Изменить фото"
 }

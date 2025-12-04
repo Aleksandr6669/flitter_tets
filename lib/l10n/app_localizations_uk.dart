@@ -71,10 +71,16 @@ class AppLocalizationsUk extends AppLocalizations {
   String get bottomNavFeed => 'Стрічка';
 
   @override
-  String get bottomNavProfile => 'Профіль';
+  String get bottomNavSettings => 'Налаштування';
 
   @override
-  String get bottomNavSettings => 'Налаштування';
+  String get bottomNavCourses => 'Курси';
+
+  @override
+  String get bottomNavTests => 'Тести';
+
+  @override
+  String get bottomNavProgress => 'Прогрес';
 
   @override
   String get enterVerificationCode => 'Введіть код підтвердження';
@@ -218,4 +224,22 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get saveChanges => 'Зберегти зміни';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get position => 'Посада';
+
+  @override
+  String get organization => 'Організація';
+
+  @override
+  String get editProfile => 'Редагувати профіль';
+
+  @override
+  String get changePhotoButton => 'Змінити фотографію';
 }

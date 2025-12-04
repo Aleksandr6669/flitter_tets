@@ -71,10 +71,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bottomNavFeed => 'Лента';
 
   @override
-  String get bottomNavProfile => 'Профиль';
+  String get bottomNavSettings => 'Настройки';
 
   @override
-  String get bottomNavSettings => 'Настройки';
+  String get bottomNavCourses => 'Курсы';
+
+  @override
+  String get bottomNavTests => 'Тесты';
+
+  @override
+  String get bottomNavProgress => 'Прогресс';
 
   @override
   String get enterVerificationCode => 'Введите код подтверждения';
@@ -219,4 +225,22 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get saveChanges => 'Сохранить изменения';
+
+  @override
+  String get phoneNumber => 'Номер телефона';
+
+  @override
+  String get gender => 'Пол';
+
+  @override
+  String get position => 'Должность';
+
+  @override
+  String get organization => 'Организация';
+
+  @override
+  String get editProfile => 'Редактировать профиль';
+
+  @override
+  String get changePhotoButton => 'Изменить фото';
 }

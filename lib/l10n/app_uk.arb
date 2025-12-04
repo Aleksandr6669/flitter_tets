@@ -20,8 +20,10 @@
     "profileTitle": "Профіль",
     "settingsTitle": "Налаштування",
     "bottomNavFeed": "Стрічка",
-    "bottomNavProfile": "Профіль",
     "bottomNavSettings": "Налаштування",
+    "bottomNavCourses": "Курси",
+    "bottomNavTests": "Тести",
+    "bottomNavProgress": "Прогрес",
     "enterVerificationCode": "Введіть код підтвердження",
     "verificationCodeSent": "Код підтвердження надіслано на вашу електронну пошту.",
     "verificationCode": "Код підтвердження",
@@ -71,5 +73,9 @@
     "specialty": "Спеціальність",
     "aboutMe": "Про мене",
     "skillsHint": "Навички (через кому)",
-    "saveChanges": "Зберегти зміни"
+    "saveChanges": "Зберегти зміни",
+    "position": "Посада",
+    "organization": "Організація",
+    "editProfile": "Редагувати профіль",
+    "changePhotoButton": "Змінити фотографію"
 }

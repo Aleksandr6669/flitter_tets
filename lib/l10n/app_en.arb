@@ -20,8 +20,10 @@
     "profileTitle": "Profile",
     "settingsTitle": "Settings",
     "bottomNavFeed": "Feed",
-    "bottomNavProfile": "Profile",
     "bottomNavSettings": "Settings",
+    "bottomNavCourses": "Courses",
+    "bottomNavTests": "Tests",
+    "bottomNavProgress": "Progress",
     "enterVerificationCode": "Enter Verification Code",
     "verificationCodeSent": "A verification code has been sent to your email.",
     "verificationCode": "Verification Code",
@@ -71,5 +73,11 @@
     "specialty": "Specialty",
     "aboutMe": "About Me",
     "skillsHint": "Skills (comma separated)",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "phoneNumber": "Phone Number",
+    "gender": "Gender",
+    "position": "Position",
+    "organization": "Organization",
+    "editProfile": "Edit Profile",
+    "changePhotoButton": "Change Photo"
 }

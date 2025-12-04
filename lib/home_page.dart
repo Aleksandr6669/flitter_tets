@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/courses_page.dart';
 import 'package:flutter_application_1/feed_page.dart';
-import 'package:flutter_application_1/profile_page.dart';
+import 'package:flutter_application_1/progress_page.dart';
 import 'package:flutter_application_1/settings_page.dart';
+import 'package:flutter_application_1/tests_page.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/liquid_nav_bar.dart';
 import 'styles.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,7 +33,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
     _widgetOptions = <Widget>[
       const FeedPage(),
-      const ProfilePage(),
+      const CoursesPage(),
+      const TestsPage(),
+      const ProgressPage(),
       SettingsPage(changeLanguage: widget.changeLanguage),
     ];
   }
@@ -68,18 +73,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               builder: (context, child) {
                 return Column(
                   children: [
-                    // Animated AppBar
-                    _buildGlassmorphicAppBar(context),
-
-                    // Main Content
                     Expanded(
                       child: Center(
                         child: _widgetOptions.elementAt(_selectedIndex),
                       ),
                     ),
-
-                    // Animated Bottom Navigation Bar
-                    _buildGlassmorphicBottomNavBar(context),
+                    _buildLiquidBottomNavBar(context),
                   ],
                 );
               },
@@ -90,43 +89,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget _buildGlassmorphicAppBar(BuildContext context) {
+  Widget _buildLiquidBottomNavBar(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final pageTitles = [
-      l10n.bottomNavFeed,
-      l10n.bottomNavProfile,
-      l10n.bottomNavSettings,
+    final navItems = [
+      {'icon': Icons.home, 'label': l10n.bottomNavFeed},
+      {'icon': Icons.school, 'label': l10n.bottomNavCourses},
+      {'icon': Icons.assignment, 'label': l10n.bottomNavTests},
+      {'icon': Icons.show_chart, 'label': l10n.bottomNavProgress},
+      {'icon': Icons.settings, 'label': l10n.bottomNavSettings},
     ];
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: GlassmorphicContainer(
-        width: double.infinity,
-        height: 60,
-        borderRadius: 30,
-        blur: 7,
-        alignment: Alignment.center,
-        border: 1,
-        linearGradient: kAnimatedGradient(_controller.value),
-        borderGradient: kAppBarBorderGradient,
-        child: Center(
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return FadeTransition(opacity: animation, child: child,);
-            },
-            child: Text(
-              pageTitles[_selectedIndex],
-              key: ValueKey<int>(_selectedIndex),
-              style: kAppBarTitleTextStyle,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGlassmorphicBottomNavBar(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: GlassmorphicContainer(
@@ -138,21 +110,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         border: 1,
         linearGradient: kAnimatedGradient(_controller.value),
         borderGradient: kAppBarBorderGradient,
-        child: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          iconSize: 30,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: ''),
-          ],
-          currentIndex: _selectedIndex,
+        child: LiquidNavBar(
+          selectedIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: navItems,
           selectedItemColor: kBottomNavSelectedItemColor,
           unselectedItemColor: kBottomNavUnselectedItemColor,
-          onTap: _onItemTapped,
         ),
       ),
     );
