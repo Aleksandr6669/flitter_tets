@@ -256,7 +256,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
     return AnimatedContainer(
       duration: const Duration(milliseconds: 350),
       curve: Curves.easeInOut,
-      height: _isEditing ? 340 : currentHeight,
+      height: _isEditing ? 260 : currentHeight,
       child: GlassmorphicContainer(
         width: double.infinity,
         height: double.infinity,
@@ -307,7 +307,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                           onPressed: () { /* TODO: Implement image picker */ },
                           child: Text(l10n.changePhotoButton, style: const TextStyle(color: Colors.blue)),
                         )
-                      : const SizedBox(key: ValueKey('emptyButtonSpace'), height: 36),
+                      : const SizedBox(key: ValueKey('emptyButtonSpace'), height: 25),
                 ),
 
                 AnimatedSwitcher(
@@ -391,7 +391,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
       duration: const Duration(milliseconds: 350),
       curve: Curves.easeInOut,
       width: double.infinity,
-      height: _isEditing ? 350 : 300,
+      height: _isEditing ? 340 : 300,
       child: GlassmorphicContainer(
         width: double.infinity,
         height: double.infinity,
