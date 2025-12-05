@@ -311,7 +311,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                 ),
 
                 AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 350),
+                  duration: const Duration(milliseconds: 370),
                   transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
                   child: _isEditing 
                       ? _buildProfileEditContent(l10n) 
