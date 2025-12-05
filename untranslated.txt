@@ -2,6 +2,7 @@
   "fr": [
     "phoneNumber",
     "gender",
-    "showStories"
+    "showStories",
+    "profileLocked"
   ]
 }

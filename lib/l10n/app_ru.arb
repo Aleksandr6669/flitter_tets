@@ -80,5 +80,6 @@
     "organization": "Организация",
     "editProfile": "Редактировать профиль",
     "changePhotoButton": "Изменить фото",
-    "showStories": "Показывать истории"
+    "showStories": "Показывать истории",
+    "profileLocked": "Профиль редактируется на другом устройстве."
 }

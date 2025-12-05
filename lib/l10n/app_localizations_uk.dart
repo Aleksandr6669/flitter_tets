@@ -245,4 +245,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get showStories => 'Показувати історії';
+
+  @override
+  String get profileLocked => 'Профіль редагується на іншому пристрої.';
 }

@@ -88,5 +88,6 @@
     "organization": "Організація",
     "editProfile": "Редагувати профіль",
     "changePhotoButton": "Змінити фотографію",
-    "showStories": "Показувати історії"
+    "showStories": "Показувати історії",
+    "profileLocked": "Профіль редагується на іншому пристрої."
 }

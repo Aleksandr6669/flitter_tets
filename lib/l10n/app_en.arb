@@ -87,5 +87,6 @@
     "organization": "Organization",
     "editProfile": "Edit Profile",
     "changePhotoButton": "Change Photo",
-    "showStories": "Show Stories"
+    "showStories": "Show Stories",
+    "profileLocked": "Profile is being edited on another device."
 }

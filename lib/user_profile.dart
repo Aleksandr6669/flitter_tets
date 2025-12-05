@@ -9,6 +9,7 @@ class UserProfile {
   final String aboutMe;
   final String position;
   final String organization;
+  final bool isEditing;
 
   UserProfile({
     required this.avatarUrl,
@@ -21,6 +22,7 @@ class UserProfile {
     required this.aboutMe,
     required this.position,
     required this.organization,
+    required this.isEditing,
   });
 
   factory UserProfile.fromMap(Map<String, dynamic> data) {
@@ -35,6 +37,7 @@ class UserProfile {
       aboutMe: data['aboutMe'] ?? '',
       position: data['position'] ?? '',
       organization: data['organization'] ?? '',
+      isEditing: data['isEditing'] ?? false,
     );
   }
 
@@ -50,6 +53,35 @@ class UserProfile {
       'aboutMe': aboutMe,
       'position': position,
       'organization': organization,
+      'isEditing': isEditing,
     };
+  }
+
+  UserProfile copyWith({
+    String? avatarUrl,
+    String? firstName,
+    String? lastName,
+    String? role,
+    String? dateOfBirth,
+    String? specialty,
+    List<String>? skills,
+    String? aboutMe,
+    String? position,
+    String? organization,
+    bool? isEditing,
+  }) {
+    return UserProfile(
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      role: role ?? this.role,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      specialty: specialty ?? this.specialty,
+      skills: skills ?? this.skills,
+      aboutMe: aboutMe ?? this.aboutMe,
+      position: position ?? this.position,
+      organization: organization ?? this.organization,
+      isEditing: isEditing ?? this.isEditing,
+    );
   }
 }
