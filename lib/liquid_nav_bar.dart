@@ -22,10 +22,13 @@ class LiquidNavBar extends StatefulWidget {
   State<LiquidNavBar> createState() => _LiquidNavBarState();
 }
 
-class _LiquidNavBarState extends State<LiquidNavBar> with SingleTickerProviderStateMixin {
+class _LiquidNavBarState extends State<LiquidNavBar> with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
+  late AnimationController _scaleController;
+  late Animation<double> _scaleAnimation;
   int _previousIndex = 0;
+  int _tappedIndex = -1;
 
   @override
   void initState() {
@@ -38,6 +41,20 @@ class _LiquidNavBarState extends State<LiquidNavBar> with SingleTickerProviderSt
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
+
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+      reverseDuration: const Duration(milliseconds: 100),
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
+        CurvedAnimation(parent: _scaleController, curve: Curves.easeOut)
+    );
+    _scaleController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _scaleController.reverse();
+      }
+    });
   }
 
   @override
@@ -52,6 +69,7 @@ class _LiquidNavBarState extends State<LiquidNavBar> with SingleTickerProviderSt
   @override
   void dispose() {
     _animationController.dispose();
+    _scaleController.dispose();
     super.dispose();
   }
 
@@ -61,7 +79,7 @@ class _LiquidNavBarState extends State<LiquidNavBar> with SingleTickerProviderSt
       height: 70,
       width: double.infinity,
       child: AnimatedBuilder(
-        animation: _animation,
+        animation: Listenable.merge([_animationController, _scaleController]),
         builder: (context, child) {
           return CustomPaint(
             painter: _LiquidPainter(
@@ -71,6 +89,7 @@ class _LiquidNavBarState extends State<LiquidNavBar> with SingleTickerProviderSt
               itemCount: widget.items.length,
               color: widget.selectedItemColor.withOpacity(0.3),
               strokeColor: widget.selectedItemColor,
+              scaleFactor: _scaleAnimation.value,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -79,28 +98,45 @@ class _LiquidNavBarState extends State<LiquidNavBar> with SingleTickerProviderSt
                 final isSelected = widget.selectedIndex == index;
                 return Expanded(
                   child: InkWell(
-                    onTap: () => widget.onTap(index),
+                    onTap: () {
+                      setState(() {
+                        _tappedIndex = index;
+                      });
+                      widget.onTap(index);
+                      _scaleController.forward(from: 0.0);
+                    },
                     borderRadius: BorderRadius.circular(30),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          item['icon'] as IconData,
-                          size: 28,
-                          color: isSelected ? widget.selectedItemColor : widget.unselectedItemColor,
-                        ),
-                        const SizedBox(height: 3),
-                        Text(
-                          item['label'] as String,
-                          style: TextStyle(
-                            color: isSelected ? widget.selectedItemColor : widget.unselectedItemColor,
-                            fontSize: 10,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    child: ScaleTransition(
+                      scale: _tappedIndex == index
+                          ? _scaleAnimation
+                          : const AlwaysStoppedAnimation(1.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            item['icon'] as IconData,
+                            size: 28,
+                            color: isSelected
+                                ? widget.selectedItemColor
+                                : widget.unselectedItemColor,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                          const SizedBox(height: 3),
+                          Text(
+                            item['label'] as String,
+                            style: TextStyle(
+                              color: isSelected
+                                  ? widget.selectedItemColor
+                                  : widget.unselectedItemColor,
+                              fontSize: 10,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -120,6 +156,7 @@ class _LiquidPainter extends CustomPainter {
   final int itemCount;
   final Color color;
   final Color strokeColor;
+  final double scaleFactor;
 
   _LiquidPainter({
     required this.progress,
@@ -128,6 +165,7 @@ class _LiquidPainter extends CustomPainter {
     required this.itemCount,
     required this.color,
     required this.strokeColor,
+    required this.scaleFactor,
   });
 
   @override
@@ -154,8 +192,8 @@ class _LiquidPainter extends CustomPainter {
     final baseHeight = size.height * 0.9;
     final baseWidth = baseHeight * 1.2;
 
-    final pillHeight = baseHeight * sizeMultiplier;
-    final pillWidth = baseWidth * sizeMultiplier;
+    final pillHeight = baseHeight * sizeMultiplier * scaleFactor;
+    final pillWidth = baseWidth * sizeMultiplier * scaleFactor;
 
     final currentX = fromX + (toX - fromX) * progress;
 
@@ -178,6 +216,7 @@ class _LiquidPainter extends CustomPainter {
         toIndex != oldDelegate.toIndex ||
         itemCount != oldDelegate.itemCount ||
         color != oldDelegate.color ||
-        strokeColor != oldDelegate.strokeColor;
+        strokeColor != oldDelegate.strokeColor ||
+        scaleFactor != oldDelegate.scaleFactor;
   }
 }

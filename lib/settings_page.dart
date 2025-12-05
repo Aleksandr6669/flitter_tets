@@ -45,6 +45,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
 
   late final AnimationController _bgAnimationController;
   late final AnimationController _cardStateAnimationController;
+  late final Animation<double> _editFieldsAnimation;
   final _scrollController = ScrollController();
 
   double _extraHeight = 0;
@@ -63,6 +64,10 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
     _cardStateAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
+    );
+    _editFieldsAnimation = CurvedAnimation(
+        parent: Tween<double>(begin: 1.0, end: 0.0).animate(_cardStateAnimationController),
+        curve: const Interval(0.0, 0.4, curve: Curves.easeOut),
     );
     _subscribeToProfileUpdates();
   }
@@ -153,17 +158,12 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
 
   void _setEditing(bool isEditing) {
     _scrollToTop();
-    if (_isExpanded) {
-      _animateCard(false).then((_) {
-        setState(() => _isEditing = isEditing);
-        widget.onEditModeChange(isEditing);
-      });
+    setState(() => _isEditing = isEditing);
+    widget.onEditModeChange(isEditing);
+    if (isEditing) {
+      _animateCard(false);
     } else {
-      setState(() => _isEditing = isEditing);
-      widget.onEditModeChange(isEditing);
-      if (!isEditing) {
-        _subscribeToProfileUpdates();
-      }
+      _subscribeToProfileUpdates();
     }
   }
 
@@ -193,7 +193,9 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
     _isExpanded = expand;
     final animation = expand ? _cardStateAnimationController.forward() : _cardStateAnimationController.reverse();
     return animation.then((_) {
-        setState(() => _extraHeight = expand ? _maxPullDown : 0);
+        if (!expand) {
+          setState(() => _extraHeight = 0);
+        }
     });
   }
 
@@ -311,7 +313,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                 ),
 
                 AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 370),
+                  duration: const Duration(milliseconds: 300),
                   transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
                   child: _isEditing 
                       ? _buildProfileEditContent(l10n) 
@@ -372,16 +374,19 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   }
   
   Widget _buildProfileEditContent(AppLocalizations l10n) {
-    return Padding(
-      key: const ValueKey('profileEdit'),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildTextField(_nameController, l10n.firstName),
-          const SizedBox(height: 10),
-          _buildTextField(_lastNameController, l10n.lastName),
-        ],
+    return FadeTransition(
+      opacity: _editFieldsAnimation,
+      child: Padding(
+        key: const ValueKey('profileEdit'),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildTextField(_nameController, l10n.firstName),
+            const SizedBox(height: 10),
+            _buildTextField(_lastNameController, l10n.lastName),
+          ],
+        ),
       ),
     );
   }
@@ -426,20 +431,23 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   }
 
   Widget _buildInfoEditContent(AppLocalizations l10n) {
-    return Padding(
-      key: const ValueKey('infoEdit'),
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildTextField(_roleController, l10n.role),
-          const SizedBox(height: 10),
-          _buildTextField(_positionController, l10n.position),
-          const SizedBox(height: 10),
-          _buildTextField(_organizationController, l10n.organization),
-          const SizedBox(height: 10),
-          _buildTextField(_aboutController, l10n.aboutMe, maxLines: 4),
-        ],
+    return FadeTransition(
+      opacity: _editFieldsAnimation,
+      child: Padding(
+        key: const ValueKey('infoEdit'),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildTextField(_roleController, l10n.role),
+            const SizedBox(height: 10),
+            _buildTextField(_positionController, l10n.position),
+            const SizedBox(height: 10),
+            _buildTextField(_organizationController, l10n.organization),
+            const SizedBox(height: 10),
+            _buildTextField(_aboutController, l10n.aboutMe, maxLines: 4),
+          ],
+        ),
       ),
     );
   }

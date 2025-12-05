@@ -27,7 +27,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _widgetIndex = 0;
   late final AnimationController _controller;
   late final AnimationController _navBarAnimationController;
+  late final AnimationController _navBarScaleController;
   late final Animation<Offset> _navBarAnimation;
+  late final Animation<double> _navBarScaleAnimation;
 
   bool _isSettingsInEditMode = false;
   bool _showStories = true;
@@ -52,6 +54,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       parent: _navBarAnimationController,
       curve: Curves.easeInOut,
     ));
+
+    _navBarScaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+    _navBarScaleAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
+        CurvedAnimation(parent: _navBarScaleController, curve: Curves.easeOut)
+    );
+    _navBarScaleController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _navBarScaleController.reverse();
+      }
+    });
 
     _loadShowStories();
   }
@@ -88,11 +103,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void dispose() {
     _controller.dispose();
     _navBarAnimationController.dispose();
+    _navBarScaleController.dispose();
     super.dispose();
   }
 
   void _onItemTapped(int navBarIndex) {
     HapticFeedback.lightImpact();
+    _navBarScaleController.forward(from: 0.0);
     setState(() {
       if (_showStories) {
         _widgetIndex = navBarIndex;
@@ -145,7 +162,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             alignment: Alignment.bottomCenter,
             child: SlideTransition(
               position: _navBarAnimation,
-              child: _buildLiquidBottomNavBar(context, navItems, navBarIndex),
+              child: ScaleTransition(
+                scale: _navBarScaleAnimation,
+                child: _buildLiquidBottomNavBar(context, navItems, navBarIndex),
+              ),
             ),
           )
         ],
