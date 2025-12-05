@@ -253,59 +253,84 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
     final double currentHeight = _initialCardHeight + _extraHeight;
     final expansionValue =_cardStateAnimationController.value;
 
-    return GlassmorphicContainer(
-      width: double.infinity,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeInOut,
       height: _isEditing ? 340 : currentHeight,
-      borderRadius: 20,
-      blur: 10,
-      border: 0,
-      linearGradient: kGlassmorphicGradient,
-      borderGradient: kGlassmorphicBorderGradient,
-      child: Stack(
-        children: [
-          if (_avatarUrl.isNotEmpty)
-            Positioned.fill(
-              child: Opacity(
-                opacity: expansionValue,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(_avatarUrl, fit: BoxFit.cover, alignment: Alignment.center),
+      child: GlassmorphicContainer(
+        width: double.infinity,
+        height: double.infinity,
+        borderRadius: 20,
+        blur: 10,
+        border: 0,
+        linearGradient: kGlassmorphicGradient,
+        borderGradient: kGlassmorphicBorderGradient,
+        child: Stack(
+          children: [
+            if (_avatarUrl.isNotEmpty)
+              Positioned.fill(
+                child: Opacity(
+                  opacity: expansionValue,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(_avatarUrl, fit: BoxFit.cover, alignment: Alignment.center),
+                  ),
                 ),
               ),
+            
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(width: double.infinity),
+                TweenAnimationBuilder<double>(
+                  tween: Tween<double>(end: _isEditing ? 40.0 : 50.0),
+                  duration: const Duration(milliseconds: 350),
+                  builder: (context, radius, child) {
+                    return CircleAvatar(
+                      radius: radius,
+                      backgroundImage: _avatarUrl.isNotEmpty ? NetworkImage(_avatarUrl) : null,
+                      child: _avatarUrl.isEmpty ? Icon(Icons.person, size: radius) : null,
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 350),
+                  transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
+                  child: _isEditing 
+                      ? _buildProfileEditContent(l10n) 
+                      : _buildProfileViewContent(l10n),
+                ),
+              ],
             ),
 
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 350),
-            transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
-            child: _isEditing ? _buildProfileEditContent(l10n) : _buildProfileViewContent(l10n),
-          ),
-
-          if (!_isEditing)
-            Positioned(
-              bottom: 16,
-              left: 16,
-              child: FadeTransition(
-                opacity: _cardStateAnimationController,
-                child: Text(
-                  '${_nameController.text}\n${_lastNameController.text}',
-                  style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold, shadows: [Shadow(blurRadius: 8.0, color: Colors.black54)]),
+            if (!_isEditing)
+              Positioned(
+                bottom: 16,
+                left: 16,
+                child: FadeTransition(
+                  opacity: _cardStateAnimationController,
+                  child: Text(
+                    '${_nameController.text}\n${_lastNameController.text}',
+                    style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold, shadows: [Shadow(blurRadius: 8.0, color: Colors.black54)]),
+                  ),
                 ),
               ),
-            ),
-          if (!_isEditing)
-            Positioned(
-              top: 16,
-              right: 16,
-              child: FadeTransition(
-                opacity: _cardStateAnimationController,
-                child: IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.white),
-                  onPressed: () => _setEditing(true),
-                  style: IconButton.styleFrom(backgroundColor: Colors.black.withOpacity(0.2), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+            if (!_isEditing)
+              Positioned(
+                top: 16,
+                right: 16,
+                child: FadeTransition(
+                  opacity: _cardStateAnimationController,
+                  child: IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.white),
+                    onPressed: () => _setEditing(true),
+                    style: IconButton.styleFrom(backgroundColor: Colors.black.withOpacity(0.2), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                  ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -318,13 +343,6 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(width: double.infinity),
-          CircleAvatar(
-            radius: 40,
-            backgroundImage: _avatarUrl.isNotEmpty ? NetworkImage(_avatarUrl) : null,
-            child: _avatarUrl.isEmpty ? const Icon(Icons.person, size: 40) : null,
-          ),
-          const SizedBox(height: 20),
           _buildInfoDisplay('', '${_nameController.text} ${_lastNameController.text}', isFullName: true),
           const SizedBox(height: 10),
             TextButton.icon(
@@ -340,17 +358,10 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   Widget _buildProfileEditContent(AppLocalizations l10n) {
     return Padding(
       key: const ValueKey('profileEdit'),
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(width: double.infinity),
-          CircleAvatar(
-            radius: 40,
-            backgroundImage: _avatarUrl.isNotEmpty ? NetworkImage(_avatarUrl) : null,
-            child: _avatarUrl.isEmpty ? const Icon(Icons.person, size: 40) : null,
-          ),
-          const SizedBox(height: 20),
           _buildTextField(_nameController, l10n.firstName),
           const SizedBox(height: 10),
           _buildTextField(_lastNameController, l10n.lastName),
@@ -365,18 +376,24 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   }
 
   Widget _buildInfoSection(AppLocalizations l10n) {
-    return GlassmorphicContainer(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeInOut,
       width: double.infinity,
       height: _isEditing ? 350 : 300,
-      borderRadius: 20,
-      blur: 10,
-      border: 0,
-      linearGradient: kGlassmorphicGradient,
-      borderGradient: kGlassmorphicBorderGradient,
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 350),
-        transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
-        child: _isEditing ? _buildInfoEditContent(l10n) : _buildInfoViewContent(l10n),
+      child: GlassmorphicContainer(
+        width: double.infinity,
+        height: double.infinity,
+        borderRadius: 20,
+        blur: 10,
+        border: 0,
+        linearGradient: kGlassmorphicGradient,
+        borderGradient: kGlassmorphicBorderGradient,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 350),
+          transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
+          child: _isEditing ? _buildInfoEditContent(l10n) : _buildInfoViewContent(l10n),
+        ),
       ),
     );
   }
