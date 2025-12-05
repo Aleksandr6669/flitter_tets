@@ -296,7 +296,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                   },
                 ),
                 AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 200),
                   transitionBuilder: (child, animation) {
                     return FadeTransition(
                       opacity: animation,
@@ -307,13 +307,13 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                       ? TextButton(
                           key: const ValueKey('changePhoto'),
                           onPressed: () { /* TODO: Implement image picker */ },
-                          child: Text(l10n.changePhotoButton, style: const TextStyle(color: Colors.blue)),
+                          child: Text(l10n.changePhotoButton, style: const TextStyle(color: Color.fromARGB(211, 24, 109, 179))),
                         )
                       : const SizedBox(key: ValueKey('emptyButtonSpace'), height: 25),
                 ),
 
                 AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 400),
                   transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
                   child: _isEditing 
                       ? _buildProfileEditContent(l10n) 
