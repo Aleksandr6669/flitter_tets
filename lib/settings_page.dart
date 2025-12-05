@@ -283,7 +283,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
               children: [
                 const SizedBox(width: double.infinity),
                 TweenAnimationBuilder<double>(
-                  tween: Tween<double>(end: _isEditing ? 40.0 : 50.0),
+                  tween: Tween<double>(end: _isEditing ? 40.0 : 60.0),
                   duration: const Duration(milliseconds: 350),
                   builder: (context, radius, child) {
                     return CircleAvatar(
@@ -293,7 +293,23 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                     );
                   },
                 ),
-                const SizedBox(height: 20),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, animation) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: ScaleTransition(scale: animation, child: child),
+                    );
+                  },
+                  child: _isEditing
+                      ? TextButton(
+                          key: const ValueKey('changePhoto'),
+                          onPressed: () { /* TODO: Implement image picker */ },
+                          child: Text(l10n.changePhotoButton, style: const TextStyle(color: Colors.blue)),
+                        )
+                      : const SizedBox(key: ValueKey('emptyButtonSpace'), height: 36),
+                ),
+
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 350),
                   transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
@@ -365,11 +381,6 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
           _buildTextField(_nameController, l10n.firstName),
           const SizedBox(height: 10),
           _buildTextField(_lastNameController, l10n.lastName),
-          const SizedBox(height: 10),
-          TextButton(
-            onPressed: () { /* TODO: Implement image picker */ },
-            child: Text(l10n.changePhotoButton, style: const TextStyle(color: Colors.blue)),
-          ),
         ],
       ),
     );
