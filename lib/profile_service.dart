@@ -19,7 +19,11 @@ class ProfileService {
   Future<void> updateUserProfile(Map<String, dynamic> data) async {
     final user = _auth.currentUser;
     if (user != null) {
-      await _firestore.collection('users').doc(user.uid).update(data);
+      final dataWithTimestamp = {
+        ...data,
+        'profileEditedAt': FieldValue.serverTimestamp(),
+      };
+      await _firestore.collection('users').doc(user.uid).update(dataWithTimestamp);
     } else {
       throw Exception('No user logged in');
     }

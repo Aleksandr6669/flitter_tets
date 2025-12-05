@@ -74,20 +74,26 @@ class _AuthPageState extends State<AuthPage> {
 
       try {
         if (_isLogin) {
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
+          final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: _emailController.text,
             password: _passwordController.text,
           );
+          await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).update({
+            'lastLoginDate': Timestamp.now(),
+          });
         } else {
           // Create user
           UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _emailController.text,
             password: _passwordController.text,
           );
+          final now = Timestamp.now();
           // Create a user document in Firestore
           await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
             'email': _emailController.text,
-            'createdAt': Timestamp.now(),
+            'createdAt': now,
+            'registrationDate': now,
+            'lastLoginDate': now,
             'nicName': '',
             'name': '',
             'surname': '',
