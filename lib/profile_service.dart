@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class ProfileService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  static const _lockTimeout = Duration(minutes: 2);
+  static const _lockTimeout = Duration(minutes: 1);
 
   Stream<DocumentSnapshot> getUserProfile() {
     final user = _auth.currentUser;

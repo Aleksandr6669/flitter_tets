@@ -71,7 +71,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get bottomNavFeed => 'Стрічка';
 
   @override
-  String get bottomNavSettings => 'Налаштування';
+  String get bottomNavSettings => 'Налаш-ння';
 
   @override
   String get bottomNavCourses => 'Курси';
