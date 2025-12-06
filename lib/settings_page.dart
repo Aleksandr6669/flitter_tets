@@ -59,11 +59,11 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
     _loadShowStories();
     _bgAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 10),
+      duration: const Duration(seconds: 1),
     )..repeat();
     _cardStateAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 100),
     );
     _editFieldsAnimation = CurvedAnimation(
         parent: Tween<double>(begin: 1.0, end: 0.0).animate(_cardStateAnimationController),
@@ -150,7 +150,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
         0,
-        duration: const Duration(milliseconds: 400),
+        duration: const Duration(milliseconds: 100),
         curve: Curves.easeOut,
       );
     }
@@ -256,7 +256,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
     final expansionValue =_cardStateAnimationController.value;
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 350),
+      duration: const Duration(milliseconds: 100),
       curve: Curves.easeInOut,
       height: _isEditing ? 260 : currentHeight,
       child: GlassmorphicContainer(
@@ -286,7 +286,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                 const SizedBox(width: double.infinity),
                 TweenAnimationBuilder<double>(
                   tween: Tween<double>(end: _isEditing ? 40.0 : 60.0),
-                  duration: const Duration(milliseconds: 350),
+                  duration: const Duration(milliseconds: 100),
                   builder: (context, radius, child) {
                     return CircleAvatar(
                       radius: radius,
@@ -296,7 +296,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                   },
                 ),
                 AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 100),
                   transitionBuilder: (child, animation) {
                     return FadeTransition(
                       opacity: animation,
@@ -313,7 +313,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
                 ),
 
                 AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 400),
+                  duration: const Duration(milliseconds: 100),
                   transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
                   child: _isEditing 
                       ? _buildProfileEditContent(l10n) 
@@ -393,7 +393,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
 
   Widget _buildInfoSection(AppLocalizations l10n) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 350),
+      duration: const Duration(milliseconds: 100),
       curve: Curves.easeInOut,
       width: double.infinity,
       height: _isEditing ? 340 : 300,
@@ -406,7 +406,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
         linearGradient: kGlassmorphicGradient,
         borderGradient: kGlassmorphicBorderGradient,
         child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 350),
+          duration: const Duration(milliseconds: 100),
           transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
           child: _isEditing ? _buildInfoEditContent(l10n) : _buildInfoViewContent(l10n),
         ),
@@ -454,7 +454,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
 
   Widget _buildBottomSection(AppLocalizations l10n) {
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 100),
       transitionBuilder: (child, animation) {
         return FadeTransition(
           opacity: animation,
