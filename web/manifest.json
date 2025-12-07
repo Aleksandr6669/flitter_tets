@@ -1,12 +1,11 @@
-
 {
-    "name": "Flitter App",
-    "short_name": "Flitter",
+    "name": "NextLevel",
+    "short_name": "NextLevel",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A modern web application built with Flutter.",
+    "description": "An educational platform to learn and improve your skills.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

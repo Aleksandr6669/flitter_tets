@@ -2,8 +2,8 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:flutter_application_1/profile_service.dart';
+import 'package:nextlevel/l10n/app_localizations.dart';
+import 'package:nextlevel/profile_service.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'styles.dart';

@@ -2,7 +2,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:nextlevel/l10n/app_localizations.dart';
 import 'home_page.dart';
 import 'package:pinput/pinput.dart'; // Import Pinput
 import 'styles.dart';

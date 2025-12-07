@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'l10n/app_localizations.dart';
-import 'package:flutter_application_1/auth_wrapper.dart';
-import 'package:flutter_application_1/firebase_options.dart';
+import 'package:nextlevel/auth_wrapper.dart';
+import 'package:nextlevel/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NextLevel',
+      title: 'nextlevel',
       theme: ThemeData.dark(),
       locale: _locale,
       localizationsDelegates: [

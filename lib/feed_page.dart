@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:nextlevel/l10n/app_localizations.dart';
 import 'styles.dart';
 
 class FeedPage extends StatelessWidget {

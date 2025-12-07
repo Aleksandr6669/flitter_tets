@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/courses_page.dart';
-import 'package:flutter_application_1/feed_page.dart';
-import 'package:flutter_application_1/progress_page.dart';
-import 'package:flutter_application_1/settings_page.dart';
-import 'package:flutter_application_1/tests_page.dart';
+import 'package:nextlevel/courses_page.dart';
+import 'package:nextlevel/feed_page.dart';
+import 'package:nextlevel/progress_page.dart';
+import 'package:nextlevel/settings_page.dart';
+import 'package:nextlevel/tests_page.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:flutter_application_1/liquid_nav_bar.dart';
+import 'package:nextlevel/l10n/app_localizations.dart';
+import 'package:nextlevel/liquid_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'styles.dart';
 

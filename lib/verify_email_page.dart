@@ -2,7 +2,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:nextlevel/l10n/app_localizations.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'styles.dart';
 
