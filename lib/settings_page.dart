@@ -11,7 +11,6 @@ import 'language_selector.dart';
 import 'models/language.dart';
 
 const String _showStoriesKey = 'show_stories';
-const String _isEditingKey = 'is_editing';
 
 class SettingsPage extends StatefulWidget {
   final void Function(Locale locale) changeLanguage;
@@ -58,7 +57,6 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   void initState() {
     super.initState();
     _loadShowStories();
-    _loadEditingState();
     _bgAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -72,16 +70,6 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
         curve: const Interval(0.0, 0.4, curve: Curves.easeOut),
     );
     _subscribeToProfileUpdates();
-  }
-
-  Future<void> _loadEditingState() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (mounted) {
-      final isEditing = prefs.getBool(_isEditingKey) ?? false;
-      if (isEditing) {
-        _setEditing(true);
-      }
-    }
   }
 
   Future<void> _loadShowStories() async {
@@ -172,9 +160,6 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   }
 
   Future<void> _setEditing(bool isEditing) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_isEditingKey, isEditing);
-
     if (isEditing) {
       await _profileService.startEditing();
     } else {
