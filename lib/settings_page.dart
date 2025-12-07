@@ -175,16 +175,8 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_isEditingKey, isEditing);
 
-    final l10n = AppLocalizations.of(context)!;
     if (isEditing) {
-      if (!await _profileService.startEditing()) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.profileLocked)),
-          );
-        }
-        return;
-      }
+      await _profileService.startEditing();
     } else {
       await _profileService.finishEditing();
     }

@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 class ProfileService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  static const _lockTimeout = Duration(minutes: 1);
 
   Stream<DocumentSnapshot> getUserProfile() {
     final user = _auth.currentUser;
@@ -29,44 +28,15 @@ class ProfileService {
     }
   }
 
+  /// This function is now a placeholder and always allows editing.
   Future<bool> startEditing() async {
-    final user = _auth.currentUser;
-    if (user == null) {
-      return false;
-    }
-    final docRef = _firestore.collection('users').doc(user.uid);
-
-    try {
-      return await _firestore.runTransaction<bool>((transaction) async {
-        final snapshot = await transaction.get(docRef);
-        final data = snapshot.data();
-
-        if (data != null && data['isEditing'] == true) {
-          final lockTimestamp = data['lockTimestamp'] as Timestamp?;
-          if (lockTimestamp != null &&
-              DateTime.now().difference(lockTimestamp.toDate()) < _lockTimeout) {
-            return false; // Profile is locked
-          }
-        }
-
-        transaction.update(docRef, {
-          'isEditing': true,
-          'lockTimestamp': FieldValue.serverTimestamp(),
-        });
-        return true; // Lock acquired successfully
-      });
-    } catch (e) {
-      return false;
-    }
+    // Always return true to indicate that editing can start.
+    return true;
   }
 
+  /// This function is now a placeholder.
   Future<void> finishEditing() async {
-    final user = _auth.currentUser;
-    if (user != null) {
-      await _firestore
-          .collection('users')
-          .doc(user.uid)
-          .update({'isEditing': false, 'lockTimestamp': null});
-    }
+    // No action needed as we are not setting a lock anymore.
+    return;
   }
 }
