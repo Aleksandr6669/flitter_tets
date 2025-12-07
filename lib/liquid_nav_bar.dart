@@ -127,7 +127,7 @@ class _LiquidNavBarState extends State<LiquidNavBar> with TickerProviderStateMix
                               color: isSelected
                                   ? widget.selectedItemColor
                                   : widget.unselectedItemColor,
-                              fontSize: 7,
+                              fontSize: 9,
                               fontWeight: isSelected
                                   ? FontWeight.bold
                                   : FontWeight.normal,
