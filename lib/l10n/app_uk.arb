@@ -21,7 +21,7 @@
     "profileTitle": "Профіль",
     "settingsTitle": "Налаштування",
     "bottomNavFeed": "Стрічка",
-    "bottomNavSettings": "Налаштування",
+    "bottomNavSettings": "Налаш-ння",
     "bottomNavCourses": "Курси",
     "bottomNavTests": "Тести",
     "bottomNavProgress": "Прогрес",
@@ -88,5 +88,6 @@
     "organization": "Організація",
     "editProfile": "Редагувати профіль",
     "changePhotoButton": "Змінити фотографію",
-    "showStories": "Показувати історії"
+    "showStories": "Показувати історії",
+    "profileLocked": "Профіль редагується на іншому пристрої."
 }

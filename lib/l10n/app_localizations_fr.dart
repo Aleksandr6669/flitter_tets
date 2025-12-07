@@ -245,4 +245,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get showStories => 'Show Stories';
+
+  @override
+  String get profileLocked => 'Profile is being edited on another device.';
 }

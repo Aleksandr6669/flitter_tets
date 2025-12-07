@@ -71,7 +71,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get bottomNavFeed => 'Стрічка';
 
   @override
-  String get bottomNavSettings => 'Налаштування';
+  String get bottomNavSettings => 'Налаш-ння';
 
   @override
   String get bottomNavCourses => 'Курси';
@@ -245,4 +245,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get showStories => 'Показувати історії';
+
+  @override
+  String get profileLocked => 'Профіль редагується на іншому пристрої.';
 }

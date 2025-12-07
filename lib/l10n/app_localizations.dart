@@ -545,6 +545,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show Stories'**
   String get showStories;
+
+  /// No description provided for @profileLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile is being edited on another device.'**
+  String get profileLocked;
 }
 
 class _AppLocalizationsDelegate

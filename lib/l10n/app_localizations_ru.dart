@@ -246,4 +246,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get showStories => 'Показывать истории';
+
+  @override
+  String get profileLocked => 'Профиль редактируется на другом устройстве.';
 }

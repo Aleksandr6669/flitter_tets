@@ -11,6 +11,7 @@ import 'language_selector.dart';
 import 'models/language.dart';
 
 const String _showStoriesKey = 'show_stories';
+const String _isEditingKey = 'is_editing';
 
 class SettingsPage extends StatefulWidget {
   final void Function(Locale locale) changeLanguage;
@@ -57,6 +58,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
   void initState() {
     super.initState();
     _loadShowStories();
+    _loadEditingState();
     _bgAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -70,6 +72,16 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
         curve: const Interval(0.0, 0.4, curve: Curves.easeOut),
     );
     _subscribeToProfileUpdates();
+  }
+
+  Future<void> _loadEditingState() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (mounted) {
+      final isEditing = prefs.getBool(_isEditingKey) ?? false;
+      if (isEditing) {
+        _setEditing(true);
+      }
+    }
   }
 
   Future<void> _loadShowStories() async {
@@ -104,6 +116,9 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
 
   @override
   void dispose() {
+    if (_isEditing) {
+      _profileService.finishEditing();
+    }
     _bgAnimationController.dispose();
     _cardStateAnimationController.dispose();
     _scrollController.dispose();
@@ -156,7 +171,24 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
     }
   }
 
-  void _setEditing(bool isEditing) {
+  Future<void> _setEditing(bool isEditing) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_isEditingKey, isEditing);
+
+    final l10n = AppLocalizations.of(context)!;
+    if (isEditing) {
+      if (!await _profileService.startEditing()) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l10n.profileLocked)),
+          );
+        }
+        return;
+      }
+    } else {
+      await _profileService.finishEditing();
+    }
+
     _scrollToTop();
     setState(() => _isEditing = isEditing);
     widget.onEditModeChange(isEditing);
@@ -179,7 +211,7 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
         'avatarUrl': _avatarUrl,
       };
       await _profileService.updateUserProfile(dataToUpdate);
-      _setEditing(false); 
+      await _setEditing(false);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -465,15 +497,20 @@ class _SettingsPageState extends State<SettingsPage> with TickerProviderStateMix
         );
       },
       child: _isEditing
-          ? ElevatedButton(
-              key: const ValueKey('saveButton'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-              ),
-              onPressed: _updateProfile,
-              child: Text(l10n.saveChanges, style: const TextStyle(color: Colors.white)),
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  key: const ValueKey('saveButton'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  ),
+                  onPressed: _updateProfile,
+                  child: Text(l10n.saveChanges, style: const TextStyle(color: Colors.white)),
+                ),
+              ],
             )
           : LanguageSelector(
               key: const ValueKey('languageSelector'),
